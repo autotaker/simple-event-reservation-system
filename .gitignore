@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+.pnpm-store/
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Java / Gradle
+backend/.gradle/
+backend/build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Env
+.env
+.env.*
+frontend/.env.local
+backend/src/main/resources/application-local.yml

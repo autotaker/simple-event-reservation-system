@@ -45,7 +45,7 @@ README.md
 
 - Node.js 18+
 - pnpm または npm
-- JDK 17+
+- JDK 21+（推奨: `openjdk@21`）
 - Docker
 - Docker Compose
 
