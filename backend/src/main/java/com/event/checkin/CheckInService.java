@@ -60,6 +60,9 @@ public class CheckInService {
         if (!qrCodeData.reservations().contains(sessionId)) {
             throw new CheckInRuleViolationException("このQRコードでは対象セッションをチェックインできません。");
         }
+        if (!reservationService.hasReservation(qrCodeData.guestId(), sessionId)) {
+            throw new CheckInRuleViolationException("対象ゲストはこのセッションを現在予約していません。");
+        }
         Instant now = Instant.now(clock);
 
         synchronized (checkInLock) {
@@ -101,6 +104,12 @@ public class CheckInService {
         }
         checkIns.sort(Comparator.comparing(CheckInHistoryItem::checkedInAt).reversed());
         return List.copyOf(checkIns);
+    }
+
+    public List<CheckInHistoryItem> listCheckInsByGuestId(String guestId) {
+        return listCheckIns().stream()
+            .filter(item -> item.guestId().equals(guestId))
+            .toList();
     }
 
     private QrCodeData parseQrCodePayload(String qrCodePayload) {

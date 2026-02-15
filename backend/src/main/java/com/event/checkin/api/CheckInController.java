@@ -7,6 +7,7 @@ import com.event.checkin.CheckInService.CheckInResult;
 import com.event.reservation.api.ErrorResponse;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,8 +38,8 @@ public class CheckInController {
     }
 
     @GetMapping
-    public CheckInHistoryResponse listCheckIns() {
-        List<CheckInHistoryEntry> checkIns = checkInService.listCheckIns().stream()
+    public CheckInHistoryResponse listCheckIns(Authentication authentication) {
+        List<CheckInHistoryEntry> checkIns = checkInService.listCheckInsByGuestId(authentication.getName()).stream()
             .map(this::toHistoryEntry)
             .toList();
         return new CheckInHistoryResponse(checkIns);

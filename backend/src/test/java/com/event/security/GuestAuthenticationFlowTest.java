@@ -401,6 +401,68 @@ class GuestAuthenticationFlowTest {
             .andExpect(jsonPath("$.message").value("このQRコードでは対象セッションをチェックインできません。"));
     }
 
+    @Test
+    void sessionCheckInReturns400WhenReservationWasAlreadyCanceled() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        String payload = toCheckInPayload(guestId, "session-1");
+
+        mockMvc.perform(delete("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("対象ゲストはこのセッションを現在予約していません。"));
+    }
+
+    @Test
+    void checkInHistoryEndpointReturnsOnlyAuthenticatedUsersRecords() throws Exception {
+        MvcResult firstLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode firstLoginResponse = objectMapper.readTree(firstLoginResult.getResponse().getContentAsString());
+        String firstAccessToken = firstLoginResponse.get("accessToken").asText();
+        String firstGuestId = firstLoginResponse.get("guestId").asText();
+
+        MvcResult secondLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode secondLoginResponse = objectMapper.readTree(secondLoginResult.getResponse().getContentAsString());
+        String secondAccessToken = secondLoginResponse.get("accessToken").asText();
+        String secondGuestId = secondLoginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(firstGuestId, "keynote"))))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondAccessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(secondGuestId, "keynote"))))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/checkins")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.checkIns.length()").value(1))
+            .andExpect(jsonPath("$.checkIns[0].guestId").value(firstGuestId));
+    }
+
     private String loginAndGetAccessToken() throws Exception {
         MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
             .andExpect(status().isOk())
