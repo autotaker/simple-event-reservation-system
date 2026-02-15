@@ -200,6 +200,22 @@ cd frontend
 pnpm test
 ```
 
+### E2E (Playwright)
+
+```bash
+cd frontend
+pnpm exec playwright install
+pnpm e2e
+```
+
+E2Eカバレッジ:
+- `US-01` ゲストログイン受け入れ条件（導線・ゲスト利用開始・保護API 401・予約系API利用）
+- `US-02` キーノート予約の主要導線（予約成功と参加登録完了表示）
+
+GitHub Actions:
+- E2Eは `.github/workflows/e2e-manual.yml` で管理
+- 実行トリガーは `workflow_dispatch` のみ（手動実行専用）
+
 ---
 
 ## 🔁 Environment Profiles

@@ -7,7 +7,6 @@ on:
       - main
       - develop
       - 'feature/**'
-  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
