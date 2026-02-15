@@ -4,12 +4,20 @@ import com.event.reservation.api.ReservationResponse;
 import com.event.reservation.api.SessionAvailabilityStatus;
 import com.event.reservation.api.SessionSummaryResponse;
 import com.event.reservation.api.SessionSummaryResponse.SessionSummary;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,46 +25,93 @@ import org.springframework.stereotype.Service;
 public class ReservationService {
 
     private static final int FEW_SEATS_THRESHOLD = 20;
-    private static final int REGULAR_SESSION_CAPACITY = 200;
+    private static final int MAX_REGULAR_RESERVATIONS = 5;
     private static final String KEYNOTE_SESSION = "keynote";
     private static final DateTimeFormatter START_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private static final List<SessionDefinition> SESSION_CATALOG = createSessionCatalog();
 
     private final int keynoteCapacity;
-    private final Object keynoteLock = new Object();
-    private final Set<String> keynoteReservations = ConcurrentHashMap.newKeySet();
+    private final int regularSessionCapacity;
+    private final LocalDate eventDate;
+    private final Clock clock;
+    private final Object reservationLock = new Object();
+    private final Map<String, SessionDefinition> sessionCatalogById;
+    private final Map<String, Set<String>> reservationsBySession;
+    private final Map<String, Set<String>> reservationsByGuest = new ConcurrentHashMap<>();
 
-    public ReservationService(@Value("${app.reservation.keynote-capacity:700}") int keynoteCapacity) {
+    @Autowired
+    public ReservationService(
+        @Value("${app.reservation.keynote-capacity:700}") int keynoteCapacity,
+        @Value("${app.reservation.regular-capacity:200}") int regularSessionCapacity,
+        @Value("${app.reservation.event-date:}") String configuredEventDate
+    ) {
+        this(keynoteCapacity, regularSessionCapacity, parseEventDate(configuredEventDate), Clock.systemDefaultZone());
+    }
+
+    ReservationService(int keynoteCapacity) {
+        this(keynoteCapacity, 200, LocalDate.now(Clock.systemDefaultZone()), Clock.systemDefaultZone());
+    }
+
+    ReservationService(int keynoteCapacity, int regularSessionCapacity, LocalDate eventDate, Clock clock) {
         if (keynoteCapacity <= 0) {
             throw new IllegalArgumentException("keynoteCapacity must be positive");
         }
+        if (regularSessionCapacity <= 0) {
+            throw new IllegalArgumentException("regularSessionCapacity must be positive");
+        }
+        if (eventDate == null) {
+            throw new IllegalArgumentException("eventDate must not be null");
+        }
+        if (clock == null) {
+            throw new IllegalArgumentException("clock must not be null");
+        }
         this.keynoteCapacity = keynoteCapacity;
+        this.regularSessionCapacity = regularSessionCapacity;
+        this.eventDate = eventDate;
+        this.clock = clock;
+        this.sessionCatalogById = toSessionCatalogById();
+        this.reservationsBySession = createReservationBuckets();
     }
 
     public ReservationResponse listReservations(String guestId) {
-        if (keynoteReservations.contains(guestId)) {
-            return new ReservationResponse(guestId, List.of(KEYNOTE_SESSION), true);
+        Set<String> guestReservations = reservationsByGuest.getOrDefault(guestId, Set.of());
+        List<String> sortedReservations = guestReservations.stream()
+            .sorted(Comparator.comparingInt(this::catalogOrder))
+            .toList();
+        if (!sortedReservations.isEmpty()) {
+            return new ReservationResponse(guestId, sortedReservations, sortedReservations.contains(KEYNOTE_SESSION));
         }
         return new ReservationResponse(guestId, List.of(), false);
     }
 
     public ReservationResponse reserveKeynote(String guestId) {
-        synchronized (keynoteLock) {
-            if (!keynoteReservations.contains(guestId) && keynoteReservations.size() >= keynoteCapacity) {
-                throw new KeynoteCapacityExceededException();
-            }
-            keynoteReservations.add(guestId);
+        return reserveSession(guestId, KEYNOTE_SESSION);
+    }
+
+    public ReservationResponse reserveSession(String guestId, String sessionId) {
+        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+        if (sessionDefinition == null) {
+            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
         }
-        return new ReservationResponse(guestId, List.of(KEYNOTE_SESSION), true);
+        synchronized (reservationLock) {
+            Set<String> guestReservations = reservationsByGuest.computeIfAbsent(guestId, key -> new HashSet<>());
+            if (guestReservations.contains(sessionId)) {
+                return listReservations(guestId);
+            }
+            if (isDeadlineExceeded(sessionDefinition.startTime)) {
+                throw new ReservationRuleViolationException("このセッションは開始30分前を過ぎたため予約できません。");
+            }
+            ensureRegularSessionLimit(guestReservations, sessionDefinition.sessionId);
+            ensureNoTimeSlotConflict(guestReservations, sessionDefinition);
+            reserveWithCapacityCheck(guestReservations, guestId, sessionDefinition.sessionId);
+        }
+        return listReservations(guestId);
     }
 
     public SessionSummaryResponse listSessions() {
-        int keynoteReservedCount = keynoteReservations.size();
         List<SessionSummary> sessions = new ArrayList<>(SESSION_CATALOG.size());
         for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
-            int remainingSeats = sessionDefinition.sessionId.equals(KEYNOTE_SESSION)
-                ? Math.max(0, keynoteCapacity - keynoteReservedCount)
-                : REGULAR_SESSION_CAPACITY;
+            int remainingSeats = remainingSeats(sessionDefinition.sessionId);
             sessions.add(new SessionSummary(
                 sessionDefinition.sessionId,
                 sessionDefinition.title,
@@ -66,6 +121,87 @@ public class ReservationService {
             ));
         }
         return new SessionSummaryResponse(sessions);
+    }
+
+    private void reserveWithCapacityCheck(Set<String> guestReservations, String guestId, String sessionId) {
+        Set<String> sessionReservations = reservationsBySession.get(sessionId);
+        if (sessionReservations == null) {
+            throw new IllegalStateException("Reservation bucket not found for session: " + sessionId);
+        }
+        if (sessionReservations.size() >= capacityFor(sessionId)) {
+            throw new SessionCapacityExceededException(sessionId);
+        }
+        sessionReservations.add(guestId);
+        guestReservations.add(sessionId);
+    }
+
+    private void ensureNoTimeSlotConflict(Set<String> guestReservations, SessionDefinition reservationTarget) {
+        boolean hasConflict = guestReservations.stream()
+            .map(sessionCatalogById::get)
+            .anyMatch(existingSession ->
+                existingSession != null && existingSession.startTime.equals(reservationTarget.startTime));
+        if (hasConflict) {
+            throw new ReservationRuleViolationException("同じ時間帯のセッションは1つまでしか予約できません。");
+        }
+    }
+
+    private void ensureRegularSessionLimit(Set<String> guestReservations, String sessionId) {
+        if (KEYNOTE_SESSION.equals(sessionId)) {
+            return;
+        }
+        long regularReservationCount = guestReservations.stream()
+            .filter(guestReservation -> !KEYNOTE_SESSION.equals(guestReservation))
+            .count();
+        if (regularReservationCount >= MAX_REGULAR_RESERVATIONS) {
+            throw new ReservationRuleViolationException("通常セッションは最大5件までしか予約できません。");
+        }
+    }
+
+    private boolean isDeadlineExceeded(LocalTime startTime) {
+        LocalDateTime now = LocalDateTime.now(clock);
+        LocalDateTime deadline = LocalDateTime.of(eventDate, startTime.minusMinutes(30));
+        return now.isAfter(deadline);
+    }
+
+    private int remainingSeats(String sessionId) {
+        int reservedCount = reservationsBySession.getOrDefault(sessionId, Set.of()).size();
+        return Math.max(0, capacityFor(sessionId) - reservedCount);
+    }
+
+    private int capacityFor(String sessionId) {
+        return KEYNOTE_SESSION.equals(sessionId) ? keynoteCapacity : regularSessionCapacity;
+    }
+
+    private int catalogOrder(String sessionId) {
+        for (int i = 0; i < SESSION_CATALOG.size(); i++) {
+            if (SESSION_CATALOG.get(i).sessionId.equals(sessionId)) {
+                return i;
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    private Map<String, SessionDefinition> toSessionCatalogById() {
+        Map<String, SessionDefinition> catalogById = new HashMap<>();
+        for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
+            catalogById.put(sessionDefinition.sessionId, sessionDefinition);
+        }
+        return Map.copyOf(catalogById);
+    }
+
+    private Map<String, Set<String>> createReservationBuckets() {
+        Map<String, Set<String>> buckets = new ConcurrentHashMap<>();
+        for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
+            buckets.put(sessionDefinition.sessionId, ConcurrentHashMap.newKeySet());
+        }
+        return buckets;
+    }
+
+    private static LocalDate parseEventDate(String configuredEventDate) {
+        if (configuredEventDate == null || configuredEventDate.isBlank()) {
+            return LocalDate.now(Clock.systemDefaultZone());
+        }
+        return LocalDate.parse(configuredEventDate);
     }
 
     private static SessionAvailabilityStatus toAvailabilityStatus(int remainingSeats) {

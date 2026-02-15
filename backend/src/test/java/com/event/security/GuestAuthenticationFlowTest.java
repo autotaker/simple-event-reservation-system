@@ -22,7 +22,9 @@ import org.springframework.test.web.servlet.MvcResult;
             + "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,"
             + "org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,"
             + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration",
-        "app.reservation.keynote-capacity=2"
+        "app.reservation.keynote-capacity=2",
+        "app.reservation.regular-capacity=1",
+        "app.reservation.event-date=2099-01-01"
     }
 )
 @AutoConfigureMockMvc
@@ -127,7 +129,63 @@ class GuestAuthenticationFlowTest {
 
         mockMvc.perform(post("/api/reservations/keynote")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + thirdToken))
-            .andExpect(status().isConflict());
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.message").value("セッションは満席です。"));
+    }
+
+    @Test
+    void regularSessionReservationReturns400ForDuplicateTimeslot() throws Exception {
+        String token = loginAndGetAccessToken();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/reservations/sessions/session-2")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("同じ時間帯のセッションは1つまでしか予約できません。"));
+    }
+
+    @Test
+    void regularSessionReservationReturns400WhenMoreThanFiveSessions() throws Exception {
+        String token = loginAndGetAccessToken();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-4")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-7")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-10")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-13")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/reservations/sessions/session-15")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("通常セッションは最大5件までしか予約できません。"));
+    }
+
+    @Test
+    void regularSessionReservationReturns409WhenCapacityExceeded() throws Exception {
+        String firstToken = loginAndGetAccessToken();
+        String secondToken = loginAndGetAccessToken();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondToken))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.message").value("セッションは満席です。"));
     }
 
     private String loginAndGetAccessToken() throws Exception {
