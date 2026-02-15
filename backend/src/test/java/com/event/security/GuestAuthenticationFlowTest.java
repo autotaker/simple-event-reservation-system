@@ -56,6 +56,8 @@ class GuestAuthenticationFlowTest {
     void protectedApiReturns401WithoutLogin() throws Exception {
         mockMvc.perform(get("/api/reservations"))
             .andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/reservations/mypage"))
+            .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -74,6 +76,29 @@ class GuestAuthenticationFlowTest {
             .andExpect(jsonPath("$.guestId").value(guestId))
             .andExpect(jsonPath("$.reservations").isEmpty())
             .andExpect(jsonPath("$.registered").value(false));
+    }
+
+    @Test
+    void myPageApiReturnsReservationListAndReceptionQrPayload() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/keynote")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/reservations/mypage")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.reservations[0]").value("keynote"))
+            .andExpect(jsonPath("$.receptionQrCodePayload").value(
+                "event-reservation://checkin?guestId=" + guestId + "&reservations=keynote"));
     }
 
     @Test

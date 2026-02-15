@@ -1,5 +1,6 @@
 package com.event.reservation;
 
+import com.event.reservation.api.MyPageResponse;
 import com.event.reservation.api.AdminSessionResponse;
 import com.event.reservation.api.AdminSessionSummaryResponse;
 import com.event.reservation.api.ReservationResponse;
@@ -86,6 +87,15 @@ public class ReservationService {
             return new ReservationResponse(guestId, sortedReservations, sortedReservations.contains(KEYNOTE_SESSION));
         }
         return new ReservationResponse(guestId, List.of(), false);
+    }
+
+    public MyPageResponse getMyPage(String guestId) {
+        ReservationResponse reservationResponse = listReservations(guestId);
+        return new MyPageResponse(
+            guestId,
+            reservationResponse.reservations(),
+            buildReceptionQrCodePayload(guestId, reservationResponse.reservations())
+        );
     }
 
     public ReservationResponse reserveKeynote(String guestId) {
@@ -295,6 +305,11 @@ public class ReservationService {
             return 0;
         }
         return Math.max(0, sessionDefinition.capacity - reservedCount);
+    }
+
+    private String buildReceptionQrCodePayload(String guestId, List<String> reservations) {
+        String reservationPayload = String.join(",", reservations);
+        return "event-reservation://checkin?guestId=" + guestId + "&reservations=" + reservationPayload;
     }
 
     private int reservedCount(String sessionId) {
