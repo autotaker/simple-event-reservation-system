@@ -54,7 +54,10 @@
       <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
 
       <ul>
-        <li v-for="reservation in reservations" :key="reservation">{{ reservation }}</li>
+        <li v-for="reservation in reservations" :key="reservation">
+          {{ reservation }}
+          <button type="button" :disabled="!token" @click="cancelReservation(reservation)">キャンセル</button>
+        </li>
       </ul>
     </section>
   </main>
@@ -253,6 +256,36 @@ const reserveSession = async (sessionId: string, title: string): Promise<void> =
   registrationStatusLoaded.value = true;
   await loadSessions();
   infoMessage.value = `${title} を予約しました。`;
+};
+
+const cancelReservation = async (sessionId: string): Promise<void> => {
+  if (!token.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(
+    `${API_BASE_URL}/api/reservations/sessions/${encodeURIComponent(sessionId)}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? `${sessionId} のキャンセルに失敗しました。`;
+    return;
+  }
+
+  const data = (await response.json()) as ReservationResponse;
+  reservations.value = data.reservations;
+  registered.value = data.registered ?? data.reservations.includes('keynote');
+  registrationStatusLoaded.value = true;
+  await loadSessions();
+  infoMessage.value = `${sessionId} をキャンセルしました。`;
 };
 
 onMounted(() => {
