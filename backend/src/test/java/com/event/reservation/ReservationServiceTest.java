@@ -106,6 +106,39 @@ class ReservationServiceTest {
             .hasMessage("このセッションは開始30分前を過ぎたためキャンセルできません。");
     }
 
+    @Test
+    void createSessionAddsNewSessionToParticipantList() {
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+
+        reservationService.createSession("New Session", "16:30", "Track D", 30);
+
+        assertThat(reservationService.listSessions().sessions())
+            .extracting(SessionSummaryResponse.SessionSummary::title)
+            .contains("New Session");
+    }
+
+    @Test
+    void updateSessionRejectsCapacityBelowCurrentReservations() {
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+        reservationService.reserveSession("guest-1", "session-1");
+        reservationService.reserveSession("guest-2", "session-1");
+
+        assertThatThrownBy(() -> reservationService.updateSession("session-1", "Session 1", "10:30", "Track A", 1))
+            .isInstanceOf(ReservationRuleViolationException.class)
+            .hasMessage("現在の予約数を下回る定員には変更できません。");
+    }
+
+    @Test
+    void updateSessionRejectsTimeChangeWhenExistingReservationsWouldConflict() {
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+        reservationService.reserveSession("guest-1", "session-1");
+        reservationService.reserveSession("guest-1", "session-4");
+
+        assertThatThrownBy(() -> reservationService.updateSession("session-4", "Session 4", "10:30", "Track A", 200))
+            .isInstanceOf(ReservationRuleViolationException.class)
+            .hasMessage("既存予約との時間帯重複が発生するため開始時刻を変更できません。");
+    }
+
     private Clock fixedClockAt(String isoInstant) {
         return Clock.fixed(Instant.parse(isoInstant), ZoneOffset.UTC);
     }

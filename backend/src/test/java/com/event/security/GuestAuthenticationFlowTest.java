@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +29,8 @@ import org.springframework.test.web.servlet.MvcResult;
             + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration",
         "app.reservation.keynote-capacity=2",
         "app.reservation.regular-capacity=1",
-        "app.reservation.event-date=2099-01-01"
+        "app.reservation.event-date=2099-01-01",
+        "app.auth.admin-token=test-admin-token"
     }
 )
 @AutoConfigureMockMvc
@@ -220,6 +222,62 @@ class GuestAuthenticationFlowTest {
     }
 
     @Test
+    void adminCanCreateAndUpdateSessionAndParticipantListReflectsIt() throws Exception {
+        String token = "test-admin-token";
+
+        MvcResult createResult = mockMvc.perform(post("/api/admin/sessions")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .contentType("application/json")
+                .content("""
+                    {
+                      "title": "Admin Created Session",
+                      "startTime": "16:30",
+                      "track": "Track D",
+                      "capacity": 10
+                    }
+                    """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sessionId").value("session-16"))
+            .andExpect(jsonPath("$.title").value("Admin Created Session"))
+            .andReturn();
+
+        JsonNode createdSession = objectMapper.readTree(createResult.getResponse().getContentAsString());
+        String createdSessionId = createdSession.get("sessionId").asText();
+
+        mockMvc.perform(put("/api/admin/sessions/{sessionId}", createdSessionId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .contentType("application/json")
+                .content("""
+                    {
+                      "title": "Admin Updated Session",
+                      "startTime": "16:45",
+                      "track": "Track E",
+                      "capacity": 15
+                    }
+                    """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.title").value("Admin Updated Session"))
+            .andExpect(jsonPath("$.startTime").value("16:45"))
+            .andExpect(jsonPath("$.track").value("Track E"))
+            .andExpect(jsonPath("$.capacity").value(15));
+
+        mockMvc.perform(get("/api/reservations/sessions")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sessions[16].sessionId").value("session-16"))
+            .andExpect(jsonPath("$.sessions[16].title").value("Admin Updated Session"));
+    }
+
+    @Test
+    void adminSessionApiReturns403ForGuestToken() throws Exception {
+        String token = loginAndGetAccessToken();
+
+        mockMvc.perform(get("/api/admin/sessions")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
     void deleteReservationPreflightAllowsBrowserCorsRequest() throws Exception {
         mockMvc.perform(options("/api/reservations/sessions/session-1")
                 .header(HttpHeaders.ORIGIN, "http://127.0.0.1:5173")
@@ -228,6 +286,17 @@ class GuestAuthenticationFlowTest {
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5173"))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("DELETE")));
+    }
+
+    @Test
+    void putAdminSessionPreflightAllowsBrowserCorsRequest() throws Exception {
+        mockMvc.perform(options("/api/admin/sessions/session-1")
+                .header(HttpHeaders.ORIGIN, "http://127.0.0.1:5173")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PUT")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "authorization,content-type"))
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5173"))
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PUT")));
     }
 
     @Test

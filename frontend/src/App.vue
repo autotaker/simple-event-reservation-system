@@ -9,6 +9,85 @@
     <p v-if="infoMessage">{{ infoMessage }}</p>
 
     <section>
+      <h2>セッション管理（運営）</h2>
+      <label>
+        管理者トークン
+        <input v-model="adminToken" type="password" placeholder="admin token" />
+      </label>
+      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">管理一覧を取得</button>
+
+      <form @submit.prevent="createAdminSession">
+        <h3>新規作成</h3>
+        <label>
+          タイトル
+          <input v-model="createForm.title" type="text" required />
+        </label>
+        <label>
+          開始時刻
+          <input v-model="createForm.startTime" type="time" required />
+        </label>
+        <label>
+          トラック
+          <input v-model="createForm.track" type="text" required />
+        </label>
+        <label>
+          定員
+          <input v-model="createForm.capacity" type="number" min="1" required />
+        </label>
+        <button type="submit" :disabled="!adminToken">セッション作成</button>
+      </form>
+
+      <table v-if="adminSessions.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">開始時刻</th>
+            <th scope="col">トラック</th>
+            <th scope="col">タイトル</th>
+            <th scope="col">定員</th>
+            <th scope="col">予約数</th>
+            <th scope="col">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="session in adminSessions" :key="session.sessionId">
+            <td>{{ session.sessionId }}</td>
+            <td>{{ session.startTime }}</td>
+            <td>{{ session.track }}</td>
+            <td>{{ session.title }}</td>
+            <td>{{ session.capacity }}</td>
+            <td>{{ session.reservedCount }}</td>
+            <td>
+              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">編集</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <form v-if="editForm.sessionId" @submit.prevent="updateAdminSession">
+        <h3>編集: {{ editForm.sessionId }}</h3>
+        <label>
+          タイトル
+          <input v-model="editForm.title" type="text" required />
+        </label>
+        <label>
+          開始時刻
+          <input v-model="editForm.startTime" type="time" required />
+        </label>
+        <label>
+          トラック
+          <input v-model="editForm.track" type="text" required />
+        </label>
+        <label>
+          定員
+          <input v-model="editForm.capacity" type="number" min="1" required />
+        </label>
+        <button type="submit" :disabled="!adminToken">更新</button>
+        <button type="button" @click="clearEditForm">キャンセル</button>
+      </form>
+    </section>
+
+    <section>
       <h2>セッション一覧</h2>
       <button type="button" :disabled="!token" @click="loadSessions">セッション一覧を取得</button>
       <p v-if="token && sessions.length === 0">セッション一覧は未取得です。</p>
@@ -88,7 +167,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 type GuestLoginResponse = {
   accessToken: string;
@@ -122,14 +201,44 @@ type SessionSummaryResponse = {
   sessions: SessionSummary[];
 };
 
+type AdminSession = {
+  sessionId: string;
+  title: string;
+  startTime: string;
+  track: string;
+  capacity: number;
+  reservedCount: number;
+};
+
+type AdminSessionSummaryResponse = {
+  sessions: AdminSession[];
+};
+
+type AdminSessionUpsertRequest = {
+  title: string;
+  startTime: string;
+  track: string;
+  capacity: number;
+};
+
 type ErrorResponse = {
   message?: string;
 };
 
+type AdminForm = {
+  sessionId: string;
+  title: string;
+  startTime: string;
+  track: string;
+  capacity: string;
+};
+
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
+const adminToken = ref<string>(globalThis.localStorage.getItem('adminAccessToken') ?? '');
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
 const sessions = ref<SessionSummary[]>([]);
+const adminSessions = ref<AdminSession[]>([]);
 const reservations = ref<string[]>([]);
 const myPageReservations = ref<string[]>([]);
 const myPageQrCodePayload = ref<string>('');
@@ -138,6 +247,20 @@ const registered = ref<boolean>(false);
 const registrationStatusLoaded = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const infoMessage = ref<string>('');
+const createForm = ref<AdminForm>({
+  sessionId: '',
+  title: '',
+  startTime: '16:30',
+  track: '',
+  capacity: '200',
+});
+const editForm = ref<AdminForm>({
+  sessionId: '',
+  title: '',
+  startTime: '',
+  track: '',
+  capacity: '1',
+});
 
 const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
   if (status === 'OPEN') {
@@ -167,6 +290,31 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
   return null;
 };
 
+const buildAdminRequest = (form: AdminForm): AdminSessionUpsertRequest | null => {
+  const parsedCapacity = Number(form.capacity);
+  if (!Number.isInteger(parsedCapacity) || parsedCapacity <= 0) {
+    errorMessage.value = '定員は1以上の整数で入力してください。';
+    return null;
+  }
+
+  return {
+    title: form.title.trim(),
+    startTime: form.startTime,
+    track: form.track.trim(),
+    capacity: parsedCapacity,
+  };
+};
+
+const clearEditForm = (): void => {
+  editForm.value = {
+    sessionId: '',
+    title: '',
+    startTime: '',
+    track: '',
+    capacity: '1',
+  };
+};
+
 const loginAsGuest = async (): Promise<void> => {
   errorMessage.value = '';
   infoMessage.value = '';
@@ -183,6 +331,7 @@ const loginAsGuest = async (): Promise<void> => {
   token.value = data.accessToken;
   guestId.value = data.guestId;
   sessions.value = [];
+  adminSessions.value = [];
   reservations.value = [];
   myPageReservations.value = [];
   myPageQrCodePayload.value = '';
@@ -215,6 +364,111 @@ const loadSessions = async (): Promise<void> => {
 
   const data = (await response.json()) as SessionSummaryResponse;
   sessions.value = data.sessions;
+};
+
+const loadAdminSessions = async (): Promise<void> => {
+  if (!adminToken.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/admin/sessions`, {
+    headers: {
+      Authorization: `Bearer ${adminToken.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? '管理セッション一覧の取得に失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as AdminSessionSummaryResponse;
+  adminSessions.value = data.sessions;
+};
+
+const createAdminSession = async (): Promise<void> => {
+  if (!adminToken.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+
+  const request = buildAdminRequest(createForm.value);
+  if (!request) {
+    return;
+  }
+
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/admin/sessions`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${adminToken.value}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? 'セッション作成に失敗しました。';
+    return;
+  }
+
+  createForm.value = {
+    sessionId: '',
+    title: '',
+    startTime: '16:30',
+    track: '',
+    capacity: '200',
+  };
+
+  await Promise.all([loadAdminSessions(), loadSessions()]);
+  infoMessage.value = 'セッションを作成しました。';
+};
+
+const startEditSession = (session: AdminSession): void => {
+  editForm.value = {
+    sessionId: session.sessionId,
+    title: session.title,
+    startTime: session.startTime,
+    track: session.track,
+    capacity: String(session.capacity),
+  };
+};
+
+const updateAdminSession = async (): Promise<void> => {
+  if (!adminToken.value || !editForm.value.sessionId) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+
+  const request = buildAdminRequest(editForm.value);
+  if (!request) {
+    return;
+  }
+
+  const response = await globalThis.fetch(
+    `${API_BASE_URL}/api/admin/sessions/${encodeURIComponent(editForm.value.sessionId)}`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${adminToken.value}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    },
+  );
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? 'セッション更新に失敗しました。';
+    return;
+  }
+
+  await Promise.all([loadAdminSessions(), loadSessions()]);
+  infoMessage.value = 'セッションを更新しました。';
 };
 
 const loadReservations = async (): Promise<void> => {
@@ -363,9 +617,16 @@ const cancelReservation = async (sessionId: string): Promise<void> => {
   infoMessage.value = `${sessionId} をキャンセルしました。`;
 };
 
+watch(adminToken, newValue => {
+  globalThis.localStorage.setItem('adminAccessToken', newValue);
+});
+
 onMounted(() => {
   if (token.value) {
     void Promise.all([loadSessions(), loadReservations(), loadMyPage()]);
+  }
+  if (adminToken.value) {
+    void loadAdminSessions();
   }
 });
 </script>
