@@ -165,6 +165,30 @@ export const installReservationMock = async (page: Page): Promise<void> => {
       }),
     });
   });
+
+  await page.route('**/api/reservations/keynote', async (route) => {
+    if (route.request().method() !== 'POST') {
+      await route.fallback();
+      return;
+    }
+
+    const guestReservations = getGuestReservations(TEST_GUEST_ID);
+    if (!guestReservations.has(KEYNOTE_SESSION)) {
+      const keynoteReservations = getSessionReservations(KEYNOTE_SESSION);
+      keynoteReservations.add(TEST_GUEST_ID);
+      guestReservations.add(KEYNOTE_SESSION);
+    }
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        guestId: TEST_GUEST_ID,
+        reservations: Array.from(guestReservations),
+        registered: true,
+      }),
+    });
+  });
 };
 
 const createSessionCatalog = (): SessionCatalogEntry[] => {
