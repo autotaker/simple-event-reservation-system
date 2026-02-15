@@ -14,5 +14,6 @@ describe('App', () => {
 
     expect(wrapper.text()).toContain('ゲストでログイン');
     expect(wrapper.text()).toContain('予約一覧を取得');
+    expect(wrapper.text()).toContain('キーノートを予約');
   });
 });
