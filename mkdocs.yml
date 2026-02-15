@@ -1,0 +1,42 @@
+site_name: Event Reservation System - Sprint Review
+site_description: MVPスプリントレビュー資料
+site_url: https://autotaker.github.io/simple-event-reservation-system/
+repo_url: https://github.com/autotaker/simple-event-reservation-system
+repo_name: autotaker/simple-event-reservation-system
+
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+
+nav:
+  - ホーム: index.md
+  - スプリントレビュー:
+      - 機能一覧: review/01-feature-list.md
+      - ユーザージャーニー: review/02-user-journey.md
+      - ER図: review/03-er-diagram.md
+      - クラス図: review/04-class-diagram.md
+      - 主要シーケンス図: review/05-sequence-diagrams.md
+      - 操作マニュアル: review/06-operation-manual.md
+      - 自動テストケース一覧: review/07-test-cases.md
+  - 参考資料:
+      - 要件定義書: 要件定義書.md
