@@ -168,6 +168,29 @@ public class ReservationService {
         return new AdminSessionSummaryResponse(sessions);
     }
 
+    public List<ReservationExportRow> listReservationExportRows() {
+        synchronized (reservationLock) {
+            List<ReservationExportRow> rows = new ArrayList<>();
+            for (SessionDefinition sessionDefinition : sortedSessions()) {
+                List<String> guestIds = reservationsBySession.getOrDefault(sessionDefinition.sessionId, Set.of()).stream()
+                    .sorted()
+                    .toList();
+                for (String guestId : guestIds) {
+                    rows.add(
+                        new ReservationExportRow(
+                            guestId,
+                            sessionDefinition.sessionId,
+                            sessionDefinition.title,
+                            sessionDefinition.startTime.format(START_TIME_FORMATTER),
+                            sessionDefinition.track
+                        )
+                    );
+                }
+            }
+            return List.copyOf(rows);
+        }
+    }
+
     public AdminSessionResponse createSession(String title, String startTime, String track, Integer capacity) {
         validateSessionFields(title, startTime, track, capacity);
         LocalTime parsedStartTime = parseStartTime(startTime);
@@ -420,4 +443,12 @@ public class ReservationService {
 
     private record SessionDefinition(String sessionId, String title, String track, LocalTime startTime, int capacity) {
     }
+
+    public record ReservationExportRow(
+        String guestId,
+        String sessionId,
+        String sessionTitle,
+        String startTime,
+        String track
+    ) {}
 }

@@ -112,6 +112,16 @@ public class CheckInService {
             .toList();
     }
 
+    public Map<String, Map<String, Instant>> snapshotSessionCheckIns() {
+        synchronized (checkInLock) {
+            Map<String, Map<String, Instant>> snapshot = new HashMap<>();
+            for (Map.Entry<String, Map<String, Instant>> entry : sessionCheckInsBySession.entrySet()) {
+                snapshot.put(entry.getKey(), Map.copyOf(entry.getValue()));
+            }
+            return Map.copyOf(snapshot);
+        }
+    }
+
     private QrCodeData parseQrCodePayload(String qrCodePayload) {
         if (qrCodePayload == null || qrCodePayload.isBlank()) {
             throw new CheckInRuleViolationException("QRコードの内容が空です。");

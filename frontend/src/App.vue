@@ -15,6 +15,12 @@
         <input v-model="adminToken" type="password" placeholder="admin token" />
       </label>
       <button type="button" :disabled="!adminToken" @click="loadAdminSessions">管理一覧を取得</button>
+      <button type="button" :disabled="!adminToken" @click="downloadReservationCsv">
+        予約一覧CSVを出力
+      </button>
+      <button type="button" :disabled="!adminToken" @click="downloadSessionCheckInCsv">
+        チェックインCSVを出力
+      </button>
 
       <form @submit.prevent="createAdminSession">
         <h3>新規作成</h3>
@@ -374,6 +380,49 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
   }
   return null;
 };
+
+const downloadAdminCsv = async (
+  path: string,
+  filename: string,
+  successMessage: string,
+): Promise<void> => {
+  if (!adminToken.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}${path}`, {
+    headers: {
+      Authorization: `Bearer ${adminToken.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? 'CSVの出力に失敗しました。';
+    return;
+  }
+
+  const csvBody = await response.text();
+  const blob = new Blob([csvBody], { type: 'text/csv;charset=utf-8' });
+  const url = globalThis.URL.createObjectURL(blob);
+  const link = globalThis.document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  globalThis.URL.revokeObjectURL(url);
+  infoMessage.value = successMessage;
+};
+
+const downloadReservationCsv = async (): Promise<void> =>
+  downloadAdminCsv('/api/admin/exports/reservations', 'reservations.csv', '予約一覧CSVを出力しました。');
+
+const downloadSessionCheckInCsv = async (): Promise<void> =>
+  downloadAdminCsv(
+    '/api/admin/exports/session-checkins',
+    'session-checkins.csv',
+    'チェックインCSVを出力しました。',
+  );
 
 const buildAdminRequest = (form: AdminForm): AdminSessionUpsertRequest | null => {
   const parsedCapacity = Number(form.capacity);
