@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -20,10 +21,12 @@ import org.springframework.test.web.servlet.MvcResult;
         "spring.autoconfigure.exclude="
             + "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,"
             + "org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,"
-            + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration"
+            + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration",
+        "app.reservation.keynote-capacity=2"
     }
 )
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class GuestAuthenticationFlowTest {
 
     @Autowired
@@ -61,6 +64,58 @@ class GuestAuthenticationFlowTest {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.guestId").value(guestId))
-            .andExpect(jsonPath("$.reservations[0]").value("welcome-session"));
+            .andExpect(jsonPath("$.reservations").isEmpty())
+            .andExpect(jsonPath("$.registered").value(false));
+    }
+
+    @Test
+    void keynoteReservationRegistersGuest() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/keynote")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.reservations[0]").value("keynote"))
+            .andExpect(jsonPath("$.registered").value(true));
+
+        mockMvc.perform(get("/api/reservations")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.reservations[0]").value("keynote"))
+            .andExpect(jsonPath("$.registered").value(true));
+    }
+
+    @Test
+    void keynoteReservationReturns409WhenCapacityExceeded() throws Exception {
+        String firstToken = loginAndGetAccessToken();
+        String secondToken = loginAndGetAccessToken();
+        String thirdToken = loginAndGetAccessToken();
+
+        mockMvc.perform(post("/api/reservations/keynote")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/reservations/keynote")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/reservations/keynote")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + thirdToken))
+            .andExpect(status().isConflict());
+    }
+
+    private String loginAndGetAccessToken() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        return loginResponse.get("accessToken").asText();
     }
 }
