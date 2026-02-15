@@ -259,6 +259,9 @@ const loadMyPage = async (): Promise<void> => {
   });
 
   if (!response.ok) {
+    myPageLoaded.value = false;
+    myPageReservations.value = [];
+    myPageQrCodePayload.value = '';
     errorMessage.value = 'マイページ情報の取得に失敗しました。';
     return;
   }
