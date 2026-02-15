@@ -8,6 +8,7 @@ import com.event.reservation.api.SessionSummaryResponse;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import org.junit.jupiter.api.Test;
 
@@ -39,14 +40,13 @@ class ReservationServiceTest {
     }
 
     @Test
-    void reserveSessionRejectsDuplicateReservationForSameStartTime() {
+    void reserveSessionReplacesReservationForSameStartTime() {
         ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T09:00:00Z"));
 
         reservationService.reserveSession("guest-1", "session-1");
+        reservationService.reserveSession("guest-1", "session-2");
 
-        assertThatThrownBy(() -> reservationService.reserveSession("guest-1", "session-2"))
-            .isInstanceOf(ReservationRuleViolationException.class)
-            .hasMessage("同じ時間帯のセッションは1つまでしか予約できません。");
+        assertThat(reservationService.listReservations("guest-1").reservations()).containsExactly("session-2");
     }
 
     @Test
@@ -58,10 +58,10 @@ class ReservationServiceTest {
         reservationService.reserveSession("guest-1", "session-7");
         reservationService.reserveSession("guest-1", "session-10");
         reservationService.reserveSession("guest-1", "session-13");
+        reservationService.reserveSession("guest-1", "session-14");
 
-        assertThatThrownBy(() -> reservationService.reserveSession("guest-1", "session-14"))
-            .isInstanceOf(ReservationRuleViolationException.class)
-            .hasMessage("通常セッションは最大5件までしか予約できません。");
+        assertThat(reservationService.listReservations("guest-1").reservations())
+            .containsExactly("session-1", "session-4", "session-7", "session-10", "session-14");
     }
 
     @Test
@@ -84,7 +84,56 @@ class ReservationServiceTest {
             .hasMessage("セッションは満席です。");
     }
 
+    @Test
+    void cancelSessionReservationRemovesReservationBeforeDeadline() {
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+        reservationService.reserveSession("guest-1", "session-1");
+
+        reservationService.cancelSessionReservation("guest-1", "session-1");
+
+        assertThat(reservationService.listReservations("guest-1").reservations()).isEmpty();
+    }
+
+    @Test
+    void cancelSessionReservationRejectsWhenDeadlineExceeded() {
+        MutableClock mutableClock = new MutableClock("2026-01-01T09:00:00Z");
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, mutableClock);
+        reservationService.reserveSession("guest-1", "session-1");
+        mutableClock.setInstant("2026-01-01T10:01:00Z");
+
+        assertThatThrownBy(() -> reservationService.cancelSessionReservation("guest-1", "session-1"))
+            .isInstanceOf(ReservationRuleViolationException.class)
+            .hasMessage("このセッションは開始30分前を過ぎたためキャンセルできません。");
+    }
+
     private Clock fixedClockAt(String isoInstant) {
         return Clock.fixed(Instant.parse(isoInstant), ZoneOffset.UTC);
+    }
+
+    private static final class MutableClock extends Clock {
+        private Instant instant;
+
+        private MutableClock(String isoInstant) {
+            this.instant = Instant.parse(isoInstant);
+        }
+
+        @Override
+        public ZoneId getZone() {
+            return ZoneOffset.UTC;
+        }
+
+        @Override
+        public Clock withZone(ZoneId zone) {
+            return this;
+        }
+
+        @Override
+        public Instant instant() {
+            return instant;
+        }
+
+        private void setInstant(String isoInstant) {
+            this.instant = Instant.parse(isoInstant);
+        }
     }
 }

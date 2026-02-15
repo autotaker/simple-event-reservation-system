@@ -100,10 +100,35 @@ public class ReservationService {
             if (isDeadlineExceeded(sessionDefinition.startTime)) {
                 throw new ReservationRuleViolationException("このセッションは開始30分前を過ぎたため予約できません。");
             }
-            ensureRegularSessionLimit(guestReservations, sessionDefinition.sessionId);
-            ensureNoTimeSlotConflict(guestReservations, sessionDefinition);
+            String conflictingReservationId = findTimeSlotConflictReservationId(guestReservations, sessionDefinition);
+            if (conflictingReservationId == null) {
+                ensureRegularSessionLimit(guestReservations, sessionDefinition.sessionId);
+            }
             reserveWithCapacityCheck(guestReservations, guestId, sessionDefinition.sessionId);
+            if (conflictingReservationId != null) {
+                removeReservation(guestReservations, guestId, conflictingReservationId);
+            }
         }
+        return listReservations(guestId);
+    }
+
+    public ReservationResponse cancelSessionReservation(String guestId, String sessionId) {
+        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+        if (sessionDefinition == null) {
+            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+        }
+
+        synchronized (reservationLock) {
+            Set<String> guestReservations = reservationsByGuest.get(guestId);
+            if (guestReservations == null || !guestReservations.contains(sessionId)) {
+                return listReservations(guestId);
+            }
+            if (isDeadlineExceeded(sessionDefinition.startTime)) {
+                throw new ReservationRuleViolationException("このセッションは開始30分前を過ぎたためキャンセルできません。");
+            }
+            removeReservation(guestReservations, guestId, sessionId);
+        }
+
         return listReservations(guestId);
     }
 
@@ -134,14 +159,26 @@ public class ReservationService {
         guestReservations.add(sessionId);
     }
 
-    private void ensureNoTimeSlotConflict(Set<String> guestReservations, SessionDefinition reservationTarget) {
-        boolean hasConflict = guestReservations.stream()
-            .map(sessionCatalogById::get)
-            .anyMatch(existingSession ->
-                existingSession != null && existingSession.startTime.equals(reservationTarget.startTime));
-        if (hasConflict) {
-            throw new ReservationRuleViolationException("同じ時間帯のセッションは1つまでしか予約できません。");
+    private void removeReservation(Set<String> guestReservations, String guestId, String sessionId) {
+        Set<String> sessionReservations = reservationsBySession.get(sessionId);
+        if (sessionReservations == null) {
+            throw new IllegalStateException("Reservation bucket not found for session: " + sessionId);
         }
+        sessionReservations.remove(guestId);
+        guestReservations.remove(sessionId);
+        if (guestReservations.isEmpty()) {
+            reservationsByGuest.remove(guestId);
+        }
+    }
+
+    private String findTimeSlotConflictReservationId(Set<String> guestReservations, SessionDefinition reservationTarget) {
+        return guestReservations.stream()
+            .map(sessionCatalogById::get)
+            .filter(existingSession ->
+                existingSession != null && existingSession.startTime.equals(reservationTarget.startTime))
+            .map(SessionDefinition::sessionId)
+            .findFirst()
+            .orElse(null);
     }
 
     private void ensureRegularSessionLimit(Set<String> guestReservations, String sessionId) {
