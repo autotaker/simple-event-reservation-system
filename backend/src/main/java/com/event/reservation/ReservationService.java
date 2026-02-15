@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,7 +93,7 @@ public class ReservationService {
             throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
         }
         synchronized (reservationLock) {
-            Set<String> guestReservations = reservationsByGuest.computeIfAbsent(guestId, key -> new HashSet<>());
+            Set<String> guestReservations = reservationsByGuest.computeIfAbsent(guestId, key -> ConcurrentHashMap.newKeySet());
             if (guestReservations.contains(sessionId)) {
                 return listReservations(guestId);
             }
