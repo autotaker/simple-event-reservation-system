@@ -245,11 +245,106 @@ class GuestAuthenticationFlowTest {
             .andExpect(jsonPath("$.message").value("セッションは満席です。"));
     }
 
+    @Test
+    void eventCheckInRecordsAndMarksDuplicateOnSecondScan() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        String payload = toCheckInPayload(guestId, "keynote");
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.checkInType").value("EVENT"))
+            .andExpect(jsonPath("$.duplicate").value(false));
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.duplicate").value(true));
+
+        mockMvc.perform(get("/api/checkins")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.checkIns.length()").value(1))
+            .andExpect(jsonPath("$.checkIns[0].guestId").value(guestId))
+            .andExpect(jsonPath("$.checkIns[0].checkInType").value("EVENT"));
+    }
+
+    @Test
+    void sessionCheckInRecordsAndMarksDuplicateOnSecondScan() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        String payload = toCheckInPayload(guestId, "session-1");
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.checkInType").value("SESSION"))
+            .andExpect(jsonPath("$.sessionId").value("session-1"))
+            .andExpect(jsonPath("$.duplicate").value(false));
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.duplicate").value(true));
+    }
+
+    @Test
+    void sessionCheckInReturns400WhenQrDoesNotContainTargetSession() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        String payload = toCheckInPayload(guestId, "session-2");
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(payload)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("このQRコードでは対象セッションをチェックインできません。"));
+    }
+
     private String loginAndGetAccessToken() throws Exception {
         MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
             .andExpect(status().isOk())
             .andReturn();
         JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
         return loginResponse.get("accessToken").asText();
+    }
+
+    private String toCheckInPayload(String guestId, String reservations) {
+        return "event-reservation://checkin?guestId=" + guestId + "&reservations=" + reservations;
+    }
+
+    private String checkInRequestBody(String qrCodePayload) {
+        return "{\"qrCodePayload\":\"" + qrCodePayload + "\"}";
     }
 }

@@ -157,6 +157,10 @@ public class ReservationService {
         return new SessionSummaryResponse(sessions);
     }
 
+    public boolean sessionExists(String sessionId) {
+        return sessionCatalogById.containsKey(sessionId);
+    }
+
     private void reserveWithCapacityCheck(Set<String> guestReservations, String guestId, String sessionId) {
         Set<String> sessionReservations = reservationsBySession.get(sessionId);
         if (sessionReservations == null) {
