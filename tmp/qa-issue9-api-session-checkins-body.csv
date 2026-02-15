@@ -1,0 +1,3 @@
+sessionId,sessionTitle,startTime,track,guestId,checkedIn,checkedInAt
+keynote,Opening Keynote,09:00,Keynote,guest-cbe3848c,false,
+session-1,Session 1,10:30,Track A,guest-cbe3848c,false,
