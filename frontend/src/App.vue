@@ -10,7 +10,11 @@
 
     <section>
       <h2>セッション管理（運営）</h2>
-      <button type="button" :disabled="!token" @click="loadAdminSessions">管理一覧を取得</button>
+      <label>
+        管理者トークン
+        <input v-model="adminToken" type="password" placeholder="admin token" />
+      </label>
+      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">管理一覧を取得</button>
 
       <form @submit.prevent="createAdminSession">
         <h3>新規作成</h3>
@@ -30,7 +34,7 @@
           定員
           <input v-model="createForm.capacity" type="number" min="1" required />
         </label>
-        <button type="submit" :disabled="!token">セッション作成</button>
+        <button type="submit" :disabled="!adminToken">セッション作成</button>
       </form>
 
       <table v-if="adminSessions.length > 0">
@@ -54,7 +58,7 @@
             <td>{{ session.capacity }}</td>
             <td>{{ session.reservedCount }}</td>
             <td>
-              <button type="button" :disabled="!token" @click="startEditSession(session)">編集</button>
+              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">編集</button>
             </td>
           </tr>
         </tbody>
@@ -78,7 +82,7 @@
           定員
           <input v-model="editForm.capacity" type="number" min="1" required />
         </label>
-        <button type="submit" :disabled="!token">更新</button>
+        <button type="submit" :disabled="!adminToken">更新</button>
         <button type="button" @click="clearEditForm">キャンセル</button>
       </form>
     </section>
@@ -139,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 type GuestLoginResponse = {
   accessToken: string;
@@ -201,6 +205,7 @@ type AdminForm = {
 
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
+const adminToken = ref<string>(globalThis.localStorage.getItem('adminAccessToken') ?? '');
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
 const sessions = ref<SessionSummary[]>([]);
 const adminSessions = ref<AdminSession[]>([]);
@@ -296,7 +301,7 @@ const loginAsGuest = async (): Promise<void> => {
   globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
   globalThis.localStorage.setItem('guestId', data.guestId);
 
-  await Promise.all([loadSessions(), loadAdminSessions(), loadReservations()]);
+  await Promise.all([loadSessions(), loadReservations()]);
 };
 
 const loadSessions = async (): Promise<void> => {
@@ -322,7 +327,7 @@ const loadSessions = async (): Promise<void> => {
 };
 
 const loadAdminSessions = async (): Promise<void> => {
-  if (!token.value) {
+  if (!adminToken.value) {
     return;
   }
 
@@ -330,12 +335,12 @@ const loadAdminSessions = async (): Promise<void> => {
   infoMessage.value = '';
   const response = await globalThis.fetch(`${API_BASE_URL}/api/admin/sessions`, {
     headers: {
-      Authorization: `Bearer ${token.value}`,
+      Authorization: `Bearer ${adminToken.value}`,
     },
   });
 
   if (!response.ok) {
-    errorMessage.value = '管理セッション一覧の取得に失敗しました。';
+    errorMessage.value = (await readErrorMessage(response)) ?? '管理セッション一覧の取得に失敗しました。';
     return;
   }
 
@@ -344,7 +349,7 @@ const loadAdminSessions = async (): Promise<void> => {
 };
 
 const createAdminSession = async (): Promise<void> => {
-  if (!token.value) {
+  if (!adminToken.value) {
     return;
   }
 
@@ -359,7 +364,7 @@ const createAdminSession = async (): Promise<void> => {
   const response = await globalThis.fetch(`${API_BASE_URL}/api/admin/sessions`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token.value}`,
+      Authorization: `Bearer ${adminToken.value}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(request),
@@ -393,7 +398,7 @@ const startEditSession = (session: AdminSession): void => {
 };
 
 const updateAdminSession = async (): Promise<void> => {
-  if (!token.value || !editForm.value.sessionId) {
+  if (!adminToken.value || !editForm.value.sessionId) {
     return;
   }
 
@@ -410,7 +415,7 @@ const updateAdminSession = async (): Promise<void> => {
     {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token.value}`,
+        Authorization: `Bearer ${adminToken.value}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
@@ -537,9 +542,16 @@ const cancelReservation = async (sessionId: string): Promise<void> => {
   infoMessage.value = `${sessionId} をキャンセルしました。`;
 };
 
+watch(adminToken, newValue => {
+  globalThis.localStorage.setItem('adminAccessToken', newValue);
+});
+
 onMounted(() => {
   if (token.value) {
-    void Promise.all([loadSessions(), loadAdminSessions(), loadReservations()]);
+    void Promise.all([loadSessions(), loadReservations()]);
+  }
+  if (adminToken.value) {
+    void loadAdminSessions();
   }
 });
 </script>

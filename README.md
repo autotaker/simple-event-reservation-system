@@ -97,7 +97,12 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+app:
+  auth:
+    admin-token: change-me-local-admin-token
 ```
+
+管理者向け ` /api/admin/sessions ` を利用する場合は、上記 `app.auth.admin-token` に設定した値をフロントの「管理者トークン」に入力してください。
 
 ---
 

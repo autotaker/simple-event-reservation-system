@@ -29,7 +29,8 @@ import org.springframework.test.web.servlet.MvcResult;
             + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration",
         "app.reservation.keynote-capacity=2",
         "app.reservation.regular-capacity=1",
-        "app.reservation.event-date=2099-01-01"
+        "app.reservation.event-date=2099-01-01",
+        "app.auth.admin-token=test-admin-token"
     }
 )
 @AutoConfigureMockMvc
@@ -197,7 +198,7 @@ class GuestAuthenticationFlowTest {
 
     @Test
     void adminCanCreateAndUpdateSessionAndParticipantListReflectsIt() throws Exception {
-        String token = loginAndGetAccessToken();
+        String token = "test-admin-token";
 
         MvcResult createResult = mockMvc.perform(post("/api/admin/sessions")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -240,6 +241,15 @@ class GuestAuthenticationFlowTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sessions[16].sessionId").value("session-16"))
             .andExpect(jsonPath("$.sessions[16].title").value("Admin Updated Session"));
+    }
+
+    @Test
+    void adminSessionApiReturns403ForGuestToken() throws Exception {
+        String token = loginAndGetAccessToken();
+
+        mockMvc.perform(get("/api/admin/sessions")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+            .andExpect(status().isForbidden());
     }
 
     @Test

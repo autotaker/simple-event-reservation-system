@@ -93,11 +93,11 @@ public class ReservationService {
     }
 
     public ReservationResponse reserveSession(String guestId, String sessionId) {
-        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
-        if (sessionDefinition == null) {
-            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
-        }
         synchronized (reservationLock) {
+            SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+            if (sessionDefinition == null) {
+                throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+            }
             Set<String> guestReservations = reservationsByGuest.computeIfAbsent(guestId, key -> ConcurrentHashMap.newKeySet());
             if (guestReservations.contains(sessionId)) {
                 return listReservations(guestId);
@@ -118,12 +118,11 @@ public class ReservationService {
     }
 
     public ReservationResponse cancelSessionReservation(String guestId, String sessionId) {
-        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
-        if (sessionDefinition == null) {
-            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
-        }
-
         synchronized (reservationLock) {
+            SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+            if (sessionDefinition == null) {
+                throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+            }
             Set<String> guestReservations = reservationsByGuest.get(guestId);
             if (guestReservations == null || !guestReservations.contains(sessionId)) {
                 return listReservations(guestId);
