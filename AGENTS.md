@@ -21,3 +21,10 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
   - Avoid deep reference-chasing: prefer opening only files directly linked from `SKILL.md` unless you're blocked.
   - When variants exist (frameworks, providers, domains), pick only the relevant reference file(s) and note that choice.
 - Safety and fallback: If a skill can't be applied cleanly (missing files, unclear instructions), state the issue, pick the next-best approach, and continue.
+
+## READMEの使い方（ローカル開発）
+- ローカル環境のセットアップや起動確認を依頼されたら、必ず `README.md` の「🚀 ローカル開発環境構築」に従う。
+- DBは Docker ではなくローカル起動の PostgreSQL 17 を前提とする。
+- バックエンド起動時は `--spring.profiles.active=local` を指定する。
+- `backend/src/main/resources/application-local.yml` はローカル専用ファイルとして扱い、コミット対象にしない。
+- 手順変更が発生した場合は、実装より先に `README.md` の手順を更新してから作業する。

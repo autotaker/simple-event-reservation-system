@@ -25,7 +25,7 @@ Frontend (Vue3 + Vite)
         ↓
 Backend (Spring Boot REST API)
         ↓
-PostgreSQL
+PostgreSQL 17
 ```
 
 ---
@@ -35,7 +35,6 @@ PostgreSQL
 ```
 /frontend      Vue3 + TypeScript
 /backend       Spring Boot
-/docker-compose.yml
 README.md
 ```
 
@@ -46,43 +45,67 @@ README.md
 - Node.js 18+
 - pnpm または npm
 - JDK 21+（推奨: `openjdk@21`）
-- Docker
-- Docker Compose
+- PostgreSQL 17（ローカル起動）
 
 ---
 
-## 🚀 Getting Started
+## 🚀 ローカル開発環境構築
 
 ### 1️⃣ Clone
 
 ```bash
 git clone <repository-url>
-cd event-app
+cd simple-event-reservation-system
 ```
 
 ---
 
-### 2️⃣ Start Database
+### 2️⃣ PostgreSQL 17の初期設定（1回だけ）
+
+`psql` で以下を実行：
+
+```sql
+CREATE ROLE event WITH LOGIN PASSWORD 'event';
+CREATE DATABASE event OWNER event;
+\c event
+GRANT ALL PRIVILEGES ON DATABASE event TO event;
+GRANT ALL ON SCHEMA public TO event;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO event;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO event;
+```
+
+接続確認：
 
 ```bash
-docker compose up -d
+psql -h localhost -p 5432 -U event -d event -c "SELECT version();"
 ```
-
-PostgreSQL:
-
-- Host: localhost
-- Port: 5432
-- DB: event
-- User: event
-- Password: event
 
 ---
 
-### 3️⃣ Run Backend
+### 3️⃣ バックエンド用ローカル設定を作成
+
+`backend/src/main/resources/application-local.yml` を作成：
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/event
+    username: event
+    password: event
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+```
+
+---
+
+### 4️⃣ Run Backend（local profile）
 
 ```bash
 cd backend
-./gradlew bootRun
+JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
 
 Backend runs on:
@@ -93,18 +116,27 @@ http://localhost:8080
 
 ---
 
-### 4️⃣ Run Frontend
+### 5️⃣ Run Frontend
 
 ```bash
 cd frontend
 pnpm install
-pnpm dev
+pnpm dev --host 127.0.0.1 --port 5173
 ```
 
 Frontend runs on:
 
 ```
 http://localhost:5173
+```
+
+---
+
+### 6️⃣ 起動確認
+
+```bash
+curl -i http://127.0.0.1:8080/api/health
+curl -i http://127.0.0.1:5173
 ```
 
 ---
@@ -126,9 +158,9 @@ http://localhost:5173/login/callback
 VITE_GOOGLE_CLIENT_ID=xxxx
 ```
 
-### backend/application-local.yml
+### backend/src/main/resources/application-local.yml
 
-```
+```yaml
 google:
   client-id: xxxx
 ```
@@ -140,7 +172,8 @@ google:
 Flywayを使用。
 
 ```bash
-./gradlew flywayMigrate
+cd backend
+./gradlew flywayMigrate --args='--spring.profiles.active=local'
 ```
 
 Migration files:
@@ -151,38 +184,21 @@ backend/src/main/resources/db/migration
 
 ---
 
-## 🧪 Seed Data
-
-ローカル起動時に以下を自動生成：
-
-- キーノート 1件
-- 通常セッション 15件
-- 5時間帯構成
-
----
-
 ## 🧪 Testing
 
 ### Backend
 
 ```bash
+cd backend
 ./gradlew test
 ```
 
 ### Frontend
 
 ```bash
+cd frontend
 pnpm test
 ```
-
----
-
-## 📋 Development Rules
-
-- mainブランチ直接コミット禁止
-- PR必須
-- DB変更は必ずFlyway migration追加
-- API変更時はOpenAPI定義更新
 
 ---
 
@@ -202,47 +218,9 @@ Spring profiles:
 
 ---
 
-## 🧱 API Base Path
-
-```
-/api/*
-```
-
-例：
-
-```
-GET /api/sessions
-POST /api/reservations
-```
-
----
-
-## 📲 QR Check-In Flow
-
-- ユーザーはマイページでQR表示
-- 管理画面でスキャン
-- 状態遷移: reserved → checked_in
-
----
-
-## 🧭 Roadmap
-
-- 管理画面UI改善
-- ログ可視化
-- 次回イベント対応検討
-
----
-
-## 🧹 Stop Database
-
-```bash
-docker compose down
-```
-
----
-
 ## ⚠️ Notes
 
+- `backend/src/main/resources/application-local.yml` はローカル専用（`.gitignore`対象）
 - 定員超過を防ぐため、予約処理はトランザクション制御必須
 - 同時間帯重複予約禁止ロジックはサーバ側で強制
 - 残席数は数値表示しない（20未満で「残りわずか」）

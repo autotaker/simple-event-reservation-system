@@ -3,10 +3,6 @@ spring:
     name: event-reservation-backend
   jpa:
     open-in-view: false
-    hibernate:
-      ddl-auto: validate
-  flyway:
-    enabled: true
 
 server:
   port: 8080
