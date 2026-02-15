@@ -3,8 +3,11 @@ package com.event.security;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -189,6 +192,17 @@ class GuestAuthenticationFlowTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.reservations").isEmpty())
             .andExpect(jsonPath("$.registered").value(false));
+    }
+
+    @Test
+    void deleteReservationPreflightAllowsBrowserCorsRequest() throws Exception {
+        mockMvc.perform(options("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.ORIGIN, "http://127.0.0.1:5173")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "DELETE")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "authorization"))
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5173"))
+            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("DELETE")));
     }
 
     @Test
