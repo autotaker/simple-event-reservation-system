@@ -247,6 +247,15 @@ public class ReservationService {
         }
     }
 
+    public boolean sessionExists(String sessionId) {
+        return sessionCatalogById.containsKey(sessionId);
+    }
+
+    public boolean hasReservation(String guestId, String sessionId) {
+        Set<String> guestReservations = reservationsByGuest.getOrDefault(guestId, Set.of());
+        return guestReservations.contains(sessionId);
+    }
+
     private void reserveWithCapacityCheck(Set<String> guestReservations, String guestId, String sessionId) {
         Set<String> sessionReservations = reservationsBySession.get(sessionId);
         SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
