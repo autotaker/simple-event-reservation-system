@@ -3,6 +3,7 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
 ### Available skills
 - skill-creator: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations. (file: /Users/autotaker/.codex/skills/.system/skill-creator/SKILL.md)
 - skill-installer: Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos). (file: /Users/autotaker/.codex/skills/.system/skill-installer/SKILL.md)
+- issue-task-completer: Complete work for a specified GitHub Issue number, including scope確認, 実装, 検証, PR連携, Issue更新までを一気通貫で進める。 (file: /Users/autotaker/.codex/skills/issue-task-completer/SKILL.md)
 ### How to use skills
 - Discovery: The list above is the skills available in this session (name + description + file path). Skill bodies live on disk at the listed paths.
 - Trigger rules: If the user names a skill (with `$SkillName` or plain text) OR the task clearly matches a skill's description shown above, you must use that skill for that turn. Multiple mentions mean use them all. Do not carry skills across turns unless re-mentioned.
