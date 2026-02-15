@@ -15,12 +15,14 @@ test.describe('US-01 ゲストログイン', () => {
     await page.reload();
 
     await expect(page.getByRole('button', { name: 'ゲストでログイン' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'セッション一覧を取得' })).toBeDisabled();
     await expect(page.getByRole('button', { name: '予約一覧を取得' })).toBeDisabled();
     await expect(page.getByRole('button', { name: 'キーノートを予約' })).toBeDisabled();
 
     await page.getByRole('button', { name: 'ゲストでログイン' }).click();
 
     await expect(page.getByText('ログイン中:')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'セッション一覧を取得' })).toBeEnabled();
     await expect(page.getByRole('button', { name: '予約一覧を取得' })).toBeEnabled();
     await expect(page.getByRole('button', { name: 'キーノートを予約' })).toBeEnabled();
   });

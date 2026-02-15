@@ -8,14 +8,41 @@
     <p v-if="errorMessage">{{ errorMessage }}</p>
     <p v-if="infoMessage">{{ infoMessage }}</p>
 
-    <button type="button" :disabled="!token" @click="loadReservations">予約一覧を取得</button>
-    <button type="button" :disabled="!token" @click="reserveKeynote">キーノートを予約</button>
-    <p v-if="registered">参加登録: 完了</p>
-    <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
+    <section>
+      <h2>セッション一覧</h2>
+      <button type="button" :disabled="!token" @click="loadSessions">セッション一覧を取得</button>
+      <p v-if="token && sessions.length === 0">セッション一覧は未取得です。</p>
+      <table v-else-if="sessions.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">開始時刻</th>
+            <th scope="col">トラック</th>
+            <th scope="col">セッション</th>
+            <th scope="col">残席ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="session in sessions" :key="session.sessionId">
+            <td>{{ session.startTime }}</td>
+            <td>{{ session.track }}</td>
+            <td>{{ session.title }}</td>
+            <td>{{ availabilityStatusLabel(session.availabilityStatus) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-    <ul>
-      <li v-for="reservation in reservations" :key="reservation">{{ reservation }}</li>
-    </ul>
+    <section>
+      <h2>予約</h2>
+      <button type="button" :disabled="!token" @click="loadReservations">予約一覧を取得</button>
+      <button type="button" :disabled="!token" @click="reserveKeynote">キーノートを予約</button>
+      <p v-if="registered">参加登録: 完了</p>
+      <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
+
+      <ul>
+        <li v-for="reservation in reservations" :key="reservation">{{ reservation }}</li>
+      </ul>
+    </section>
   </main>
 </template>
 
@@ -34,14 +61,39 @@ type ReservationResponse = {
   registered?: boolean;
 };
 
+type SessionAvailabilityStatus = 'OPEN' | 'FEW_LEFT' | 'FULL';
+
+type SessionSummary = {
+  sessionId: string;
+  title: string;
+  startTime: string;
+  track: string;
+  availabilityStatus: SessionAvailabilityStatus;
+};
+
+type SessionSummaryResponse = {
+  sessions: SessionSummary[];
+};
+
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
+const sessions = ref<SessionSummary[]>([]);
 const reservations = ref<string[]>([]);
 const registered = ref<boolean>(false);
 const registrationStatusLoaded = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const infoMessage = ref<string>('');
+
+const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
+  if (status === 'OPEN') {
+    return '受付中';
+  }
+  if (status === 'FEW_LEFT') {
+    return '残りわずか';
+  }
+  return '満席';
+};
 
 const loginAsGuest = async (): Promise<void> => {
   errorMessage.value = '';
@@ -58,11 +110,36 @@ const loginAsGuest = async (): Promise<void> => {
   const data = (await response.json()) as GuestLoginResponse;
   token.value = data.accessToken;
   guestId.value = data.guestId;
+  sessions.value = [];
   reservations.value = [];
   registered.value = false;
   registrationStatusLoaded.value = false;
   globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
   globalThis.localStorage.setItem('guestId', data.guestId);
+
+  await Promise.all([loadSessions(), loadReservations()]);
+};
+
+const loadSessions = async (): Promise<void> => {
+  if (!token.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/reservations/sessions`, {
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    errorMessage.value = 'セッション一覧の取得に失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as SessionSummaryResponse;
+  sessions.value = data.sessions;
 };
 
 const loadReservations = async (): Promise<void> => {
@@ -117,12 +194,13 @@ const reserveKeynote = async (): Promise<void> => {
   reservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
   registrationStatusLoaded.value = true;
+  await loadSessions();
   infoMessage.value = 'キーノートを予約しました。';
 };
 
 onMounted(() => {
   if (token.value) {
-    void loadReservations();
+    void Promise.all([loadSessions(), loadReservations()]);
   }
 });
 </script>
