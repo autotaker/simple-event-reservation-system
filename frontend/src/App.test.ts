@@ -19,5 +19,7 @@ describe('App', () => {
     expect(wrapper.text()).toContain('キーノートを予約');
     expect(wrapper.text()).toContain('マイページ');
     expect(wrapper.text()).toContain('マイページはログイン中ユーザーのみ表示できます。');
+    expect(wrapper.text()).toContain('運営チェックイン');
+    expect(wrapper.text()).toContain('運営チェックインはログイン中ユーザーのみ実行できます。');
   });
 });

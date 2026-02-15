@@ -163,6 +163,61 @@
         <p v-if="myPageQrCodePayload">受付用QRコードを表示中</p>
       </template>
     </section>
+
+    <section>
+      <h2>運営チェックイン</h2>
+      <p v-if="!token">運営チェックインはログイン中ユーザーのみ実行できます。</p>
+      <template v-else>
+        <label for="checkin-qr-payload">QR payload</label>
+        <textarea
+          id="checkin-qr-payload"
+          v-model="checkInQrCodePayload"
+          rows="3"
+          cols="60"
+          placeholder="event-reservation://checkin?guestId=...&reservations=..."
+        />
+        <div>
+          <button type="button" @click="checkInEvent">イベント受付をチェックイン</button>
+        </div>
+        <div>
+          <label for="checkin-session-id">セッション受付</label>
+          <select id="checkin-session-id" v-model="selectedCheckInSessionId">
+            <option value="">選択してください</option>
+            <option v-for="session in sessions" :key="`checkin-${session.sessionId}`" :value="session.sessionId">
+              {{ session.startTime }} {{ session.title }}
+            </option>
+          </select>
+          <button
+            type="button"
+            :disabled="selectedCheckInSessionId.length === 0"
+            @click="checkInSession"
+          >
+            セッションをチェックイン
+          </button>
+        </div>
+        <button type="button" @click="loadCheckInHistory">チェックイン履歴を更新</button>
+        <p v-if="checkInResultMessage">{{ checkInResultMessage }}</p>
+        <p v-if="checkInHistoryLoaded && checkIns.length === 0">チェックイン履歴はありません。</p>
+        <table v-else-if="checkIns.length > 0">
+          <thead>
+            <tr>
+              <th scope="col">チェックイン種別</th>
+              <th scope="col">ゲストID</th>
+              <th scope="col">セッションID</th>
+              <th scope="col">時刻</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="checkIn in checkIns" :key="`${checkIn.checkInType}-${checkIn.sessionId ?? 'event'}-${checkIn.guestId}`">
+              <td>{{ checkInTypeLabel(checkIn.checkInType) }}</td>
+              <td>{{ checkIn.guestId }}</td>
+              <td>{{ checkIn.sessionId ?? '-' }}</td>
+              <td>{{ formatCheckInTime(checkIn.checkedInAt) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </section>
   </main>
 </template>
 
@@ -221,6 +276,27 @@ type AdminSessionUpsertRequest = {
   capacity: number;
 };
 
+type CheckInType = 'EVENT' | 'SESSION';
+
+type CheckInResponse = {
+  guestId: string;
+  checkInType: CheckInType;
+  sessionId: string | null;
+  duplicate: boolean;
+  checkedInAt: string;
+};
+
+type CheckInHistoryEntry = {
+  guestId: string;
+  checkInType: CheckInType;
+  sessionId: string | null;
+  checkedInAt: string;
+};
+
+type CheckInHistoryResponse = {
+  checkIns: CheckInHistoryEntry[];
+};
+
 type ErrorResponse = {
   message?: string;
 };
@@ -261,6 +337,11 @@ const editForm = ref<AdminForm>({
   track: '',
   capacity: '1',
 });
+const checkInQrCodePayload = ref<string>('');
+const selectedCheckInSessionId = ref<string>('');
+const checkIns = ref<CheckInHistoryEntry[]>([]);
+const checkInHistoryLoaded = ref<boolean>(false);
+const checkInResultMessage = ref<string>('');
 
 const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
   if (status === 'OPEN') {
@@ -273,6 +354,10 @@ const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
 };
 
 const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
+const checkInTypeLabel = (checkInType: CheckInType): string =>
+  checkInType === 'EVENT' ? 'イベント受付' : 'セッション受付';
+const formatCheckInTime = (checkedInAt: string): string =>
+  new Date(checkedInAt).toLocaleString('ja-JP', { hour12: false });
 const receptionQrCodeImageUrl = computed(
   () =>
     `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(myPageQrCodePayload.value)}`,
@@ -338,10 +423,15 @@ const loginAsGuest = async (): Promise<void> => {
   myPageLoaded.value = false;
   registered.value = false;
   registrationStatusLoaded.value = false;
+  checkInQrCodePayload.value = '';
+  selectedCheckInSessionId.value = '';
+  checkIns.value = [];
+  checkInHistoryLoaded.value = false;
+  checkInResultMessage.value = '';
   globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
   globalThis.localStorage.setItem('guestId', data.guestId);
 
-  await Promise.all([loadSessions(), loadReservations(), loadMyPage()]);
+  await Promise.all([loadSessions(), loadReservations(), loadMyPage(), loadCheckInHistory()]);
 };
 
 const loadSessions = async (): Promise<void> => {
@@ -621,9 +711,101 @@ watch(adminToken, newValue => {
   globalThis.localStorage.setItem('adminAccessToken', newValue);
 });
 
+const checkInEvent = async (): Promise<void> => {
+  if (!token.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  checkInResultMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/checkins/event`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      qrCodePayload: checkInQrCodePayload.value,
+    }),
+  });
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? 'イベント受付チェックインに失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as CheckInResponse;
+  checkInResultMessage.value = data.duplicate
+    ? `${data.guestId} は既にイベント受付済みです。`
+    : `${data.guestId} のイベント受付チェックインを記録しました。`;
+  await loadCheckInHistory();
+};
+
+const checkInSession = async (): Promise<void> => {
+  if (!token.value || selectedCheckInSessionId.value.length === 0) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  checkInResultMessage.value = '';
+  const response = await globalThis.fetch(
+    `${API_BASE_URL}/api/checkins/sessions/${encodeURIComponent(selectedCheckInSessionId.value)}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        qrCodePayload: checkInQrCodePayload.value,
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? 'セッションチェックインに失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as CheckInResponse;
+  const checkInTarget = data.sessionId ?? selectedCheckInSessionId.value;
+  checkInResultMessage.value = data.duplicate
+    ? `${data.guestId} は ${checkInTarget} で既にチェックイン済みです。`
+    : `${data.guestId} の ${checkInTarget} チェックインを記録しました。`;
+  await loadCheckInHistory();
+};
+
+const loadCheckInHistory = async (): Promise<void> => {
+  if (!token.value) {
+    checkIns.value = [];
+    checkInHistoryLoaded.value = false;
+    return;
+  }
+
+  errorMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/checkins`, {
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    checkIns.value = [];
+    checkInHistoryLoaded.value = false;
+    errorMessage.value = 'チェックイン履歴の取得に失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as CheckInHistoryResponse;
+  checkIns.value = data.checkIns;
+  checkInHistoryLoaded.value = true;
+};
+
 onMounted(() => {
   if (token.value) {
-    void Promise.all([loadSessions(), loadReservations(), loadMyPage()]);
+    void Promise.all([loadSessions(), loadReservations(), loadMyPage(), loadCheckInHistory()]);
   }
   if (adminToken.value) {
     void loadAdminSessions();
