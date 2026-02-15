@@ -108,7 +108,9 @@ test.describe('US-04 予約制約を満たしてセッション予約できる',
         return;
       }
 
-      const regularCount = Array.from(guestReservations).filter((reservation) => reservation !== 'keynote').length;
+      const regularCount = Array.from(guestReservations).filter(
+        (reservation) => reservation !== 'keynote',
+      ).length;
       if (decodedSessionId !== 'keynote' && regularCount >= 5) {
         await route.fulfill({
           status: 400,
@@ -120,7 +122,9 @@ test.describe('US-04 予約制約を満たしてセッション予約できる',
 
       const conflict = Array.from(guestReservations)
         .map((reservation) => sessionCatalog.find((item) => item.sessionId === reservation))
-        .some((reservedSession) => reservedSession && reservedSession.startTime === session.startTime);
+        .some(
+          (reservedSession) => reservedSession && reservedSession.startTime === session.startTime,
+        );
       if (conflict) {
         await route.fulfill({
           status: 400,
@@ -165,7 +169,9 @@ test.describe('US-04 予約制約を満たしてセッション予約できる',
     await expect(page.getByText('ログイン中: guest-test')).toBeVisible();
 
     const sessionRow = (title: string) =>
-      page.locator('tbody tr').filter({ has: page.locator('td', { hasText: new RegExp(`^${title}$`) }) });
+      page
+        .locator('tbody tr')
+        .filter({ has: page.locator('td', { hasText: new RegExp(`^${title}$`) }) });
 
     const session1Row = sessionRow('Session 1');
     await session1Row.getByRole('button', { name: '予約する' }).click();
@@ -174,7 +180,9 @@ test.describe('US-04 予約制約を満たしてセッション予約できる',
 
     const session2Row = sessionRow('Session 2');
     await session2Row.getByRole('button', { name: '予約する' }).click();
-    await expect(page.getByText('同じ時間帯のセッションは1つまでしか予約できません。')).toBeVisible();
+    await expect(
+      page.getByText('同じ時間帯のセッションは1つまでしか予約できません。'),
+    ).toBeVisible();
 
     await sessionRow('Session 4').getByRole('button', { name: '予約する' }).click();
     await sessionRow('Session 7').getByRole('button', { name: '予約する' }).click();
@@ -185,7 +193,12 @@ test.describe('US-04 予約制約を満たしてセッション予約できる',
   });
 });
 
-const createSessionCatalog = (): Array<{ sessionId: string; title: string; startTime: string; track: string }> => {
+const createSessionCatalog = (): Array<{
+  sessionId: string;
+  title: string;
+  startTime: string;
+  track: string;
+}> => {
   const sessions: Array<{ sessionId: string; title: string; startTime: string; track: string }> = [
     { sessionId: 'keynote', title: 'Opening Keynote', startTime: '09:00', track: 'Keynote' },
   ];

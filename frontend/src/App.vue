@@ -31,7 +31,11 @@
             <td>
               <button
                 type="button"
-                :disabled="!token || session.availabilityStatus === 'FULL' || isSessionReserved(session.sessionId)"
+                :disabled="
+                  !token ||
+                  session.availabilityStatus === 'FULL' ||
+                  isSessionReserved(session.sessionId)
+                "
                 @click="reserveSession(session.sessionId, session.title)"
               >
                 {{ isSessionReserved(session.sessionId) ? '予約済み' : '予約する' }}
@@ -111,7 +115,7 @@ const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
 
 const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
 
-const readErrorMessage = async (response: Response): Promise<string | null> => {
+const readErrorMessage = async (response: globalThis.Response): Promise<string | null> => {
   try {
     const payload = (await response.json()) as ErrorResponse;
     if (payload.message && payload.message.trim().length > 0) {
@@ -235,7 +239,7 @@ const reserveSession = async (sessionId: string, title: string): Promise<void> =
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {
