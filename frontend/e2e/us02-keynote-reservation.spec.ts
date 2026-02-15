@@ -1,16 +1,10 @@
 import { expect, test } from '@playwright/test';
+import { clearGuestSession, loginAsGuest } from './support/ui';
 
 test.describe('US-02 キーノート予約', () => {
   test('ゲストはUIからキーノート予約でき、参加登録完了になる', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => {
-      localStorage.removeItem('guestAccessToken');
-      localStorage.removeItem('guestId');
-    });
-    await page.reload();
-
-    await page.getByRole('button', { name: 'ゲストでログイン' }).click();
-    await expect(page.getByText('ログイン中:')).toBeVisible();
+    await clearGuestSession(page);
+    await loginAsGuest(page);
 
     await page.getByRole('button', { name: 'キーノートを予約' }).click();
 

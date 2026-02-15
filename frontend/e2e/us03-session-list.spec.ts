@@ -1,16 +1,10 @@
 import { expect, test } from '@playwright/test';
+import { clearGuestSession, loginAsGuest } from './support/ui';
 
 test.describe('US-03 セッション一覧と残席ステータス', () => {
   test('ゲストはセッション一覧で時刻・トラック・3段階ステータスを確認できる', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => {
-      localStorage.removeItem('guestAccessToken');
-      localStorage.removeItem('guestId');
-    });
-    await page.reload();
-
-    await page.getByRole('button', { name: 'ゲストでログイン' }).click();
-    await expect(page.getByText('ログイン中:')).toBeVisible();
+    await clearGuestSession(page);
+    await loginAsGuest(page);
 
     await page.getByRole('button', { name: 'セッション一覧を取得' }).click();
 

@@ -12,7 +12,8 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "cd ../backend && ./gradlew bootRun --args='--spring.profiles.active=local'",
+      command:
+        "cd ../backend && ./gradlew bootRun --args='--spring.profiles.active=local --app.reservation.event-date=2099-12-31'",
       url: 'http://127.0.0.1:8080/api/health',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
