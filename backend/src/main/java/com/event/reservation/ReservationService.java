@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +44,10 @@ public class ReservationService {
     public ReservationService(
         @Value("${app.reservation.keynote-capacity:700}") int keynoteCapacity,
         @Value("${app.reservation.regular-capacity:200}") int regularSessionCapacity,
-        @Value("${app.reservation.event-date:}") String configuredEventDate
+        @Value("${app.reservation.event-date:}") String configuredEventDate,
+        @Qualifier("reservationClock") Clock reservationClock
     ) {
-        this(keynoteCapacity, regularSessionCapacity, parseEventDate(configuredEventDate), Clock.systemDefaultZone());
+        this(keynoteCapacity, regularSessionCapacity, parseEventDate(configuredEventDate), reservationClock);
     }
 
     ReservationService(int keynoteCapacity) {
