@@ -19,6 +19,7 @@
             <th scope="col">トラック</th>
             <th scope="col">セッション</th>
             <th scope="col">残席ステータス</th>
+            <th scope="col">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,19 @@
             <td>{{ session.track }}</td>
             <td>{{ session.title }}</td>
             <td>{{ availabilityStatusLabel(session.availabilityStatus) }}</td>
+            <td>
+              <button
+                type="button"
+                :disabled="
+                  !token ||
+                  session.availabilityStatus === 'FULL' ||
+                  isSessionReserved(session.sessionId)
+                "
+                @click="reserveSession(session.sessionId, session.title)"
+              >
+                {{ isSessionReserved(session.sessionId) ? '予約済み' : '予約する' }}
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -75,6 +89,10 @@ type SessionSummaryResponse = {
   sessions: SessionSummary[];
 };
 
+type ErrorResponse = {
+  message?: string;
+};
+
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
@@ -93,6 +111,20 @@ const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
     return '残りわずか';
   }
   return '満席';
+};
+
+const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
+
+const readErrorMessage = async (response: globalThis.Response): Promise<string | null> => {
+  try {
+    const payload = (await response.json()) as ErrorResponse;
+    if (payload.message && payload.message.trim().length > 0) {
+      return payload.message;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 };
 
 const loginAsGuest = async (): Promise<void> => {
@@ -180,13 +212,8 @@ const reserveKeynote = async (): Promise<void> => {
     },
   });
 
-  if (response.status === 409) {
-    errorMessage.value = 'キーノートは満席です。';
-    return;
-  }
-
   if (!response.ok) {
-    errorMessage.value = 'キーノート予約に失敗しました。';
+    errorMessage.value = (await readErrorMessage(response)) ?? 'キーノート予約に失敗しました。';
     return;
   }
 
@@ -196,6 +223,36 @@ const reserveKeynote = async (): Promise<void> => {
   registrationStatusLoaded.value = true;
   await loadSessions();
   infoMessage.value = 'キーノートを予約しました。';
+};
+
+const reserveSession = async (sessionId: string, title: string): Promise<void> => {
+  if (!token.value) {
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(
+    `${API_BASE_URL}/api/reservations/sessions/${encodeURIComponent(sessionId)}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    errorMessage.value = (await readErrorMessage(response)) ?? `${title} の予約に失敗しました。`;
+    return;
+  }
+
+  const data = (await response.json()) as ReservationResponse;
+  reservations.value = data.reservations;
+  registered.value = data.registered ?? data.reservations.includes('keynote');
+  registrationStatusLoaded.value = true;
+  await loadSessions();
+  infoMessage.value = `${title} を予約しました。`;
 };
 
 onMounted(() => {
