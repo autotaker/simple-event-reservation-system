@@ -100,6 +100,9 @@ spring:
 app:
   auth:
     admin-token: change-me-local-admin-token
+  reservation:
+    # 任意: QAで現在時刻を固定したい場合のみ設定（ISO-8601 LocalDateTime）
+    # now-override: 2026-01-01T10:01:00
 ```
 
 管理者向け ` /api/admin/sessions ` を利用する場合は、上記 `app.auth.admin-token` に設定した値をフロントの「管理者トークン」に入力してください。
@@ -143,6 +146,12 @@ http://localhost:5173
 curl -i http://127.0.0.1:8080/api/health
 curl -i http://127.0.0.1:5173
 ```
+
+現在時刻オーバーライド確認（任意）:
+
+1. `application-local.yml` に `app.reservation.now-override: 2026-01-01T10:01:00` を設定
+2. バックエンドを `--spring.profiles.active=local` で再起動
+3. セッション予約API（例: `POST /api/reservations/sessions/session-1`）で「開始30分前を過ぎたため予約できません。」を確認
 
 ---
 
