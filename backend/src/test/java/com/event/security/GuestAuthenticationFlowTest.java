@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MvcResult;
     }
 )
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class GuestAuthenticationFlowTest {
 
     @Autowired
@@ -92,7 +93,6 @@ class GuestAuthenticationFlowTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     void keynoteReservationReturns409WhenCapacityExceeded() throws Exception {
         String firstToken = loginAndGetAccessToken();
         String secondToken = loginAndGetAccessToken();
