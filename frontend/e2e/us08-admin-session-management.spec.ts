@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { clearGuestSession, loginAsGuest } from './support/ui';
 
-const ADMIN_TOKEN = 'e2e-admin-token';
+const ADMIN_TOKEN = process.env.E2E_ADMIN_TOKEN ?? 'e2e-admin-token';
 
 test.describe('US-08 運営がセッション情報を管理できる', () => {
   test('未認証で管理APIにアクセスすると401になる', async ({ request }) => {
