@@ -361,6 +361,38 @@ class GuestAuthenticationFlowTest {
     }
 
     @Test
+    void adminSessionCheckInsCsvIncludesGuestAfterReservationCancellation() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(guestId, "session-1"))))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/session-checkins")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        String csv = exportResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertThat(csv).contains("session-1,Session 1,10:30,Track A," + guestId + ",true,");
+    }
+
+    @Test
     void deleteReservationPreflightAllowsBrowserCorsRequest() throws Exception {
         mockMvc.perform(options("/api/reservations/sessions/session-1")
                 .header(HttpHeaders.ORIGIN, "http://127.0.0.1:5173")
