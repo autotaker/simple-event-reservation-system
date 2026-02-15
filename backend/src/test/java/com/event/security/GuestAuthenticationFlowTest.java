@@ -1,17 +1,20 @@
 package com.event.security;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.containsString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -275,6 +278,118 @@ class GuestAuthenticationFlowTest {
         mockMvc.perform(get("/api/admin/sessions")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
             .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void adminCanExportReservationsCsvAsUtf8() throws Exception {
+        MvcResult firstLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode firstLoginResponse = objectMapper.readTree(firstLoginResult.getResponse().getContentAsString());
+        String firstAccessToken = firstLoginResponse.get("accessToken").asText();
+        String firstGuestId = firstLoginResponse.get("guestId").asText();
+
+        MvcResult secondLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode secondLoginResponse = objectMapper.readTree(secondLoginResult.getResponse().getContentAsString());
+        String secondAccessToken = secondLoginResponse.get("accessToken").asText();
+        String secondGuestId = secondLoginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-2")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondAccessToken))
+            .andExpect(status().isOk());
+
+        MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/reservations")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token"))
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("text/csv")))
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("charset=UTF-8")))
+            .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"reservations.csv\""))
+            .andExpect(content().string(containsString("guestId,sessionId,sessionTitle,startTime,track")))
+            .andReturn();
+
+        String csv = exportResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertThat(csv).contains(firstGuestId + ",session-1,Session 1,10:30,Track A");
+        assertThat(csv).contains(secondGuestId + ",session-2,Session 2,10:30,Track B");
+    }
+
+    @Test
+    void adminCanExportSessionCheckInsCsvAsUtf8() throws Exception {
+        MvcResult firstLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode firstLoginResponse = objectMapper.readTree(firstLoginResult.getResponse().getContentAsString());
+        String firstAccessToken = firstLoginResponse.get("accessToken").asText();
+        String firstGuestId = firstLoginResponse.get("guestId").asText();
+
+        MvcResult secondLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode secondLoginResponse = objectMapper.readTree(secondLoginResult.getResponse().getContentAsString());
+        String secondAccessToken = secondLoginResponse.get("accessToken").asText();
+        String secondGuestId = secondLoginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken))
+            .andExpect(status().isOk());
+        mockMvc.perform(post("/api/reservations/sessions/session-2")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondAccessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(firstGuestId, "session-1"))))
+            .andExpect(status().isOk());
+
+        MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/session-checkins")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token"))
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("text/csv")))
+            .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("charset=UTF-8")))
+            .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"session-checkins.csv\""))
+            .andExpect(content().string(containsString("sessionId,sessionTitle,startTime,track,guestId,checkedIn,checkedInAt")))
+            .andReturn();
+
+        String csv = exportResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertThat(csv).contains("session-1,Session 1,10:30,Track A," + firstGuestId + ",true,");
+        assertThat(csv).contains("session-2,Session 2,10:30,Track B," + secondGuestId + ",false,");
+    }
+
+    @Test
+    void adminSessionCheckInsCsvIncludesGuestAfterReservationCancellation() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(guestId, "session-1"))))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/session-checkins")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        String csv = exportResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertThat(csv).contains("session-1,Session 1,10:30,Track A," + guestId + ",true,");
     }
 
     @Test
