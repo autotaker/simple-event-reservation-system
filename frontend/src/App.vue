@@ -404,7 +404,7 @@ const downloadAdminCsv = async (
   }
 
   const csvBody = await response.text();
-  const blob = new Blob([csvBody], { type: 'text/csv;charset=utf-8' });
+  const blob = new globalThis.Blob([csvBody], { type: 'text/csv;charset=utf-8' });
   const url = globalThis.URL.createObjectURL(blob);
   const link = globalThis.document.createElement('a');
   link.href = url;
