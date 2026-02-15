@@ -25,6 +25,11 @@ public class ReservationController {
         return reservationService.listReservations(authentication.getName());
     }
 
+    @GetMapping("/sessions")
+    public SessionSummaryResponse listSessions() {
+        return reservationService.listSessions();
+    }
+
     @PostMapping("/keynote")
     public ReservationResponse reserveKeynote(Authentication authentication) {
         return reservationService.reserveKeynote(authentication.getName());
