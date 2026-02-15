@@ -11,7 +11,7 @@
     <button type="button" :disabled="!token" @click="loadReservations">予約一覧を取得</button>
     <button type="button" :disabled="!token" @click="reserveKeynote">キーノートを予約</button>
     <p v-if="registered">参加登録: 完了</p>
-    <p v-else-if="token">参加登録: 未完了</p>
+    <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
 
     <ul>
       <li v-for="reservation in reservations" :key="reservation">{{ reservation }}</li>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 type GuestLoginResponse = {
   accessToken: string;
@@ -39,6 +39,7 @@ const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessTok
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
 const reservations = ref<string[]>([]);
 const registered = ref<boolean>(false);
+const registrationStatusLoaded = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const infoMessage = ref<string>('');
 
@@ -59,6 +60,7 @@ const loginAsGuest = async (): Promise<void> => {
   guestId.value = data.guestId;
   reservations.value = [];
   registered.value = false;
+  registrationStatusLoaded.value = false;
   globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
   globalThis.localStorage.setItem('guestId', data.guestId);
 };
@@ -84,6 +86,7 @@ const loadReservations = async (): Promise<void> => {
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
+  registrationStatusLoaded.value = true;
 };
 
 const reserveKeynote = async (): Promise<void> => {
@@ -113,6 +116,13 @@ const reserveKeynote = async (): Promise<void> => {
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
+  registrationStatusLoaded.value = true;
   infoMessage.value = 'キーノートを予約しました。';
 };
+
+onMounted(() => {
+  if (token.value) {
+    void loadReservations();
+  }
+});
 </script>
