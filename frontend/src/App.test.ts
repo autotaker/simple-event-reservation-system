@@ -17,5 +17,7 @@ describe('App', () => {
     expect(wrapper.text()).toContain('セッション一覧を取得');
     expect(wrapper.text()).toContain('予約一覧を取得');
     expect(wrapper.text()).toContain('キーノートを予約');
+    expect(wrapper.text()).toContain('マイページ');
+    expect(wrapper.text()).toContain('マイページはログイン中ユーザーのみ表示できます。');
   });
 });
