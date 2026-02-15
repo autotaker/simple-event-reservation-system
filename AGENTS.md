@@ -29,3 +29,8 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
 - バックエンド起動時は `--spring.profiles.active=local` を指定する。
 - `backend/src/main/resources/application-local.yml` はローカル専用ファイルとして扱い、コミット対象にしない。
 - 手順変更が発生した場合は、実装より先に `README.md` の手順を更新してから作業する。
+
+## PR運用
+- PR作成・更新時は必ず `.github/pull_request_template.md` の見出しと順序をそのまま使う。
+- テンプレートの各セクションは空欄にせず、未実施項目は未実施であることを明記する（チェックボックスを正確に記載）。
+- Issue対応時は `関連Issue` セクションに `Closes #<番号>` を必ず含める。
