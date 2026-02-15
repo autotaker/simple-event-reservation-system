@@ -3,15 +3,16 @@ import { describe, expect, it } from 'vitest';
 import App from './App.vue';
 
 describe('App', () => {
-  it('renders startup heading', () => {
+  it('renders guest login heading', () => {
     const wrapper = mount(App);
 
-    expect(wrapper.get('h1').text()).toBe('Frontend is up');
+    expect(wrapper.get('h1').text()).toBe('Event Reservation MVP');
   });
 
-  it('renders startup description', () => {
+  it('renders guest login controls', () => {
     const wrapper = mount(App);
 
-    expect(wrapper.text()).toContain('Startup check sample page.');
+    expect(wrapper.text()).toContain('ゲストでログイン');
+    expect(wrapper.text()).toContain('予約一覧を取得');
   });
 });
