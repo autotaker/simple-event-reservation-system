@@ -98,10 +98,14 @@ spring:
   flyway:
     enabled: true
 app:
+  auth:
+    admin-token: change-me-local-admin-token
   reservation:
     # 任意: QAで現在時刻を固定したい場合のみ設定（ISO-8601 LocalDateTime）
     # now-override: 2026-01-01T10:01:00
 ```
+
+管理者向け ` /api/admin/sessions ` を利用する場合は、上記 `app.auth.admin-token` に設定した値をフロントの「管理者トークン」に入力してください。
 
 ---
 

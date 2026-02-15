@@ -1,6 +1,8 @@
 package com.event.reservation;
 
 import com.event.reservation.api.MyPageResponse;
+import com.event.reservation.api.AdminSessionResponse;
+import com.event.reservation.api.AdminSessionSummaryResponse;
 import com.event.reservation.api.ReservationResponse;
 import com.event.reservation.api.SessionAvailabilityStatus;
 import com.event.reservation.api.SessionSummaryResponse;
@@ -10,11 +12,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +33,7 @@ public class ReservationService {
     private static final int MAX_REGULAR_RESERVATIONS = 5;
     private static final String KEYNOTE_SESSION = "keynote";
     private static final DateTimeFormatter START_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
-    private static final List<SessionDefinition> SESSION_CATALOG = createSessionCatalog();
 
-    private final int keynoteCapacity;
-    private final int regularSessionCapacity;
     private final LocalDate eventDate;
     private final Clock clock;
     private final Object reservationLock = new Object();
@@ -67,18 +68,22 @@ public class ReservationService {
         if (clock == null) {
             throw new IllegalArgumentException("clock must not be null");
         }
-        this.keynoteCapacity = keynoteCapacity;
-        this.regularSessionCapacity = regularSessionCapacity;
         this.eventDate = eventDate;
         this.clock = clock;
-        this.sessionCatalogById = toSessionCatalogById();
-        this.reservationsBySession = createReservationBuckets();
+        this.sessionCatalogById = new ConcurrentHashMap<>();
+        this.reservationsBySession = new ConcurrentHashMap<>();
+
+        for (SessionDefinition session : createDefaultSessionCatalog(keynoteCapacity, regularSessionCapacity)) {
+            sessionCatalogById.put(session.sessionId, session);
+            reservationsBySession.put(session.sessionId, ConcurrentHashMap.newKeySet());
+        }
     }
 
     public ReservationResponse listReservations(String guestId) {
         Set<String> guestReservations = reservationsByGuest.getOrDefault(guestId, Set.of());
+        Map<String, Integer> orderBySessionId = sessionOrderBySessionId();
         List<String> sortedReservations = guestReservations.stream()
-            .sorted(Comparator.comparingInt(this::catalogOrder))
+            .sorted(Comparator.comparingInt(sessionId -> orderBySessionId.getOrDefault(sessionId, Integer.MAX_VALUE)))
             .toList();
         if (!sortedReservations.isEmpty()) {
             return new ReservationResponse(guestId, sortedReservations, sortedReservations.contains(KEYNOTE_SESSION));
@@ -100,11 +105,11 @@ public class ReservationService {
     }
 
     public ReservationResponse reserveSession(String guestId, String sessionId) {
-        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
-        if (sessionDefinition == null) {
-            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
-        }
         synchronized (reservationLock) {
+            SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+            if (sessionDefinition == null) {
+                throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+            }
             Set<String> guestReservations = reservationsByGuest.computeIfAbsent(guestId, key -> ConcurrentHashMap.newKeySet());
             if (guestReservations.contains(sessionId)) {
                 return listReservations(guestId);
@@ -125,12 +130,11 @@ public class ReservationService {
     }
 
     public ReservationResponse cancelSessionReservation(String guestId, String sessionId) {
-        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
-        if (sessionDefinition == null) {
-            throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
-        }
-
         synchronized (reservationLock) {
+            SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+            if (sessionDefinition == null) {
+                throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+            }
             Set<String> guestReservations = reservationsByGuest.get(guestId);
             if (guestReservations == null || !guestReservations.contains(sessionId)) {
                 return listReservations(guestId);
@@ -145,26 +149,111 @@ public class ReservationService {
     }
 
     public SessionSummaryResponse listSessions() {
-        List<SessionSummary> sessions = new ArrayList<>(SESSION_CATALOG.size());
-        for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
-            int remainingSeats = remainingSeats(sessionDefinition.sessionId);
-            sessions.add(new SessionSummary(
+        List<SessionSummary> sessions = sortedSessions().stream()
+            .map(sessionDefinition -> new SessionSummary(
                 sessionDefinition.sessionId,
                 sessionDefinition.title,
                 sessionDefinition.startTime.format(START_TIME_FORMATTER),
                 sessionDefinition.track,
-                toAvailabilityStatus(remainingSeats)
-            ));
-        }
+                toAvailabilityStatus(remainingSeats(sessionDefinition.sessionId))
+            ))
+            .toList();
         return new SessionSummaryResponse(sessions);
+    }
+
+    public AdminSessionSummaryResponse listAdminSessions() {
+        List<AdminSessionResponse> sessions = sortedSessions().stream()
+            .map(this::toAdminSessionResponse)
+            .toList();
+        return new AdminSessionSummaryResponse(sessions);
+    }
+
+    public AdminSessionResponse createSession(String title, String startTime, String track, Integer capacity) {
+        validateSessionFields(title, startTime, track, capacity);
+        LocalTime parsedStartTime = parseStartTime(startTime);
+        int normalizedCapacity = normalizeCapacity(capacity);
+
+        synchronized (reservationLock) {
+            String sessionId = nextRegularSessionId();
+            SessionDefinition sessionDefinition = new SessionDefinition(sessionId, title.trim(), track.trim(), parsedStartTime, normalizedCapacity);
+            sessionCatalogById.put(sessionId, sessionDefinition);
+            reservationsBySession.put(sessionId, ConcurrentHashMap.newKeySet());
+            return toAdminSessionResponse(sessionDefinition);
+        }
+    }
+
+    public AdminSessionResponse updateSession(String sessionId, String title, String startTime, String track, Integer capacity) {
+        validateSessionFields(title, startTime, track, capacity);
+        LocalTime parsedStartTime = parseStartTime(startTime);
+        int normalizedCapacity = normalizeCapacity(capacity);
+
+        synchronized (reservationLock) {
+            SessionDefinition currentSession = sessionCatalogById.get(sessionId);
+            if (currentSession == null) {
+                throw new ReservationRuleViolationException("指定されたセッションは存在しません。");
+            }
+
+            int reservedCount = reservedCount(sessionId);
+            if (normalizedCapacity < reservedCount) {
+                throw new ReservationRuleViolationException("現在の予約数を下回る定員には変更できません。");
+            }
+
+            ensureNoTimeConflictForExistingGuests(sessionId, parsedStartTime);
+            SessionDefinition updatedSession = new SessionDefinition(
+                sessionId,
+                title.trim(),
+                track.trim(),
+                parsedStartTime,
+                normalizedCapacity
+            );
+            sessionCatalogById.put(sessionId, updatedSession);
+            return toAdminSessionResponse(updatedSession);
+        }
+    }
+
+    private void validateSessionFields(String title, String startTime, String track, Integer capacity) {
+        if (title == null || title.isBlank()) {
+            throw new ReservationRuleViolationException("タイトルは必須です。");
+        }
+        if (track == null || track.isBlank()) {
+            throw new ReservationRuleViolationException("トラックは必須です。");
+        }
+        if (startTime == null || startTime.isBlank()) {
+            throw new ReservationRuleViolationException("開始時刻は必須です。");
+        }
+        if (capacity == null || capacity <= 0) {
+            throw new ReservationRuleViolationException("定員は1以上で指定してください。");
+        }
+    }
+
+    private int normalizeCapacity(Integer capacity) {
+        Objects.requireNonNull(capacity, "capacity must not be null");
+        return capacity;
+    }
+
+    private void ensureNoTimeConflictForExistingGuests(String sessionId, LocalTime newStartTime) {
+        Set<String> reservedGuests = reservationsBySession.getOrDefault(sessionId, Set.of());
+        for (String guestId : reservedGuests) {
+            Set<String> guestReservations = reservationsByGuest.getOrDefault(guestId, Set.of());
+            for (String reservedSessionId : guestReservations) {
+                if (sessionId.equals(reservedSessionId)) {
+                    continue;
+                }
+                SessionDefinition reservedSession = sessionCatalogById.get(reservedSessionId);
+                if (reservedSession != null && reservedSession.startTime.equals(newStartTime)) {
+                    throw new ReservationRuleViolationException("既存予約との時間帯重複が発生するため開始時刻を変更できません。");
+                }
+            }
+        }
     }
 
     private void reserveWithCapacityCheck(Set<String> guestReservations, String guestId, String sessionId) {
         Set<String> sessionReservations = reservationsBySession.get(sessionId);
-        if (sessionReservations == null) {
-            throw new IllegalStateException("Reservation bucket not found for session: " + sessionId);
+        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+        if (sessionReservations == null || sessionDefinition == null) {
+            throw new IllegalStateException("Reservation bucket or catalog not found for session: " + sessionId);
         }
-        if (sessionReservations.size() >= capacityFor(sessionId)) {
+        if (sessionReservations.size() >= sessionDefinition.capacity) {
             throw new SessionCapacityExceededException(sessionId);
         }
         sessionReservations.add(guestId);
@@ -212,21 +301,12 @@ public class ReservationService {
     }
 
     private int remainingSeats(String sessionId) {
-        int reservedCount = reservationsBySession.getOrDefault(sessionId, Set.of()).size();
-        return Math.max(0, capacityFor(sessionId) - reservedCount);
-    }
-
-    private int capacityFor(String sessionId) {
-        return KEYNOTE_SESSION.equals(sessionId) ? keynoteCapacity : regularSessionCapacity;
-    }
-
-    private int catalogOrder(String sessionId) {
-        for (int i = 0; i < SESSION_CATALOG.size(); i++) {
-            if (SESSION_CATALOG.get(i).sessionId.equals(sessionId)) {
-                return i;
-            }
+        int reservedCount = reservedCount(sessionId);
+        SessionDefinition sessionDefinition = sessionCatalogById.get(sessionId);
+        if (sessionDefinition == null) {
+            return 0;
         }
-        return Integer.MAX_VALUE;
+        return Math.max(0, sessionDefinition.capacity - reservedCount);
     }
 
     private String buildReceptionQrCodePayload(String guestId, List<String> reservations) {
@@ -234,20 +314,48 @@ public class ReservationService {
         return "event-reservation://checkin?guestId=" + guestId + "&reservations=" + reservationPayload;
     }
 
-    private Map<String, SessionDefinition> toSessionCatalogById() {
-        Map<String, SessionDefinition> catalogById = new HashMap<>();
-        for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
-            catalogById.put(sessionDefinition.sessionId, sessionDefinition);
-        }
-        return Map.copyOf(catalogById);
+    private int reservedCount(String sessionId) {
+        return reservationsBySession.getOrDefault(sessionId, Set.of()).size();
     }
 
-    private Map<String, Set<String>> createReservationBuckets() {
-        Map<String, Set<String>> buckets = new ConcurrentHashMap<>();
-        for (SessionDefinition sessionDefinition : SESSION_CATALOG) {
-            buckets.put(sessionDefinition.sessionId, ConcurrentHashMap.newKeySet());
+    private Map<String, Integer> sessionOrderBySessionId() {
+        Map<String, Integer> orderMap = new HashMap<>();
+        List<SessionDefinition> orderedSessions = sortedSessions();
+        for (int i = 0; i < orderedSessions.size(); i++) {
+            orderMap.put(orderedSessions.get(i).sessionId, i);
         }
-        return buckets;
+        return orderMap;
+    }
+
+    private List<SessionDefinition> sortedSessions() {
+        return sessionCatalogById.values().stream()
+            .sorted(Comparator
+                .comparing(SessionDefinition::startTime)
+                .thenComparing(SessionDefinition::track)
+                .thenComparing(SessionDefinition::sessionId))
+            .toList();
+    }
+
+    private String nextRegularSessionId() {
+        int maxSequence = sessionCatalogById.keySet().stream()
+            .filter(sessionId -> sessionId.startsWith("session-"))
+            .map(sessionId -> sessionId.substring("session-".length()))
+            .filter(sequence -> sequence.chars().allMatch(Character::isDigit))
+            .mapToInt(Integer::parseInt)
+            .max()
+            .orElse(0);
+        return "session-" + (maxSequence + 1);
+    }
+
+    private AdminSessionResponse toAdminSessionResponse(SessionDefinition sessionDefinition) {
+        return new AdminSessionResponse(
+            sessionDefinition.sessionId,
+            sessionDefinition.title,
+            sessionDefinition.startTime.format(START_TIME_FORMATTER),
+            sessionDefinition.track,
+            sessionDefinition.capacity,
+            reservedCount(sessionDefinition.sessionId)
+        );
     }
 
     private static LocalDate parseEventDate(String configuredEventDate) {
@@ -255,6 +363,14 @@ public class ReservationService {
             return LocalDate.now(Clock.systemDefaultZone());
         }
         return LocalDate.parse(configuredEventDate);
+    }
+
+    private static LocalTime parseStartTime(String startTime) {
+        try {
+            return LocalTime.parse(startTime, START_TIME_FORMATTER);
+        } catch (DateTimeParseException exception) {
+            throw new ReservationRuleViolationException("開始時刻はHH:mm形式で指定してください。");
+        }
     }
 
     private static SessionAvailabilityStatus toAvailabilityStatus(int remainingSeats) {
@@ -267,9 +383,9 @@ public class ReservationService {
         return SessionAvailabilityStatus.OPEN;
     }
 
-    private static List<SessionDefinition> createSessionCatalog() {
+    private static List<SessionDefinition> createDefaultSessionCatalog(int keynoteCapacity, int regularSessionCapacity) {
         List<SessionDefinition> sessions = new ArrayList<>();
-        sessions.add(new SessionDefinition(KEYNOTE_SESSION, "Opening Keynote", "Keynote", LocalTime.of(9, 0)));
+        sessions.add(new SessionDefinition(KEYNOTE_SESSION, "Opening Keynote", "Keynote", LocalTime.of(9, 0), keynoteCapacity));
 
         LocalTime[] regularStartTimes = {
             LocalTime.of(10, 30),
@@ -285,14 +401,14 @@ public class ReservationService {
             for (String track : tracks) {
                 String sessionId = "session-" + sequence;
                 String title = "Session " + sequence;
-                sessions.add(new SessionDefinition(sessionId, title, track, startTime));
+                sessions.add(new SessionDefinition(sessionId, title, track, startTime, regularSessionCapacity));
                 sequence++;
             }
         }
 
-        return List.copyOf(sessions);
+        return sessions;
     }
 
-    private record SessionDefinition(String sessionId, String title, String track, LocalTime startTime) {
+    private record SessionDefinition(String sessionId, String title, String track, LocalTime startTime, int capacity) {
     }
 }
