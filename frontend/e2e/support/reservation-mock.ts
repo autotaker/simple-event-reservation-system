@@ -74,6 +74,11 @@ export const installReservationMock = async (page: Page): Promise<void> => {
   });
 
   await page.route('**/api/reservations', async (route) => {
+    const requestPath = new URL(route.request().url()).pathname;
+    if (requestPath !== '/api/reservations') {
+      await route.fallback();
+      return;
+    }
     if (route.request().method() !== 'GET') {
       await route.fallback();
       return;
@@ -86,6 +91,23 @@ export const installReservationMock = async (page: Page): Promise<void> => {
         guestId: TEST_GUEST_ID,
         reservations: guestReservations,
         registered: guestReservations.includes(KEYNOTE_SESSION),
+      }),
+    });
+  });
+
+  await page.route('**/api/reservations/mypage', async (route) => {
+    if (route.request().method() !== 'GET') {
+      await route.fallback();
+      return;
+    }
+    const guestReservations = Array.from(getGuestReservations(TEST_GUEST_ID));
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        guestId: TEST_GUEST_ID,
+        reservations: guestReservations,
+        receptionQrCodePayload: `event-reservation://checkin?guestId=${TEST_GUEST_ID}&reservations=${guestReservations.join(',')}`,
       }),
     });
   });
@@ -132,7 +154,9 @@ export const installReservationMock = async (page: Page): Promise<void> => {
 
     const conflict = Array.from(guestReservations)
       .map((reservation) => sessionCatalog.find((item) => item.sessionId === reservation))
-      .some((reservedSession) => reservedSession && reservedSession.startTime === session.startTime);
+      .some(
+        (reservedSession) => reservedSession && reservedSession.startTime === session.startTime,
+      );
     if (conflict) {
       await route.fulfill({
         status: 400,

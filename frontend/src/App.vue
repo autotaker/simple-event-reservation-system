@@ -56,15 +56,39 @@
       <ul>
         <li v-for="reservation in reservations" :key="reservation">
           {{ reservation }}
-          <button type="button" :disabled="!token" @click="cancelReservation(reservation)">キャンセル</button>
+          <button type="button" :disabled="!token" @click="cancelReservation(reservation)">
+            キャンセル
+          </button>
         </li>
       </ul>
+    </section>
+
+    <section>
+      <h2>マイページ</h2>
+      <p v-if="!token">マイページはログイン中ユーザーのみ表示できます。</p>
+      <template v-else>
+        <button type="button" @click="loadMyPage">マイページを更新</button>
+        <p v-if="myPageLoaded && myPageReservations.length === 0">予約はありません。</p>
+        <ul v-else>
+          <li v-for="reservation in myPageReservations" :key="`mypage-${reservation}`">
+            {{ reservation }}
+          </li>
+        </ul>
+        <img
+          v-if="myPageQrCodePayload"
+          :src="receptionQrCodeImageUrl"
+          alt="受付用QRコード"
+          width="180"
+          height="180"
+        />
+        <p v-if="myPageQrCodePayload">受付用QRコードを表示中</p>
+      </template>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 type GuestLoginResponse = {
   accessToken: string;
@@ -76,6 +100,12 @@ type ReservationResponse = {
   guestId: string;
   reservations: string[];
   registered?: boolean;
+};
+
+type MyPageResponse = {
+  guestId: string;
+  reservations: string[];
+  receptionQrCodePayload: string;
 };
 
 type SessionAvailabilityStatus = 'OPEN' | 'FEW_LEFT' | 'FULL';
@@ -101,6 +131,9 @@ const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessTok
 const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
 const sessions = ref<SessionSummary[]>([]);
 const reservations = ref<string[]>([]);
+const myPageReservations = ref<string[]>([]);
+const myPageQrCodePayload = ref<string>('');
+const myPageLoaded = ref<boolean>(false);
 const registered = ref<boolean>(false);
 const registrationStatusLoaded = ref<boolean>(false);
 const errorMessage = ref<string>('');
@@ -117,6 +150,10 @@ const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
 };
 
 const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
+const receptionQrCodeImageUrl = computed(
+  () =>
+    `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(myPageQrCodePayload.value)}`,
+);
 
 const readErrorMessage = async (response: globalThis.Response): Promise<string | null> => {
   try {
@@ -147,12 +184,15 @@ const loginAsGuest = async (): Promise<void> => {
   guestId.value = data.guestId;
   sessions.value = [];
   reservations.value = [];
+  myPageReservations.value = [];
+  myPageQrCodePayload.value = '';
+  myPageLoaded.value = false;
   registered.value = false;
   registrationStatusLoaded.value = false;
   globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
   globalThis.localStorage.setItem('guestId', data.guestId);
 
-  await Promise.all([loadSessions(), loadReservations()]);
+  await Promise.all([loadSessions(), loadReservations(), loadMyPage()]);
 };
 
 const loadSessions = async (): Promise<void> => {
@@ -197,8 +237,36 @@ const loadReservations = async (): Promise<void> => {
 
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
+  myPageReservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
   registrationStatusLoaded.value = true;
+};
+
+const loadMyPage = async (): Promise<void> => {
+  if (!token.value) {
+    myPageLoaded.value = false;
+    myPageReservations.value = [];
+    myPageQrCodePayload.value = '';
+    return;
+  }
+
+  errorMessage.value = '';
+  infoMessage.value = '';
+  const response = await globalThis.fetch(`${API_BASE_URL}/api/reservations/mypage`, {
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    errorMessage.value = 'マイページ情報の取得に失敗しました。';
+    return;
+  }
+
+  const data = (await response.json()) as MyPageResponse;
+  myPageReservations.value = data.reservations;
+  myPageQrCodePayload.value = data.receptionQrCodePayload;
+  myPageLoaded.value = true;
 };
 
 const reserveKeynote = async (): Promise<void> => {
@@ -222,9 +290,10 @@ const reserveKeynote = async (): Promise<void> => {
 
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
+  myPageReservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
   registrationStatusLoaded.value = true;
-  await loadSessions();
+  await Promise.all([loadSessions(), loadMyPage()]);
   infoMessage.value = 'キーノートを予約しました。';
 };
 
@@ -252,9 +321,10 @@ const reserveSession = async (sessionId: string, title: string): Promise<void> =
 
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
+  myPageReservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
   registrationStatusLoaded.value = true;
-  await loadSessions();
+  await Promise.all([loadSessions(), loadMyPage()]);
   infoMessage.value = `${title} を予約しました。`;
 };
 
@@ -276,21 +346,23 @@ const cancelReservation = async (sessionId: string): Promise<void> => {
   );
 
   if (!response.ok) {
-    errorMessage.value = (await readErrorMessage(response)) ?? `${sessionId} のキャンセルに失敗しました。`;
+    errorMessage.value =
+      (await readErrorMessage(response)) ?? `${sessionId} のキャンセルに失敗しました。`;
     return;
   }
 
   const data = (await response.json()) as ReservationResponse;
   reservations.value = data.reservations;
+  myPageReservations.value = data.reservations;
   registered.value = data.registered ?? data.reservations.includes('keynote');
   registrationStatusLoaded.value = true;
-  await loadSessions();
+  await Promise.all([loadSessions(), loadMyPage()]);
   infoMessage.value = `${sessionId} をキャンセルしました。`;
 };
 
 onMounted(() => {
   if (token.value) {
-    void Promise.all([loadSessions(), loadReservations()]);
+    void Promise.all([loadSessions(), loadReservations(), loadMyPage()]);
   }
 });
 </script>
