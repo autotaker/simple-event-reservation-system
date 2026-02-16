@@ -15,9 +15,12 @@ test.describe('US-07 運営がQRスキャンでチェックイン記録できる
     expect(response.status()).toBe(401);
   });
 
-  test('運営チェックイン導線でイベント・セッション受付と重複時挙動を確認できる', async ({ page }) => {
+  test('運営チェックイン導線でイベント・セッション受付と重複時挙動を確認できる', async ({
+    page,
+  }) => {
     await clearGuestSession(page);
     await loginAsGuest(page);
+    await page.goto('/operator');
 
     const session1Row = sessionRowByTitle(page, 'Session 1');
     await session1Row.getByRole('button', { name: '予約する' }).click();

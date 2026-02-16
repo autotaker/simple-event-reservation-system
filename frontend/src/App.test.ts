@@ -59,4 +59,12 @@ describe('App routing', () => {
     expect(wrapper.text()).toContain('参加者画面へ戻る');
     expect(wrapper.text()).not.toContain('セッション管理（運営）');
   });
+
+  it('keeps operator check-in flow reachable on /operator route', async () => {
+    const wrapper = await mountAt('/operator');
+
+    expect(wrapper.text()).toContain('運営チェックイン');
+    expect(wrapper.text()).toContain('セッション一覧');
+    expect(wrapper.text()).toContain('セッション管理（運営）');
+  });
 });
