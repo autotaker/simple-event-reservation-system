@@ -31,7 +31,72 @@
 - デザイナーPRの下書きには `.github/pr_templates/ui-mock-pr-template.md` を使用できる（モック合意のために見出し再構成済み）。
 - 開発担当者の実装PRは、デザイナーPRが `main` にマージされた後に作成する。
 
-## 5. UIカタログ（Storybook）
+## 5. UIモック成果物規約（再現可能な作成手順）
+
+UI/UX設計を含むIssueでは、以下を最低限の成果物セットとする。
+
+### 5.1 LoFi（drawio）
+
+- 目的: 情報構造・画面領域・状態遷移を合意する。
+- 必須ファイル:
+  - `docs/uiux/issue-<番号>-<テーマ>.drawio`
+  - `docs/images/uiux/issue-<番号>-<テーマ>-p1.png`
+  - `docs/images/uiux/issue-<番号>-<テーマ>-p2.png`
+  - `docs/images/uiux/issue-<番号>-<テーマ>.png`（必要時は結合画像）
+- ページ構成（最低）:
+  - `p1`: Mobile（例: 390x844）
+  - `p2`: Tablet（例: 834x1112）
+- 生成コマンド（drawio-diagram-ops準拠）:
+```bash
+/Users/autotaker/.codex/skills/drawio-diagram-ops/scripts/render_drawio.py docs/uiux/issue-<番号>-<テーマ>.drawio --format png --pages all --outdir docs/images/uiux
+/Users/autotaker/.codex/skills/drawio-diagram-ops/scripts/render_drawio.py docs/uiux/issue-<番号>-<テーマ>.drawio --format png --pages all --outdir docs/images/uiux --merge-png --merged-output docs/images/uiux/issue-<番号>-<テーマ>.png
+```
+
+### 5.2 HiFi（Storybook: 画面レイアウト）
+
+- 目的: 実装前に視覚設計と操作導線を合意する。
+- 必須ファイル:
+  - `frontend/src/stories/<feature-hifi>/<ScreenLayout>.vue`
+  - `frontend/src/stories/<feature-hifi>/<ScreenLayout>.stories.ts`
+- 必須ストーリー:
+  - 画面レイアウト（通常状態）
+  - `loading` 状態
+  - `success` 状態
+  - `error` 状態
+- 各ストーリーに想定デバイスを明記する（`parameters.docs.description.story`）。
+
+### 5.3 HiFi（Storybook: 実装コンポーネント）
+
+- 目的: 実装単位ごとのUI仕様を固定する。
+- 必須ファイル（コンポーネントごと）:
+  - `frontend/src/stories/<feature-hifi>/<ComponentMock>.vue`
+  - `frontend/src/stories/<feature-hifi>/<ComponentMock>.stories.ts`
+- 最低限作成するコンポーネント:
+  - ヘッダー/導線要素
+  - 主操作カード（例: セッションカード）
+  - 補助パネル（例: 予約一覧）
+  - マイページ関連要素（例: QR表示パネル）
+- 各ストーリーに想定デバイスを明記する。
+
+### 5.4 MDXカタログと引き渡しメモ
+
+- Storybook MDXカタログを必須とし、以下を含める。
+  - 画面レイアウトストーリー
+  - 実装コンポーネントストーリー
+  - 想定デバイス一覧（Primary/Secondary/Tertiary）
+- 引き渡しメモを `docs/uiux/issue-<番号>-handoff.md` として作成し、以下を記載する。
+  - LoFi成果物パス
+  - HiFi成果物パス
+  - 想定デバイス
+  - 受け入れ条件との対応（CP1, CP2...）
+
+### 5.5 デバイス想定（オンサイトイベント既定）
+
+- Primary: 参加者スマートフォン（390x844 前後）
+- Secondary: 受付補助タブレット（834x1112 前後）
+- Tertiary: 来場前PC確認（1280幅前後）
+
+## 6. UIカタログ（Storybook）
 
 - Storybookの起動:
   - `cd frontend && pnpm storybook`
@@ -48,7 +113,7 @@
 - 実コンポーネントと実ストーリーの作成後は、原則 `〜Mock` を削除する。
 - 初期追加・改修時は「見た目確認用の最小モック」を先に作り、実装詳細（composable等）はフロント担当に引き継ぐ。
 
-## 6. マージ後（UXテスト）
+## 7. マージ後（UXテスト）
 
 - `main` を最新化した状態で対象導線を通しで確認する。
 - モック意図と実装結果の差分を確認する。
@@ -62,7 +127,7 @@
   - エラー時の理解しやすさ
   - フィードバックの即時性（一貫した表示/更新）
 
-## 7. ローカル確認と公開
+## 8. ローカル確認と公開
 
 - `mkdocs serve` では `/storybook/` の同梱配信は行わない。
 - ローカルでPages相当を確認する場合は以下を使用する。
@@ -72,7 +137,7 @@
   4. `site/` を静的サーバーで配信して確認する（例: `python3 -m http.server`）
 - GitHub Pages公開は `.github/workflows/docs-pages.yml` で実施する。
 
-## 8. 指摘フォーマット
+## 9. 指摘フォーマット
 
 - 指摘は日本語で記載する。
 - 各指摘に以下を含める。
@@ -83,7 +148,7 @@
   - 影響範囲
   - 改善提案
 
-## 9. コミュニケーション（Issueコメント）
+## 10. コミュニケーション（Issueコメント）
 
 - UXレビュー結果のIssueコメントは以下テンプレートを使用する。
 
@@ -117,7 +182,7 @@
 - 指摘がない場合も `指摘事項: なし` を明記する。
 - Fail判定時は、再確認が必要な条件と再テスト条件を `備考` に明記する。
 
-## 10. 完了条件
+## 11. 完了条件
 
 - モックが対象受け入れ条件をカバーしている。
 - Storybookで受け入れ条件の判定に必要な状態が確認できる。
