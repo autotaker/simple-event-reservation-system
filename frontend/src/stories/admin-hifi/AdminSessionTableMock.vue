@@ -30,8 +30,8 @@ defineProps<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #efd59b;
-  background: #fffef8;
+  border: 1px solid var(--semantic-color-border-strong);
+  background: var(--semantic-color-bg-surface);
 }
 
 .table-wrap__header {
@@ -59,9 +59,9 @@ defineProps<{
   justify-content: space-between;
   gap: 10px;
   padding: 10px;
-  border: 1px solid #f3e0b7;
+  border: 1px solid var(--semantic-color-border-default);
   border-radius: 10px;
-  background: #fff;
+  background: var(--semantic-color-bg-surface);
 }
 
 .meta,
@@ -71,12 +71,12 @@ defineProps<{
 
 .meta {
   font-size: 12px;
-  color: #7a5a24;
+  color: var(--semantic-color-text-muted);
 }
 
 .title {
   font-size: 14px;
-  color: #3d2a06;
+  color: var(--semantic-color-text-primary);
 }
 
 .table-wrap button {
@@ -84,14 +84,14 @@ defineProps<{
   border: none;
   border-radius: 9px;
   padding: 0 12px;
-  background: #9a3412;
-  color: #fff;
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
   font-size: 12px;
   font-weight: 700;
 }
 
 .table-wrap button:disabled {
-  background: #c3ab84;
+  background: var(--semantic-color-border-strong);
   cursor: not-allowed;
 }
 </style>

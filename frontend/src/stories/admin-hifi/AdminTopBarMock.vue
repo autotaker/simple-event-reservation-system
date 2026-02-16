@@ -27,22 +27,26 @@ defineProps<{
   gap: 12px;
   padding: 14px 16px;
   border-radius: 16px;
-  border: 1px solid #f2cf87;
-  background: linear-gradient(145deg, #fff7df, #fffcf2);
-  font-family: 'IBM Plex Sans JP', 'Noto Sans JP', sans-serif;
+  border: 1px solid var(--semantic-color-state-warning);
+  background: linear-gradient(
+    145deg,
+    var(--semantic-color-state-warning-soft),
+    var(--semantic-color-bg-surface)
+  );
+  font-family: var(--font-family-sans);
 }
 
 .topbar__event {
   margin: 0;
   font-size: 12px;
-  color: #6b4b0f;
+  color: var(--semantic-color-text-secondary);
 }
 
 .topbar__title {
   margin: 2px 0 0;
   font-size: 18px;
   font-weight: 700;
-  color: #4a2f06;
+  color: var(--semantic-color-text-primary);
 }
 
 .topbar__meta {
@@ -54,8 +58,8 @@ defineProps<{
 .topbar__badge {
   padding: 6px 10px;
   border-radius: 999px;
-  background: #5b3a09;
-  color: #fff;
+  background: var(--semantic-color-state-warning);
+  color: var(--semantic-color-text-on-primary);
   font-size: 12px;
   font-weight: 700;
 }
@@ -65,8 +69,8 @@ defineProps<{
   border: none;
   border-radius: 10px;
   padding: 0 12px;
-  background: #b45309;
-  color: #fff;
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
   font-size: 12px;
   font-weight: 700;
 }

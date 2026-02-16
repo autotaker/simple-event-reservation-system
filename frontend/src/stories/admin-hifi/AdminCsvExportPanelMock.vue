@@ -21,8 +21,8 @@ defineProps<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #efd59b;
-  background: #fffef8;
+  border: 1px solid var(--semantic-color-border-strong);
+  background: var(--semantic-color-bg-surface);
 }
 
 .csv-panel h3,
@@ -32,7 +32,7 @@ defineProps<{
 
 .csv-panel p {
   font-size: 12px;
-  color: #6b4b0f;
+  color: var(--semantic-color-text-secondary);
 }
 
 .csv-panel__actions {
@@ -44,14 +44,14 @@ defineProps<{
   height: 34px;
   border: none;
   border-radius: 10px;
-  background: #92400e;
-  color: #fff;
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
   font-size: 12px;
   font-weight: 700;
 }
 
 .csv-panel button:disabled {
-  background: #c3ab84;
+  background: var(--semantic-color-border-strong);
   cursor: not-allowed;
 }
 </style>

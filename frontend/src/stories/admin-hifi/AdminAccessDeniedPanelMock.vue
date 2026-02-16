@@ -13,8 +13,8 @@
   gap: 8px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #e08b8b;
-  background: #fff2f2;
+  border: 1px solid var(--semantic-color-state-danger);
+  background: var(--semantic-color-state-danger-soft);
 }
 
 .denied__code,
@@ -26,17 +26,17 @@
 .denied__code {
   font-size: 12px;
   font-weight: 700;
-  color: #9f1239;
+  color: var(--semantic-color-state-danger);
 }
 
 .denied h3 {
   font-size: 14px;
-  color: #881337;
+  color: var(--semantic-color-text-primary);
 }
 
 .denied__reason {
   font-size: 12px;
-  color: #7f1d1d;
+  color: var(--semantic-color-text-secondary);
   line-height: 1.4;
 }
 
@@ -46,8 +46,8 @@
   height: 34px;
   border: none;
   border-radius: 10px;
-  background: #be123c;
-  color: #fff;
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
   font-size: 12px;
   font-weight: 700;
 }

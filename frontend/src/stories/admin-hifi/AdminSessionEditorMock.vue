@@ -35,8 +35,8 @@ defineProps<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #efd59b;
-  background: #fffef8;
+  border: 1px solid var(--semantic-color-border-strong);
+  background: var(--semantic-color-bg-surface);
 }
 
 .editor h3 {
@@ -54,14 +54,16 @@ defineProps<{
   display: grid;
   gap: 4px;
   font-size: 12px;
-  color: #6b4b0f;
+  color: var(--semantic-color-text-secondary);
 }
 
 .editor input {
   height: 32px;
-  border: 1px solid #e2c481;
+  border: 1px solid var(--semantic-component-input-border);
   border-radius: 8px;
   padding: 0 8px;
+  color: var(--semantic-component-input-text);
+  background: var(--semantic-component-input-bg);
 }
 
 .editor button {
@@ -70,8 +72,8 @@ defineProps<{
   height: 34px;
   border: none;
   border-radius: 10px;
-  background: #b45309;
-  color: #fff;
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
   font-size: 12px;
   font-weight: 700;
 }

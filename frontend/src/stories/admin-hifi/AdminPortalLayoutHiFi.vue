@@ -51,9 +51,14 @@ const sessions = [
   width: min(980px, 100%);
   padding: 14px;
   border-radius: 18px;
-  border: 1px solid #efd59b;
-  background: linear-gradient(160deg, #fff9eb, #ffffff 48%, #fff7e8);
-  font-family: 'IBM Plex Sans JP', 'Noto Sans JP', sans-serif;
+  border: 1px solid var(--semantic-color-state-warning);
+  background: linear-gradient(
+    160deg,
+    var(--semantic-color-state-warning-soft),
+    var(--semantic-color-bg-surface) 48%,
+    var(--semantic-color-bg-subtle)
+  );
+  font-family: var(--font-family-sans);
 }
 
 .portal__body {
@@ -77,25 +82,25 @@ const sessions = [
 }
 
 .portal__feedback--loading {
-  background: #fff3cd;
-  color: #8a5a00;
+  background: var(--semantic-color-state-warning-soft);
+  color: var(--semantic-color-state-warning);
 }
 
 .portal__feedback--success {
-  background: #e6f8ed;
-  color: #13683d;
+  background: var(--semantic-color-state-success-soft);
+  color: var(--semantic-color-state-success);
 }
 
 .portal--loading {
-  border-color: #e3bc6a;
+  border-color: var(--semantic-color-state-warning);
 }
 
 .portal--success {
-  border-color: #89c49f;
+  border-color: var(--semantic-color-state-success);
 }
 
 .portal--error {
-  border-color: #de8e8e;
+  border-color: var(--semantic-color-state-danger);
 }
 
 @media (max-width: 900px) {
