@@ -40,7 +40,6 @@ const baseArgs = {
     { id: 'r2', title: 'API Design Clinic', state: '取消待ちなし' },
   ],
   myPageNote: '受付QRと予約サマリーを同一パネルで確認。会場移動中でも状態確認を迷わせない。',
-  handoffIssue: '#39',
 } as const;
 
 export const DefaultFlow: Story = {

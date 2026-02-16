@@ -50,7 +50,6 @@
     </section>
 
     <footer class="participant-ui__footer">
-      <p class="participant-ui__handoff">引き渡し先: {{ handoffIssue }}</p>
       <button type="button" class="participant-ui__primary" :disabled="status === 'loading'">
         {{ actionLabel }}
       </button>
@@ -93,7 +92,6 @@ withDefaults(
     sessionCards: SessionCard[];
     reservations: ReservationRow[];
     myPageNote: string;
-    handoffIssue: '#39';
     actionLabel: string;
     status?: 'default' | 'loading' | 'success' | 'error';
   }>(),
@@ -294,12 +292,6 @@ withDefaults(
   gap: 8px;
   border-top: 1px solid #d9efe4;
   padding-top: 12px;
-}
-
-.participant-ui__handoff {
-  margin: 0;
-  font-size: 12px;
-  color: #4a7c65;
 }
 
 .feedback {
