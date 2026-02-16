@@ -1,0 +1,78 @@
+import {
+  Meta,
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Canvas,
+  Controls,
+} from '@storybook/addon-docs/blocks';
+import * as ParticipantFlowStories from './ParticipantFlowWireframeMock.stories';
+
+<Meta of={ParticipantFlowStories} />
+
+<Title>US-12-1 参加者導線モックカタログ</Title>
+<Subtitle>Issue #39: /participant で参加者フローを完結させるための事前合意</Subtitle>
+
+<Description>
+  このモックは #39 実装前の合意資料です。 `/participant`
+  で扱う機能と除外する管理機能を明確化し、既存参加者フロー（予約/取消/マイページ表示）の維持条件をそろえます。
+</Description>
+
+## 設計意図
+
+- 参加者フローを `/participant` に閉じ、管理UI混在を防ぐ。
+- 予約/取消/マイページ表示を同一導線で維持し、操作分断を起こさない。
+- `loading` / `success` / `error` の状態を先に定義して、実装時のフィードバックを固定する。
+
+## 主要UI要素の役割
+
+<table>
+  <thead>
+    <tr>
+      <th>要素</th>
+      <th>役割</th>
+      <th>受け入れ条件との対応</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>表示する機能</code> リスト
+      </td>
+      <td>参加者導線の実装対象を明示</td>
+      <td>`/participant` で参加者機能が動作する</td>
+    </tr>
+    <tr>
+      <td>
+        <code>表示しない機能</code> リスト
+      </td>
+      <td>管理機能の除外対象を明示</td>
+      <td>参加者画面に管理機能が描画されない</td>
+    </tr>
+    <tr>
+      <td>操作とフィードバック</td>
+      <td>予約/取消/更新の結果表示ルールを固定</td>
+      <td>既存参加者フローが維持される</td>
+    </tr>
+  </tbody>
+</table>
+
+## ストーリー確認観点
+
+- `DefaultFlow`: 参加者導線の対象・非対象が分離されているか
+- `LoadingState`: 更新中に誤操作防止ができるか
+- `SuccessState`: 操作成功時に完了フィードバックが表示されるか
+- `ErrorState`: 操作失敗時に再試行可能な文脈が表示されるか
+
+## プレビュー
+
+<Primary />
+
+<Canvas of={ParticipantFlowStories.LoadingState} />
+<Canvas of={ParticipantFlowStories.SuccessState} />
+<Canvas of={ParticipantFlowStories.ErrorState} />
+
+## Props
+
+<Controls />
