@@ -1,0 +1,71 @@
+import { Meta, Title, Subtitle, Description, Primary, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as FlowStories from './FlowSeparationWireframeMock.stories';
+
+<Meta of={FlowStories} />
+
+<Title>US-12-0 導線分離モックカタログ</Title>
+<Subtitle>Issue #42: participant / admin / forbidden の責務境界を実装前に合意する</Subtitle>
+
+<Description>
+このモックは #39（participant 実装）と #40（admin とアクセス制御実装）に引き渡す前提を揃えるための仕様カタログです。
+表示する機能・表示しない機能を明示し、導線分離で解釈が揺れないことを目的とします。
+</Description>
+
+## 設計意図
+
+- participant と admin の責務境界を画面単位で固定し、機能混在による判断ブレを防ぐ。
+- forbidden 導線で「管理画面を表示しない」ことを UI 観点でも明示し、#40 の完了条件に直結させる。
+- 判定中 (`loading`) を定義し、権限判定が完了する前の誤遷移を防ぐ。
+
+## 主要UI要素の役割
+
+<table>
+  <thead>
+    <tr>
+      <th>要素</th>
+      <th>役割</th>
+      <th>実装への引き渡し先</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>表示する機能</code> リスト</td>
+      <td>画面責務を明示し、実装対象を確定する</td>
+      <td>#39 / #40</td>
+    </tr>
+    <tr>
+      <td><code>表示しない機能</code> リスト</td>
+      <td>非対象機能を明示し、混在実装を防ぐ</td>
+      <td>#39 / #40</td>
+    </tr>
+    <tr>
+      <td>導線アクションボタン</td>
+      <td>判定後に許可された遷移先へ進む主操作</td>
+      <td>#39 / #40</td>
+    </tr>
+    <tr>
+      <td>エラーフィードバック</td>
+      <td>権限外アクセス時の理由提示と復帰行動を示す</td>
+      <td>#40</td>
+    </tr>
+  </tbody>
+</table>
+
+## ストーリー確認観点
+
+- `ParticipantFlow`: 参加者画面に管理機能が描画されない前提になっているか
+- `AdminFlow`: 管理画面で運営操作のみを扱う前提になっているか
+- `ForbiddenFlow`: 権限外アクセス時に管理画面表示を防ぎつつ復帰導線があるか
+- `LoadingGateCheck`: 判定中に操作を抑止できるか
+
+## プレビュー
+
+<Primary />
+
+<Canvas of={FlowStories.AdminFlow} />
+<Canvas of={FlowStories.ForbiddenFlow} />
+<Canvas of={FlowStories.LoadingGateCheck} />
+
+## Props
+
+<Controls />
