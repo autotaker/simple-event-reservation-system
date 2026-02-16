@@ -7,6 +7,11 @@ on:
       - main
     paths:
       - docs/**
+      - frontend/.storybook/**
+      - frontend/src/**/*.stories.*
+      - frontend/src/**/*.mdx
+      - frontend/package.json
+      - frontend/pnpm-lock.yaml
       - mkdocs.yml
       - .github/workflows/docs-pages.yml
 
@@ -38,6 +43,33 @@ jobs:
 
       - name: Build docs
         run: mkdocs build
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        working-directory: frontend
+        run: pnpm build-storybook
+
+      - name: Normalize Storybook paths for subdirectory hosting
+        run: |
+          sed -i 's#src="/vite-inject-mocker-entry.js"#src="./vite-inject-mocker-entry.js"#' frontend/storybook-static/iframe.html
+
+      - name: Copy Storybook into docs site
+        run: |
+          mkdir -p site/storybook
+          cp -R frontend/storybook-static/. site/storybook/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

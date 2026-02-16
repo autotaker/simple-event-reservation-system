@@ -214,6 +214,20 @@ cd frontend
 pnpm test
 ```
 
+### Storybook
+
+```bash
+cd frontend
+pnpm storybook
+```
+
+静的ビルド:
+
+```bash
+cd frontend
+pnpm build-storybook
+```
+
 ### E2E (Playwright)
 
 ```bash
@@ -230,6 +244,7 @@ E2Eカバレッジ:
 GitHub Actions:
 - E2Eは `.github/workflows/e2e-manual.yml` で管理
 - 実行トリガーは `workflow_dispatch` のみ（手動実行専用）
+- Storybookは `.github/workflows/docs-pages.yml` でGitHub Pagesへデプロイ（`/storybook/` 配下）
 
 ---
 

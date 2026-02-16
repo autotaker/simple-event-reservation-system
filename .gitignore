@@ -38,3 +38,6 @@ site/
 .env.*
 frontend/.env.local
 backend/src/main/resources/application-local.yml
+
+*storybook.log
+storybook-static
