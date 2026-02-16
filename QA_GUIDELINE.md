@@ -8,6 +8,7 @@
 - API単体成功のみでPassにしない。UI導線を含むE2E成立を確認する。
 - 受け入れ条件は、証拠がある項目のみチェックする。
 - 判定・コメント・報告は日本語で行う。
+- UIモックが対象Issueでは、**LoFi（drawio）とHiFi（Storybook）を分離**して成果物を作成し、同一Issue番号で追跡できる命名に統一する。
 - 自動テスト責任範囲は以下とする。
   - 開発者責任: ドメイン単体テスト / API結合テスト
   - QA責任: UI E2Eテスト（`frontend/e2e/`）
@@ -89,13 +90,72 @@
 - ローカル専用設定ファイルをコミットしない。
 - サーバープロセスを起動したまま放置しない。
 
+## 9. UIモック成果物規約（再現可能な作成手順）
+UI/UX設計を含むIssueでは、以下を最低限の成果物セットとする。
+
+### 9.1 LoFi（drawio）
+- 目的: 情報構造・画面領域・状態遷移を合意する。
+- 必須ファイル:
+  - `docs/uiux/issue-<番号>-<テーマ>.drawio`
+  - `docs/images/uiux/issue-<番号>-<テーマ>-p1.png`
+  - `docs/images/uiux/issue-<番号>-<テーマ>-p2.png`
+  - `docs/images/uiux/issue-<番号>-<テーマ>.png`（必要時は結合画像）
+- ページ構成（最低）:
+  - `p1`: Mobile（例: 390x844）
+  - `p2`: Tablet（例: 834x1112）
+- 生成コマンド（drawio-diagram-ops準拠）:
+```bash
+/Users/autotaker/.codex/skills/drawio-diagram-ops/scripts/render_drawio.py docs/uiux/issue-<番号>-<テーマ>.drawio --format png --pages all --outdir docs/images/uiux
+/Users/autotaker/.codex/skills/drawio-diagram-ops/scripts/render_drawio.py docs/uiux/issue-<番号>-<テーマ>.drawio --format png --pages all --outdir docs/images/uiux --merge-png --merged-output docs/images/uiux/issue-<番号>-<テーマ>.png
+```
+
+### 9.2 HiFi（Storybook: 画面レイアウト）
+- 目的: 実装前に視覚設計と操作導線を合意する。
+- 必須ファイル:
+  - `frontend/src/stories/<feature-hifi>/<ScreenLayout>.vue`
+  - `frontend/src/stories/<feature-hifi>/<ScreenLayout>.stories.ts`
+- 必須ストーリー:
+  - 画面レイアウト（通常状態）
+  - `loading` 状態
+  - `success` 状態
+  - `error` 状態
+- 各ストーリーに想定デバイスを明記する（`parameters.docs.description.story`）。
+
+### 9.3 HiFi（Storybook: 実装コンポーネント）
+- 目的: 実装単位ごとのUI仕様を固定する。
+- 必須ファイル（コンポーネントごと）:
+  - `frontend/src/stories/<feature-hifi>/<ComponentMock>.vue`
+  - `frontend/src/stories/<feature-hifi>/<ComponentMock>.stories.ts`
+- 最低限作成するコンポーネント:
+  - ヘッダー/導線要素
+  - 主操作カード（例: セッションカード）
+  - 補助パネル（例: 予約一覧）
+  - マイページ関連要素（例: QR表示パネル）
+- 各ストーリーに想定デバイスを明記する。
+
+### 9.4 MDXカタログと引き渡しメモ
+- Storybook MDXカタログを必須とし、以下を含める。
+  - 画面レイアウトストーリー
+  - 実装コンポーネントストーリー
+  - 想定デバイス一覧（Primary/Secondary/Tertiary）
+- 引き渡しメモを `docs/uiux/issue-<番号>-handoff.md` として作成し、以下を記載する。
+  - LoFi成果物パス
+  - HiFi成果物パス
+  - 想定デバイス
+  - 受け入れ条件との対応（CP1, CP2...）
+
+### 9.5 デバイス想定（オンサイトイベント既定）
+- Primary: 参加者スマートフォン（390x844 前後）
+- Secondary: 受付補助タブレット（834x1112 前後）
+- Tertiary: 来場前PC確認（1280幅前後）
+
 ## 10. QA責任範囲
 - QA実施者は、実行中に検出した回帰テストの失敗について、原因切り分けまでを必須対応とする。
 - 失敗がテストコード起因（時間依存・データ依存・不安定要因）である場合、QA実施者は当該テストの修正と再実行確認までを担当する。
 - 失敗がプロダクト不具合起因の場合、QA実施者は再現手順・ログ・証跡を添えてIssueへ報告し、受け入れ条件判定をFailにする。
 - 例外として、外部サービス障害や権限制約などで即時修正不能な場合は、阻害要因を明記してエスカレーションする。
 
-## 9. Issueコメントテンプレート
+## 11. Issueコメントテンプレート
 ```md
 ## QA結果
 - 実行日時:
