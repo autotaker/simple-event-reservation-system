@@ -29,11 +29,11 @@ describe('App routing', () => {
     window.localStorage.clear();
   });
 
-  it('renders operator flow on root route', async () => {
+  it('redirects root route to participant flow', async () => {
     const wrapper = await mountAt('/');
 
-    expect(wrapper.text()).toContain('Event Reservation MVP');
-    expect(wrapper.text()).toContain('セッション管理（運営）');
+    expect(wrapper.text()).toContain('Tokyo Product Summit 2026');
+    expect(wrapper.text()).toContain('セッション一覧');
   });
 
   it('renders participant flow on /participant route', async () => {
@@ -50,5 +50,21 @@ describe('App routing', () => {
 
     expect(wrapper.text()).not.toContain('セッション管理（運営）');
     expect(wrapper.text()).not.toContain('運営チェックイン');
+  });
+
+  it('does not render admin management screen on /admin without admin token', async () => {
+    const wrapper = await mountAt('/admin');
+
+    expect(wrapper.text()).toContain('管理権限がないため /admin の管理画面を表示できません。');
+    expect(wrapper.text()).toContain('参加者画面へ戻る');
+    expect(wrapper.text()).not.toContain('セッション管理（運営）');
+  });
+
+  it('keeps operator check-in flow reachable on /operator route', async () => {
+    const wrapper = await mountAt('/operator');
+
+    expect(wrapper.text()).toContain('運営チェックイン');
+    expect(wrapper.text()).toContain('セッション一覧');
+    expect(wrapper.text()).toContain('セッション管理（運営）');
   });
 });

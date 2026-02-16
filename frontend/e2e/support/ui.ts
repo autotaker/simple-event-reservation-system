@@ -1,23 +1,23 @@
 import { expect, type Page } from '@playwright/test';
 
 export const clearGuestSession = async (page: Page): Promise<void> => {
-  await page.goto('/');
+  await page.goto('/participant');
   await page.evaluate(() => {
     localStorage.removeItem('guestAccessToken');
     localStorage.removeItem('guestId');
+    localStorage.removeItem('adminAccessToken');
   });
   await page.reload();
 };
 
 export const loginAsGuest = async (page: Page, expectedGuestId?: string): Promise<void> => {
   await page.getByRole('button', { name: 'ゲストでログイン' }).click();
-
+  await expect.poll(async () => page.evaluate(() => localStorage.getItem('guestId'))).toBeTruthy();
   if (expectedGuestId) {
-    await expect(page.getByText(`ログイン中: ${expectedGuestId}`)).toBeVisible();
-    return;
+    await expect
+      .poll(async () => page.evaluate(() => localStorage.getItem('guestId')))
+      .toBe(expectedGuestId);
   }
-
-  await expect(page.getByText('ログイン中:')).toBeVisible();
 };
 
 export const sessionRowByTitle = (page: Page, title: string) =>
