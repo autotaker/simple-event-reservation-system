@@ -11,14 +11,18 @@ test.describe('US-01 ゲストログイン', () => {
     await clearGuestSession(page);
 
     await expect(page.getByRole('button', { name: 'ゲストでログイン' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'セッション一覧を取得' })).toBeDisabled();
-    await expect(page.getByRole('button', { name: '予約一覧を取得' })).toBeDisabled();
+    await expect(page.getByRole('button', { name: '更新' }).nth(0)).toBeDisabled();
+    await expect(page.getByRole('button', { name: '更新' }).nth(1)).toBeDisabled();
+    await expect(page.getByRole('button', { name: '更新' }).nth(2)).toBeDisabled();
     await expect(page.getByRole('button', { name: 'キーノートを予約' })).toBeDisabled();
+    await expect(page.getByText('ログイン後に受付QRコードが表示されます。')).toBeVisible();
 
     await loginAsGuest(page);
-    await expect(page.getByRole('button', { name: 'セッション一覧を取得' })).toBeEnabled();
-    await expect(page.getByRole('button', { name: '予約一覧を取得' })).toBeEnabled();
     await expect(page.getByRole('button', { name: 'キーノートを予約' })).toBeEnabled();
+    await expect(page.getByRole('heading', { name: 'セッション一覧' })).toBeVisible();
+    await expect(page.getByText('Opening Keynote')).toBeVisible();
+    const sessionCards = page.getByLabel('session list').locator('article');
+    expect(await sessionCards.count()).toBeGreaterThanOrEqual(16);
   });
 
   test('ゲストログイン状態で予約系APIが利用できる', async ({ page, request }) => {

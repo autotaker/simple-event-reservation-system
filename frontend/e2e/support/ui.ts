@@ -24,3 +24,8 @@ export const sessionRowByTitle = (page: Page, title: string) =>
   page
     .locator('tbody tr')
     .filter({ has: page.locator('td', { hasText: new RegExp(`^${title}$`) }) });
+
+export const participantSessionCardByTitle = (page: Page, title: string) =>
+  page
+    .locator('article')
+    .filter({ has: page.getByRole('heading', { name: new RegExp(`^${title}$`) }) });

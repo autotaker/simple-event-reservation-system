@@ -67,7 +67,7 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     await expect(updatedAdminRow).toContainText('8');
 
     await page.goto('/participant');
-    await page.getByRole('button', { name: '更新' }).click();
+    await page.getByLabel('session list').getByRole('button', { name: '更新' }).click();
     const updatedParticipantCard = page.locator('article').filter({ hasText: updatedTitle });
     await expect(updatedParticipantCard).toBeVisible();
     await expect(updatedParticipantCard).toContainText('17:15 | Track E2E Updated');

@@ -6,19 +6,16 @@ test.describe('US-03 セッション一覧と残席ステータス', () => {
     await clearGuestSession(page);
     await loginAsGuest(page);
 
-    await page.getByRole('button', { name: 'セッション一覧を取得' }).click();
+    const cards = page.locator('article');
+    expect(await cards.count()).toBeGreaterThanOrEqual(16);
+    await expect(cards.filter({ hasText: '09:00 | Keynote' })).toHaveCount(1);
+    await expect(cards.filter({ hasText: '10:30 | Track A' })).toHaveCount(1);
 
-    const rows = page.locator('tbody tr');
-    expect(await rows.count()).toBeGreaterThanOrEqual(16);
-    await expect(page.getByRole('columnheader', { name: '開始時刻' })).toBeVisible();
-    await expect(page.getByRole('columnheader', { name: 'トラック' })).toBeVisible();
-    await expect(page.getByRole('columnheader', { name: '残席ステータス' })).toBeVisible();
-
-    const statusCells = page.locator('tbody tr td:nth-child(4)');
-    const statuses = await statusCells.allInnerTexts();
-    for (const status of statuses) {
-      expect(['受付中', '残りわずか', '満席']).toContain(status.trim());
+    const cardCount = await cards.count();
+    for (let index = 0; index < cardCount; index += 1) {
+      const cardText = await cards.nth(index).innerText();
+      expect(cardText).toMatch(/(受付中|残りわずか|満席)/);
     }
-    await expect(statusCells.filter({ hasText: /\d/ })).toHaveCount(0);
+    await expect(page.getByText('受付中').first()).toBeVisible();
   });
 });

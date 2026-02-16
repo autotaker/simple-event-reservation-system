@@ -22,7 +22,7 @@ test.describe('US-06 マイページで予約一覧とQRコードを表示でき
     await installReservationMock(page);
 
     await clearGuestSession(page);
-    await expect(page.getByText('マイページはログイン中ユーザーのみ表示できます。')).toBeVisible();
+    await expect(page.getByText('ログイン後に受付QRコードが表示されます。')).toBeVisible();
     await expect(page.getByRole('img', { name: '受付用QRコード' })).toHaveCount(0);
   });
 });
