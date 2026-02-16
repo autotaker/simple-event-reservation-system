@@ -37,3 +37,10 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
 
 ## コードレビュー運用
 - コードレビューを実施する際は、事前に `CODE_REVIEW_GUIDELINE.md` を確認してからレビューする。
+
+## Playwright MCP運用
+- スクリーンショット取得は `browser_take_screenshot` を優先して使用する。
+- `browser_take_screenshot` 実行時は `filename` に絶対パスを指定する（例: `/Users/.../tmp/evidence.png`）。
+- レスポンスは画像バイナリ本体ではなく、保存ファイルへの参照リンクとして扱う。
+- `EROFS: read-only file system` が出る場合は、保存先パスを見直す（ルート直下や不正な相対指定を避ける）。
+- `既存のブラウザ セッションで開いています。` で起動失敗する場合は、`mcp-chrome` 残留プロセスを停止して再実行する。
