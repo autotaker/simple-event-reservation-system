@@ -29,6 +29,67 @@
         "warningSoft": { "value": "{color.amber.100}" },
         "danger": { "value": "{color.red.600}" },
         "dangerSoft": { "value": "{color.red.100}" }
+      },
+      "participant": {
+        "portal": {
+          "border": { "value": "#cde8de" },
+          "bgStart": { "value": "#f4fff9" },
+          "bgMid": { "value": "{semantic.color.bg.surface}" },
+          "bgEnd": { "value": "#f8fffd" },
+          "borderLoading": { "value": "#e9d09a" },
+          "borderSuccess": { "value": "#9bd7b4" },
+          "borderError": { "value": "#e6a5a5" }
+        },
+        "topbar": {
+          "border": { "value": "#cde8dd" },
+          "bgStart": { "value": "#effff7" },
+          "bgEnd": { "value": "#f7fffb" },
+          "eventText": { "value": "#3e7360" },
+          "titleText": { "value": "#173a2c" },
+          "badgeBg": { "value": "#163f30" },
+          "actionBg": { "value": "#2b7a58" },
+          "actionText": { "value": "{semantic.color.text.onPrimary}" }
+        },
+        "action": {
+          "secondaryBg": { "value": "#315e96" },
+          "secondaryText": { "value": "{semantic.color.text.onPrimary}" },
+          "primaryBg": { "value": "#1f8e5f" },
+          "primaryText": { "value": "{semantic.color.text.onPrimary}" }
+        },
+        "card": {
+          "surface": { "value": "{semantic.color.bg.surface}" },
+          "border": { "value": "#d7efe5" },
+          "metaText": { "value": "#4a7c67" },
+          "titleText": { "value": "#1c3f31" },
+          "reservedBg": { "value": "#f4fbf8" }
+        },
+        "seat": {
+          "openBg": { "value": "#d8fbe7" },
+          "openText": { "value": "#18613e" },
+          "fewBg": { "value": "#fff0cf" },
+          "fewText": { "value": "#925a00" },
+          "fullBg": { "value": "#ffe1e1" },
+          "fullText": { "value": "#a82626" }
+        },
+        "panel": {
+          "surface": { "value": "{semantic.color.bg.surface}" },
+          "reservationBorder": { "value": "#d9e8f4" },
+          "qrBorder": { "value": "#d8efe3" },
+          "listItemBg": { "value": "#f8fbff" },
+          "listItemMeta": { "value": "#4f657f" },
+          "qrAccent": { "value": "#2a7758" },
+          "qrLabel": { "value": "#4b6f5f" },
+          "qrPatternA": { "value": "#f5fff9" },
+          "qrPatternB": { "value": "#ecfbf3" }
+        },
+        "feedback": {
+          "loadingBg": { "value": "#fff6df" },
+          "loadingText": { "value": "#8c5a00" },
+          "successBg": { "value": "#e8fbef" },
+          "successText": { "value": "#1e6a45" },
+          "errorBg": { "value": "#ffe8e8" },
+          "errorText": { "value": "#9f2d2d" }
+        }
       }
     }
   }
