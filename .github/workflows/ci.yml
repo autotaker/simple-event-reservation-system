@@ -41,6 +41,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Verify generated design tokens are up to date
+        run: |
+          pnpm tokens:build
+          if ! git diff --exit-code -- src/styles/tokens.css; then
+            echo "::error::src/styles/tokens.css is out of date. Run 'pnpm tokens:build' and commit the result."
+            exit 1
+          fi
+
       - name: Lint
         run: pnpm lint
 
