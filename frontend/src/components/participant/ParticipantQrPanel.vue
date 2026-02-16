@@ -41,8 +41,8 @@ defineEmits<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #d8efe3;
-  background: #ffffff;
+  border: 1px solid var(--semantic-color-participant-panel-qr-border);
+  background: var(--semantic-color-participant-panel-surface);
 }
 
 header {
@@ -62,14 +62,14 @@ h2 {
 }
 
 button {
-  height: 30px;
-  padding: 0 10px;
+  height: var(--semantic-component-participant-button-secondary-height);
+  padding: 0 var(--semantic-component-participant-button-padding-x);
   border: none;
-  border-radius: 8px;
-  background: #315e96;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
+  border-radius: var(--semantic-component-participant-button-secondary-radius);
+  background: var(--semantic-color-participant-action-secondary-bg);
+  color: var(--semantic-color-participant-action-secondary-text);
+  font-size: var(--semantic-component-participant-button-text-size);
+  font-weight: var(--semantic-component-participant-button-text-weight);
 }
 
 button:disabled {
@@ -78,21 +78,28 @@ button:disabled {
 }
 
 .qr {
-  width: 112px;
+  width: var(--semantic-component-participant-qr-size);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  border: 2px dashed #2a7758;
+  border-radius: var(--semantic-component-participant-qr-radius);
+  border: var(--semantic-component-participant-qr-border-width) dashed
+    var(--semantic-color-participant-panel-qr-accent);
   font-size: 28px;
   font-weight: 700;
-  color: #2a7758;
-  background: repeating-linear-gradient(-45deg, #f5fff9, #f5fff9 7px, #ecfbf3 7px, #ecfbf3 14px);
+  color: var(--semantic-color-participant-panel-qr-accent);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--semantic-color-participant-panel-qr-pattern-a),
+    var(--semantic-color-participant-panel-qr-pattern-a) 7px,
+    var(--semantic-color-participant-panel-qr-pattern-b) 7px,
+    var(--semantic-color-participant-panel-qr-pattern-b) 14px
+  );
 }
 
 p {
   font-size: 12px;
-  color: #4b6f5f;
+  color: var(--semantic-color-participant-panel-qr-label);
 }
 
 ul {
@@ -107,7 +114,7 @@ ul {
 li {
   padding: 8px;
   border-radius: 10px;
-  background: #f8fbff;
+  background: var(--semantic-color-participant-panel-list-item-bg);
   font-size: 12px;
 }
 </style>

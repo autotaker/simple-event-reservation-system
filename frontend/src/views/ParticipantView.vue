@@ -192,13 +192,18 @@ onMounted(() => {
 <style scoped>
 .participant-portal {
   display: grid;
-  gap: 12px;
+  gap: var(--semantic-component-participant-portal-gap);
   width: min(980px, 100%);
   margin: 0 auto;
-  padding: 14px;
-  border-radius: 18px;
-  border: 1px solid #cde8de;
-  background: linear-gradient(160deg, #f4fff9, #ffffff 48%, #f8fffd);
+  padding: var(--semantic-component-participant-portal-padding);
+  border-radius: var(--semantic-component-participant-portal-radius);
+  border: 1px solid var(--semantic-color-participant-portal-border);
+  background: linear-gradient(
+    160deg,
+    var(--semantic-color-participant-portal-bg-start),
+    var(--semantic-color-participant-portal-bg-mid) 48%,
+    var(--semantic-color-participant-portal-bg-end)
+  );
   font-family: 'IBM Plex Sans JP', 'Noto Sans JP', sans-serif;
 }
 
@@ -225,14 +230,14 @@ onMounted(() => {
 }
 
 .participant-sessions__header button {
-  height: 30px;
-  padding: 0 10px;
+  height: var(--semantic-component-participant-button-secondary-height);
+  padding: 0 var(--semantic-component-participant-button-padding-x);
   border: none;
-  border-radius: 8px;
-  background: #315e96;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
+  border-radius: var(--semantic-component-participant-button-secondary-radius);
+  background: var(--semantic-color-participant-action-secondary-bg);
+  color: var(--semantic-color-participant-action-secondary-text);
+  font-size: var(--semantic-component-participant-button-text-size);
+  font-weight: var(--semantic-component-participant-button-text-weight);
 }
 
 .participant-sessions__header button:disabled {
@@ -248,37 +253,38 @@ onMounted(() => {
 
 .participant-feedback {
   margin: 0;
-  padding: 10px 12px;
-  border-radius: 10px;
+  padding: var(--semantic-component-participant-feedback-padding-y)
+    var(--semantic-component-participant-feedback-padding-x);
+  border-radius: var(--semantic-component-participant-feedback-radius);
   font-size: 13px;
   font-weight: 700;
 }
 
 .participant-feedback--loading {
-  background: #fff6df;
-  color: #8c5a00;
+  background: var(--semantic-color-participant-feedback-loading-bg);
+  color: var(--semantic-color-participant-feedback-loading-text);
 }
 
 .participant-feedback--success {
-  background: #e8fbef;
-  color: #1e6a45;
+  background: var(--semantic-color-participant-feedback-success-bg);
+  color: var(--semantic-color-participant-feedback-success-text);
 }
 
 .participant-feedback--error {
-  background: #ffe8e8;
-  color: #9f2d2d;
+  background: var(--semantic-color-participant-feedback-error-bg);
+  color: var(--semantic-color-participant-feedback-error-text);
 }
 
 .participant-portal--loading {
-  border-color: #e9d09a;
+  border-color: var(--semantic-color-participant-portal-border-loading);
 }
 
 .participant-portal--success {
-  border-color: #9bd7b4;
+  border-color: var(--semantic-color-participant-portal-border-success);
 }
 
 .participant-portal--error {
-  border-color: #e6a5a5;
+  border-color: var(--semantic-color-participant-portal-border-error);
 }
 
 @media (max-width: 900px) {

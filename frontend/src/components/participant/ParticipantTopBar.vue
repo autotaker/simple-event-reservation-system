@@ -32,21 +32,25 @@ defineEmits<{
   gap: 12px;
   padding: 14px 16px;
   border-radius: 16px;
-  border: 1px solid #cde8dd;
-  background: linear-gradient(145deg, #effff7, #f7fffb);
+  border: 1px solid var(--semantic-color-participant-topbar-border);
+  background: linear-gradient(
+    145deg,
+    var(--semantic-color-participant-topbar-bg-start),
+    var(--semantic-color-participant-topbar-bg-end)
+  );
 }
 
 .topbar__event {
   margin: 0;
   font-size: 12px;
-  color: #3e7360;
+  color: var(--semantic-color-participant-topbar-event-text);
 }
 
 .topbar__title {
   margin: 2px 0 0;
   font-size: 18px;
   font-weight: 700;
-  color: #173a2c;
+  color: var(--semantic-color-participant-topbar-title-text);
 }
 
 .topbar__guest {
@@ -56,23 +60,24 @@ defineEmits<{
 }
 
 .topbar__badge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #163f30;
-  color: #ffffff;
+  padding: var(--semantic-component-participant-badge-padding-y)
+    var(--semantic-component-participant-badge-padding-x);
+  border-radius: var(--semantic-component-participant-badge-radius);
+  background: var(--semantic-color-participant-topbar-badge-bg);
+  color: var(--semantic-color-participant-topbar-action-text);
   font-size: 12px;
   font-weight: 700;
 }
 
 .topbar button {
-  height: 34px;
+  height: var(--semantic-component-participant-button-topbar-height);
   border: none;
-  border-radius: 10px;
-  padding: 0 12px;
-  background: #2b7a58;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
+  border-radius: var(--semantic-component-participant-button-topbar-radius);
+  padding: 0 var(--semantic-component-participant-button-padding-x);
+  background: var(--semantic-color-participant-topbar-action-bg);
+  color: var(--semantic-color-participant-topbar-action-text);
+  font-size: var(--semantic-component-participant-button-text-size);
+  font-weight: var(--semantic-component-participant-button-text-weight);
 }
 
 .topbar button:disabled {

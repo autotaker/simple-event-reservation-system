@@ -50,8 +50,8 @@ defineEmits<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid #d9e8f4;
-  background: #ffffff;
+  border: 1px solid var(--semantic-color-participant-panel-reservation-border);
+  background: var(--semantic-color-participant-panel-surface);
 }
 
 header {
@@ -66,14 +66,14 @@ h2 {
 }
 
 button {
-  height: 30px;
-  padding: 0 10px;
+  height: var(--semantic-component-participant-button-secondary-height);
+  padding: 0 var(--semantic-component-participant-button-padding-x);
   border: none;
-  border-radius: 8px;
-  background: #315e96;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
+  border-radius: var(--semantic-component-participant-button-secondary-radius);
+  background: var(--semantic-color-participant-action-secondary-bg);
+  color: var(--semantic-color-participant-action-secondary-text);
+  font-size: var(--semantic-component-participant-button-text-size);
+  font-weight: var(--semantic-component-participant-button-text-weight);
 }
 
 button:disabled {
@@ -94,7 +94,7 @@ li {
   gap: 4px;
   padding: 8px;
   border-radius: 10px;
-  background: #f8fbff;
+  background: var(--semantic-color-participant-panel-list-item-bg);
 }
 
 p,
@@ -104,6 +104,6 @@ span {
 
 span {
   font-size: 11px;
-  color: #4f657f;
+  color: var(--semantic-color-participant-panel-list-item-meta);
 }
 </style>

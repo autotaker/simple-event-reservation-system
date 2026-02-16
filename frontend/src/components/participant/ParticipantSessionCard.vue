@@ -32,11 +32,11 @@ defineEmits<{
 <style scoped>
 .session-card {
   display: grid;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid #d7efe5;
-  background: #ffffff;
+  gap: var(--semantic-component-participant-card-gap);
+  padding: var(--semantic-component-participant-card-padding);
+  border-radius: var(--semantic-component-participant-card-radius);
+  border: 1px solid var(--semantic-color-participant-card-border);
+  background: var(--semantic-color-participant-card-surface);
 }
 
 .session-card__meta,
@@ -46,12 +46,12 @@ defineEmits<{
 
 .session-card__meta {
   font-size: 12px;
-  color: #4a7c67;
+  color: var(--semantic-color-participant-card-meta-text);
 }
 
 .session-card__title {
   font-size: 15px;
-  color: #1c3f31;
+  color: var(--semantic-color-participant-card-title-text);
 }
 
 .session-card__footer {
@@ -62,36 +62,37 @@ defineEmits<{
 }
 
 .session-card__seat {
-  padding: 4px 8px;
-  border-radius: 999px;
+  padding: var(--semantic-component-participant-seat-padding-y)
+    var(--semantic-component-participant-seat-padding-x);
+  border-radius: var(--semantic-component-participant-seat-radius);
   font-size: 11px;
   font-weight: 700;
 }
 
 .session-card__seat--open {
-  background: #d8fbe7;
-  color: #18613e;
+  background: var(--semantic-color-participant-seat-open-bg);
+  color: var(--semantic-color-participant-seat-open-text);
 }
 
 .session-card__seat--few {
-  background: #fff0cf;
-  color: #925a00;
+  background: var(--semantic-color-participant-seat-few-bg);
+  color: var(--semantic-color-participant-seat-few-text);
 }
 
 .session-card__seat--full {
-  background: #ffe1e1;
-  color: #a82626;
+  background: var(--semantic-color-participant-seat-full-bg);
+  color: var(--semantic-color-participant-seat-full-text);
 }
 
 .session-card button {
-  height: 32px;
+  height: var(--semantic-component-participant-button-primary-height);
   border: none;
-  border-radius: 10px;
-  padding: 0 12px;
-  font-size: 12px;
-  font-weight: 700;
-  background: #1f8e5f;
-  color: #ffffff;
+  border-radius: var(--semantic-component-participant-button-primary-radius);
+  padding: 0 var(--semantic-component-participant-button-padding-x);
+  font-size: var(--semantic-component-participant-button-text-size);
+  font-weight: var(--semantic-component-participant-button-text-weight);
+  background: var(--semantic-color-participant-action-primary-bg);
+  color: var(--semantic-color-participant-action-primary-text);
 }
 
 .session-card button:disabled {
@@ -100,6 +101,6 @@ defineEmits<{
 }
 
 .session-card--reserved {
-  background: #f4fbf8;
+  background: var(--semantic-color-participant-card-reserved-bg);
 }
 </style>
