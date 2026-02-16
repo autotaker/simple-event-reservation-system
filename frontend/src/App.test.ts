@@ -1,8 +1,12 @@
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import App from './App.vue';
 
 describe('App', () => {
+  afterEach(() => {
+    window.history.pushState({}, '', '/');
+  });
+
   it('renders guest login heading', () => {
     const wrapper = mount(App);
 
@@ -21,5 +25,17 @@ describe('App', () => {
     expect(wrapper.text()).toContain('マイページはログイン中ユーザーのみ表示できます。');
     expect(wrapper.text()).toContain('運営チェックイン');
     expect(wrapper.text()).toContain('運営チェックインはログイン中ユーザーのみ実行できます。');
+  });
+
+  it('hides admin controls on /participant route', () => {
+    window.history.pushState({}, '', '/participant');
+    const wrapper = mount(App);
+
+    expect(wrapper.text()).toContain('参加者専用ページです。予約操作をこの画面で完結できます。');
+    expect(wrapper.text()).toContain('セッション一覧');
+    expect(wrapper.text()).toContain('予約');
+    expect(wrapper.text()).toContain('マイページ');
+    expect(wrapper.text()).not.toContain('セッション管理（運営）');
+    expect(wrapper.text()).not.toContain('運営チェックイン');
   });
 });

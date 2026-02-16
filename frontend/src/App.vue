@@ -1,20 +1,23 @@
 <template>
   <main>
     <h1>Event Reservation MVP</h1>
-    <p>ゲストでログインしてキーノート予約を行えます。</p>
+    <p v-if="isParticipantRoute">参加者専用ページです。予約操作をこの画面で完結できます。</p>
+    <p v-else>ゲストでログインしてキーノート予約を行えます。</p>
 
     <button type="button" @click="loginAsGuest">ゲストでログイン</button>
     <p v-if="guestId">ログイン中: {{ guestId }}</p>
     <p v-if="errorMessage">{{ errorMessage }}</p>
     <p v-if="infoMessage">{{ infoMessage }}</p>
 
-    <section>
+    <section v-if="!isParticipantRoute">
       <h2>セッション管理（運営）</h2>
       <label>
         管理者トークン
         <input v-model="adminToken" type="password" placeholder="admin token" />
       </label>
-      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">管理一覧を取得</button>
+      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">
+        管理一覧を取得
+      </button>
       <button type="button" :disabled="!adminToken" @click="downloadReservationCsv">
         予約一覧CSVを出力
       </button>
@@ -64,7 +67,9 @@
             <td>{{ session.capacity }}</td>
             <td>{{ session.reservedCount }}</td>
             <td>
-              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">編集</button>
+              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">
+                編集
+              </button>
             </td>
           </tr>
         </tbody>
@@ -170,7 +175,7 @@
       </template>
     </section>
 
-    <section>
+    <section v-if="!isParticipantRoute">
       <h2>運営チェックイン</h2>
       <p v-if="!token">運営チェックインはログイン中ユーザーのみ実行できます。</p>
       <template v-else>
@@ -189,7 +194,11 @@
           <label for="checkin-session-id">セッション受付</label>
           <select id="checkin-session-id" v-model="selectedCheckInSessionId">
             <option value="">選択してください</option>
-            <option v-for="session in sessions" :key="`checkin-${session.sessionId}`" :value="session.sessionId">
+            <option
+              v-for="session in sessions"
+              :key="`checkin-${session.sessionId}`"
+              :value="session.sessionId"
+            >
               {{ session.startTime }} {{ session.title }}
             </option>
           </select>
@@ -214,7 +223,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="checkIn in checkIns" :key="`${checkIn.checkInType}-${checkIn.sessionId ?? 'event'}-${checkIn.guestId}`">
+            <tr
+              v-for="checkIn in checkIns"
+              :key="`${checkIn.checkInType}-${checkIn.sessionId ?? 'event'}-${checkIn.guestId}`"
+            >
               <td>{{ checkInTypeLabel(checkIn.checkInType) }}</td>
               <td>{{ checkIn.guestId }}</td>
               <td>{{ checkIn.sessionId ?? '-' }}</td>
@@ -348,6 +360,7 @@ const selectedCheckInSessionId = ref<string>('');
 const checkIns = ref<CheckInHistoryEntry[]>([]);
 const checkInHistoryLoaded = ref<boolean>(false);
 const checkInResultMessage = ref<string>('');
+const isParticipantRoute = computed(() => globalThis.location.pathname.startsWith('/participant'));
 
 const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
   if (status === 'OPEN') {
@@ -415,7 +428,11 @@ const downloadAdminCsv = async (
 };
 
 const downloadReservationCsv = async (): Promise<void> =>
-  downloadAdminCsv('/api/admin/exports/reservations', 'reservations.csv', '予約一覧CSVを出力しました。');
+  downloadAdminCsv(
+    '/api/admin/exports/reservations',
+    'reservations.csv',
+    '予約一覧CSVを出力しました。',
+  );
 
 const downloadSessionCheckInCsv = async (): Promise<void> =>
   downloadAdminCsv(
@@ -519,7 +536,8 @@ const loadAdminSessions = async (): Promise<void> => {
   });
 
   if (!response.ok) {
-    errorMessage.value = (await readErrorMessage(response)) ?? '管理セッション一覧の取得に失敗しました。';
+    errorMessage.value =
+      (await readErrorMessage(response)) ?? '管理セッション一覧の取得に失敗しました。';
     return;
   }
 
@@ -756,7 +774,7 @@ const cancelReservation = async (sessionId: string): Promise<void> => {
   infoMessage.value = `${sessionId} をキャンセルしました。`;
 };
 
-watch(adminToken, newValue => {
+watch(adminToken, (newValue) => {
   globalThis.localStorage.setItem('adminAccessToken', newValue);
 });
 
@@ -780,7 +798,8 @@ const checkInEvent = async (): Promise<void> => {
   });
 
   if (!response.ok) {
-    errorMessage.value = (await readErrorMessage(response)) ?? 'イベント受付チェックインに失敗しました。';
+    errorMessage.value =
+      (await readErrorMessage(response)) ?? 'イベント受付チェックインに失敗しました。';
     return;
   }
 
@@ -814,7 +833,8 @@ const checkInSession = async (): Promise<void> => {
   );
 
   if (!response.ok) {
-    errorMessage.value = (await readErrorMessage(response)) ?? 'セッションチェックインに失敗しました。';
+    errorMessage.value =
+      (await readErrorMessage(response)) ?? 'セッションチェックインに失敗しました。';
     return;
   }
 
@@ -856,7 +876,7 @@ onMounted(() => {
   if (token.value) {
     void Promise.all([loadSessions(), loadReservations(), loadMyPage(), loadCheckInHistory()]);
   }
-  if (adminToken.value) {
+  if (!isParticipantRoute.value && adminToken.value) {
     void loadAdminSessions();
   }
 });
