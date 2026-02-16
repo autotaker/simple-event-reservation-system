@@ -1,0 +1,65 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as RouteSeparationStories from './RouteSeparationMock.stories';
+
+<Meta of={RouteSeparationStories} />
+
+<Title>Issue #30: 参加者導線と管理導線の分離モック</Title>
+<Subtitle>US-12 の受け入れ条件を実装前に合意するための UI モック</Subtitle>
+
+<Description>
+このモックは「参加者画面と管理画面を分離し、誤操作を防ぐ」ための画面構成を定義します。
+対象はフロントのルーティング構成と画面分割で、認証方式変更は範囲外です。
+</Description>
+
+## 設計意図
+
+- 参加者向け初期導線を `/participant` に固定し、管理操作を視界から除外する。
+- 管理向け導線を `/admin` に切り出し、運営業務に必要な機能のみを表示する。
+- 直接URLアクセス時はアクセス拒否とリダイレクトを明示し、導線迷子を防ぐ。
+
+## 画面遷移と操作意図
+
+<table>
+  <thead>
+    <tr>
+      <th>チェックポイント</th>
+      <th>遷移</th>
+      <th>主要操作（CTA）</th>
+      <th>操作後の変化</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>参加者導線</td>
+      <td><code>/participant</code></td>
+      <td>予約画面へ進む</td>
+      <td>予約・マイページのみ表示し、管理UIを非表示</td>
+    </tr>
+    <tr>
+      <td>管理導線</td>
+      <td><code>/admin</code></td>
+      <td>管理ダッシュボードを開く</td>
+      <td>セッション管理/CSV出力のみ表示</td>
+    </tr>
+    <tr>
+      <td>不正アクセス制御</td>
+      <td><code>/admin</code> へ tokenなしアクセス</td>
+      <td>参加者トップへ戻る</td>
+      <td>拒否メッセージ表示後に参加者導線へ復帰</td>
+    </tr>
+  </tbody>
+</table>
+
+## 状態バリエーション
+
+- `ParticipantLoading`: ルート判定・遷移中。二重操作を防ぐためボタン無効化。
+- `SeparationSuccess`: 分離が反映され、不要UIが隠れていることを確認する完了状態。
+- `DirectAccessForbidden`: 権限なしアクセス時のエラー状態。
+
+## ストーリー
+
+<Canvas of={RouteSeparationStories.ParticipantDefault} />
+<Canvas of={RouteSeparationStories.ParticipantLoading} />
+<Canvas of={RouteSeparationStories.AdminDefault} />
+<Canvas of={RouteSeparationStories.SeparationSuccess} />
+<Canvas of={RouteSeparationStories.DirectAccessForbidden} />
