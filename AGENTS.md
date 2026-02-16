@@ -34,3 +34,6 @@ A skill is a set of local instructions to follow that is stored in a `SKILL.md` 
 - PR作成・更新時は必ず `.github/pull_request_template.md` の見出しと順序をそのまま使う。
 - テンプレートの各セクションは空欄にせず、未実施項目は未実施であることを明記する（チェックボックスを正確に記載）。
 - Issue対応時は `関連Issue` セクションに `Closes #<番号>` を必ず含める。
+
+## コードレビュー運用
+- コードレビューを実施する際は、事前に `CODE_REVIEW_GUIDELINE.md` を確認してからレビューする。

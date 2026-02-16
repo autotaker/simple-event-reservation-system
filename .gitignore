@@ -7,6 +7,9 @@ node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+frontend/.vite/
 
 # Java / Gradle
 backend/.gradle/
@@ -16,6 +19,19 @@ backend/build/
 .idea/
 .vscode/
 *.iml
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docs build output
+site/
 
 # Env
 .env
