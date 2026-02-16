@@ -12,12 +12,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const baseArgs = {
-  routeLabel: '/participant',
   title: '参加者ポータル',
-  summary:
-    '予約操作を1画面で完結するため、セッション選択・予約確認・マイページ確認を同時に見渡せる構成にする。',
-  participantFeatures: ['セッション一覧', '予約一覧', 'マイページ', '予約/取消'],
-  adminFeatures: ['管理一覧', 'セッション作成/編集', 'CSV出力', '運営チェックイン'],
+  subtitle: 'ようこそ、Guest A12',
   sessionCards: [
     {
       id: 's1',
@@ -39,7 +35,7 @@ const baseArgs = {
     { id: 'r1', title: 'Keynote: Product Vision', state: '確定' },
     { id: 'r2', title: 'API Design Clinic', state: '取消待ちなし' },
   ],
-  myPageNote: '受付QRと予約サマリーを同一パネルで確認。会場移動中でも状態確認を迷わせない。',
+  qrCaption: '受付QRコード',
 } as const;
 
 export const DefaultFlow: Story = {

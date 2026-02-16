@@ -1,19 +1,8 @@
 <template>
   <article class="participant-ui" :class="`participant-ui--${status}`">
     <header class="participant-ui__hero">
-      <p class="participant-ui__route">{{ routeLabel }}</p>
       <h3 class="participant-ui__title">{{ title }}</h3>
-      <p class="participant-ui__summary">{{ summary }}</p>
-      <div class="participant-ui__chips">
-        <span v-for="item in participantFeatures" :key="`on-${item}`" class="chip chip--on">{{
-          item
-        }}</span>
-      </div>
-      <div class="participant-ui__chips participant-ui__chips--off">
-        <span v-for="item in adminFeatures" :key="`off-${item}`" class="chip chip--off">{{
-          item
-        }}</span>
-      </div>
+      <p class="participant-ui__subtitle">{{ subtitle }}</p>
     </header>
 
     <section class="participant-ui__panels">
@@ -45,7 +34,7 @@
         <div class="qr-placeholder" aria-hidden="true">
           <span>QR</span>
         </div>
-        <p class="mypage-text">{{ myPageNote }}</p>
+        <p class="mypage-text">{{ qrCaption }}</p>
       </section>
     </section>
 
@@ -84,14 +73,11 @@ type ReservationRow = {
 
 withDefaults(
   defineProps<{
-    routeLabel: '/participant';
     title: string;
-    summary: string;
-    participantFeatures: string[];
-    adminFeatures: string[];
+    subtitle: string;
     sessionCards: SessionCard[];
     reservations: ReservationRow[];
-    myPageNote: string;
+    qrCaption: string;
     actionLabel: string;
     status?: 'default' | 'loading' | 'success' | 'error';
   }>(),
@@ -124,17 +110,6 @@ withDefaults(
   gap: 10px;
 }
 
-.participant-ui__route {
-  width: fit-content;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #dcfce7;
-  color: #166534;
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .participant-ui__title {
   margin: 0;
   font-family: var(--ui-font-display);
@@ -142,39 +117,10 @@ withDefaults(
   letter-spacing: 0.02em;
 }
 
-.participant-ui__summary {
+.participant-ui__subtitle {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.participant-ui__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.participant-ui__chips--off {
-  padding-top: 4px;
-}
-
-.chip {
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.chip--on {
-  background: #e8fff1;
-  color: #13663f;
-  border: 1px solid #9ae6be;
-}
-
-.chip--off {
-  background: #fff2f2;
-  color: #8d2323;
-  border: 1px solid #f6b4b4;
+  font-size: 13px;
+  color: #447362;
 }
 
 .participant-ui__panels {
