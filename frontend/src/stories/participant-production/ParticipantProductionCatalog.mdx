@@ -1,0 +1,38 @@
+import { Canvas, Description, Meta, Subtitle, Title } from '@storybook/addon-docs/blocks';
+import * as TopBarStories from './ParticipantTopBar.stories';
+import * as SessionCardStories from './ParticipantSessionCard.stories';
+import * as ReservationPanelStories from './ParticipantReservationPanel.stories';
+import * as QrPanelStories from './ParticipantQrPanel.stories';
+
+<Meta of={TopBarStories} />
+
+<Title>US-12-1 参加者導線 Production コンポーネント</Title>
+<Subtitle>Issue #39: 本番実装コンポーネントのStorybookカタログ</Subtitle>
+
+<Description>
+  `frontend/src/components/participant` 配下の本番コンポーネントを対象に、
+  主要な状態（default/loading/empty/disabled）を確認するためのカタログ。
+</Description>
+
+## TopBar
+
+<Canvas of={TopBarStories.Default} />
+<Canvas of={TopBarStories.Busy} />
+
+## SessionCard
+
+<Canvas of={SessionCardStories.OpenSeat} />
+<Canvas of={SessionCardStories.ReservedFewLeft} />
+<Canvas of={SessionCardStories.FullSeat} />
+
+## ReservationPanel
+
+<Canvas of={ReservationPanelStories.LoggedIn} />
+<Canvas of={ReservationPanelStories.Loading} />
+<Canvas of={ReservationPanelStories.EmptyState} />
+
+## QrPanel
+
+<Canvas of={QrPanelStories.WithQrCode} />
+<Canvas of={QrPanelStories.Placeholder} />
+<Canvas of={QrPanelStories.Disabled} />
