@@ -1,0 +1,138 @@
+import { Meta, Title, Subtitle } from '@storybook/addon-docs/blocks';
+
+<Meta title="Catalog/Design Tokens" />
+
+<Title>Design Tokens Catalog</Title>
+<Subtitle>基本トークン定義（Style Dictionary）</Subtitle>
+
+このページは、`frontend/tokens` で定義したデザイントークンの設計意図と利用ルールをまとめたカタログです。  
+出力CSSは `src/styles/tokens.css` に生成され、アプリ本体とStorybookで共通利用されます。
+
+## 設計方針
+
+- `core`: 生の値（色、余白、タイポなど）
+- `semantic`: 役割ベースの値（背景、テキスト、ボタン、入力）
+- 原則としてコンポーネント実装では `semantic` を利用し、`core` を直接参照しない
+
+## カラー（Semantic）
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>用途</th>
+      <th>Preview</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--semantic-color-bg-surface</code></td>
+      <td>カード/フォーム背景</td>
+      <td><div style={{ width: '44px', height: '20px', border: '1px solid #cbd5e1', background: 'var(--semantic-color-bg-surface)' }} /></td>
+    </tr>
+    <tr>
+      <td><code>--semantic-color-action-primary</code></td>
+      <td>主要ボタン背景</td>
+      <td><div style={{ width: '44px', height: '20px', border: '1px solid #cbd5e1', background: 'var(--semantic-color-action-primary)' }} /></td>
+    </tr>
+    <tr>
+      <td><code>--semantic-color-state-success</code></td>
+      <td>成功状態</td>
+      <td><div style={{ width: '44px', height: '20px', border: '1px solid #cbd5e1', background: 'var(--semantic-color-state-success)' }} /></td>
+    </tr>
+    <tr>
+      <td><code>--semantic-color-state-danger</code></td>
+      <td>エラー/破壊的操作</td>
+      <td><div style={{ width: '44px', height: '20px', border: '1px solid #cbd5e1', background: 'var(--semantic-color-state-danger)' }} /></td>
+    </tr>
+  </tbody>
+</table>
+
+## タイポグラフィ
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--font-family-sans</code></td>
+      <td>通常本文</td>
+    </tr>
+    <tr>
+      <td><code>--font-size-sm</code>, <code>--font-size-md</code>, <code>--font-size-lg</code></td>
+      <td>本文・ラベル・見出し補助</td>
+    </tr>
+    <tr>
+      <td><code>--font-weight-medium</code>, <code>--font-weight-semibold</code></td>
+      <td>ボタンや見出しの強調</td>
+    </tr>
+  </tbody>
+</table>
+
+## 余白・角丸
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--space-2</code> / <code>--space-4</code> / <code>--space-6</code></td>
+      <td>インライン余白、カード内余白、セクション間余白</td>
+    </tr>
+    <tr>
+      <td><code>--radius-md</code></td>
+      <td>カード・入力・ボタンの標準角丸</td>
+    </tr>
+  </tbody>
+</table>
+
+## コンポーネント向けSemantic Token
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>役割</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--semantic-component-button-bg</code></td>
+      <td>ボタンの通常背景</td>
+    </tr>
+    <tr>
+      <td><code>--semantic-component-button-bg-hover</code></td>
+      <td>ホバー時背景</td>
+    </tr>
+    <tr>
+      <td><code>--semantic-component-input-border-focus</code></td>
+      <td>入力フォーカス枠</td>
+    </tr>
+  </tbody>
+</table>
+
+## 使い方（CSS）
+
+```css
+.button-primary {
+  height: var(--semantic-component-button-height);
+  padding-inline: var(--semantic-component-button-padding-x);
+  border-radius: var(--semantic-component-button-radius);
+  background: var(--semantic-component-button-bg);
+  color: var(--semantic-component-button-text);
+}
+
+.input-default {
+  height: var(--semantic-component-input-height);
+  border: 1px solid var(--semantic-component-input-border);
+  color: var(--semantic-component-input-text);
+}
+```

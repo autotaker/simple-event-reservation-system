@@ -1,0 +1,27 @@
+{
+  "semantic": {
+    "component": {
+      "button": {
+        "height": { "value": "2.5rem" },
+        "paddingX": { "value": "{space.4}" },
+        "radius": { "value": "{radius.md}" },
+        "fontSize": { "value": "{font.size.md}" },
+        "fontWeight": { "value": "{font.weight.semibold}" },
+        "bg": { "value": "{semantic.color.action.primary}" },
+        "bgHover": { "value": "{semantic.color.action.primaryHover}" },
+        "text": { "value": "{semantic.color.text.onPrimary}" }
+      },
+      "input": {
+        "height": { "value": "2.5rem" },
+        "paddingX": { "value": "{space.3}" },
+        "radius": { "value": "{radius.md}" },
+        "fontSize": { "value": "{font.size.md}" },
+        "bg": { "value": "{semantic.color.bg.surface}" },
+        "border": { "value": "{semantic.color.border.default}" },
+        "borderFocus": { "value": "{semantic.color.border.focus}" },
+        "text": { "value": "{semantic.color.text.primary}" },
+        "placeholder": { "value": "{semantic.color.text.muted}" }
+      }
+    }
+  }
+}

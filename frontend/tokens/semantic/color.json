@@ -1,0 +1,35 @@
+{
+  "semantic": {
+    "color": {
+      "bg": {
+        "canvas": { "value": "{color.gray.50}" },
+        "surface": { "value": "{color.gray.0}" },
+        "subtle": { "value": "{color.gray.100}" }
+      },
+      "text": {
+        "primary": { "value": "{color.gray.900}" },
+        "secondary": { "value": "{color.gray.700}" },
+        "muted": { "value": "{color.gray.500}" },
+        "onPrimary": { "value": "{color.gray.0}" }
+      },
+      "border": {
+        "default": { "value": "{color.gray.200}" },
+        "strong": { "value": "{color.gray.300}" },
+        "focus": { "value": "{color.blue.600}" }
+      },
+      "action": {
+        "primary": { "value": "{color.blue.600}" },
+        "primaryHover": { "value": "{color.blue.700}" },
+        "primarySoft": { "value": "{color.blue.100}" }
+      },
+      "state": {
+        "success": { "value": "{color.green.600}" },
+        "successSoft": { "value": "{color.green.100}" },
+        "warning": { "value": "{color.amber.600}" },
+        "warningSoft": { "value": "{color.amber.100}" },
+        "danger": { "value": "{color.red.600}" },
+        "dangerSoft": { "value": "{color.red.100}" }
+      }
+    }
+  }
+}

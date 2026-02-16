@@ -1,0 +1,21 @@
+{
+  "semantic": {
+    "layout": {
+      "page": {
+        "maxWidth": { "value": "72rem" },
+        "gutter": { "value": "{space.6}" }
+      },
+      "section": {
+        "gap": { "value": "{space.8}" },
+        "padding": { "value": "{space.6}" }
+      },
+      "card": {
+        "padding": { "value": "{space.4}" },
+        "gap": { "value": "{space.3}" },
+        "radius": { "value": "{radius.md}" },
+        "border": { "value": "1px solid {semantic.color.border.default}" },
+        "shadow": { "value": "{shadow.sm}" }
+      }
+    }
+  }
+}

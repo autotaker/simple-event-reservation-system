@@ -8,6 +8,9 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     return mergeConfig(config, {
       base: './',
+      optimizeDeps: {
+        include: ['react', 'react-dom/client', 'react/jsx-runtime'],
+      },
     });
   },
 };

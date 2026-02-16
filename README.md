@@ -228,6 +228,22 @@ cd frontend
 pnpm build-storybook
 ```
 
+### Design Tokens (Style Dictionary)
+
+トークン定義:
+- `frontend/tokens/core/*.json`（プリミティブ）
+- `frontend/tokens/semantic/*.json`（役割ベース）
+
+トークンCSS生成:
+
+```bash
+cd frontend
+pnpm tokens:build
+```
+
+生成先:
+- `frontend/src/styles/tokens.css`
+
 ### E2E (Playwright)
 
 ```bash
