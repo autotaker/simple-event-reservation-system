@@ -13,15 +13,33 @@ type Story = StoryObj<typeof meta>;
 
 const baseArgs = {
   routeLabel: '/participant',
-  title: '参加者導線（/participant）',
-  summary: '参加者は予約操作を participant 画面で完結し、管理UIを意識せずに操作できる。',
-  participantFeatures: ['セッション一覧表示', '予約一覧表示', 'マイページ表示', '予約 / 取消操作'],
-  adminFeatures: ['管理一覧取得', 'セッション作成/編集', 'CSV出力', '運営チェックイン管理'],
-  feedbackRules: [
-    '予約完了後に成功メッセージを表示する',
-    '取消完了後に予約一覧とマイページ表示を同期更新する',
-    '失敗時は原因と再試行導線を同じ画面に表示する',
+  title: '参加者ポータル',
+  summary:
+    '予約操作を1画面で完結するため、セッション選択・予約確認・マイページ確認を同時に見渡せる構成にする。',
+  participantFeatures: ['セッション一覧', '予約一覧', 'マイページ', '予約/取消'],
+  adminFeatures: ['管理一覧', 'セッション作成/編集', 'CSV出力', '運営チェックイン'],
+  sessionCards: [
+    {
+      id: 's1',
+      time: '10:00',
+      track: 'Track A',
+      title: 'Keynote: Product Vision',
+      cta: '予約する',
+    },
+    {
+      id: 's2',
+      time: '11:30',
+      track: 'Track B',
+      title: 'API Design Clinic',
+      cta: '予約済み',
+      reserved: true,
+    },
   ],
+  reservations: [
+    { id: 'r1', title: 'Keynote: Product Vision', state: '確定' },
+    { id: 'r2', title: 'API Design Clinic', state: '取消待ちなし' },
+  ],
+  myPageNote: '受付QRと予約サマリーを同一パネルで確認。会場移動中でも状態確認を迷わせない。',
   handoffIssue: '#39',
 } as const;
 

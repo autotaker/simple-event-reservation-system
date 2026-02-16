@@ -12,58 +12,54 @@ import * as ParticipantFlowStories from './ParticipantFlowWireframeMock.stories'
 <Meta of={ParticipantFlowStories} />
 
 <Title>US-12-1 参加者導線モックカタログ</Title>
-<Subtitle>Issue #39: /participant で参加者フローを完結させるための事前合意</Subtitle>
+<Subtitle>Issue #39: /participant のUIレイアウト設計（実装前合意）</Subtitle>
 
 <Description>
-  このモックは #39 実装前の合意資料です。 `/participant`
-  で扱う機能と除外する管理機能を明確化し、既存参加者フロー（予約/取消/マイページ表示）の維持条件をそろえます。
+  本モックは #39 のUIデザイン案です。実データ連携や composable 実装は含めず、
+  画面構造・視覚階層・状態フィードバックの仕様を先に固定することを目的にします。
 </Description>
 
-## 設計意図
+## デザイン方針
 
-- 参加者フローを `/participant` に閉じ、管理UI混在を防ぐ。
-- 予約/取消/マイページ表示を同一導線で維持し、操作分断を起こさない。
-- `loading` / `success` / `error` の状態を先に定義して、実装時のフィードバックを固定する。
+- 参加者の主行動「セッション選択 → 予約確認 → マイページ確認」を1画面内で完結させる。
+- ヒーロー領域で `/participant` の責務を明示し、管理機能の非表示を視覚的に宣言する。
+- 予約処理の状態（`loading` / `success` / `error`）をフッター領域へ集約し、結果の見落としを防ぐ。
 
-## 主要UI要素の役割
+## 画面構成と意図
 
 <table>
   <thead>
     <tr>
-      <th>要素</th>
-      <th>役割</th>
+      <th>ブロック</th>
+      <th>意図</th>
       <th>受け入れ条件との対応</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>
-        <code>表示する機能</code> リスト
-      </td>
-      <td>参加者導線の実装対象を明示</td>
-      <td>`/participant` で参加者機能が動作する</td>
-    </tr>
-    <tr>
-      <td>
-        <code>表示しない機能</code> リスト
-      </td>
-      <td>管理機能の除外対象を明示</td>
+      <td>Hero + Chips</td>
+      <td>参加者機能の対象と管理機能の除外を同時に提示する</td>
       <td>参加者画面に管理機能が描画されない</td>
     </tr>
     <tr>
-      <td>操作とフィードバック</td>
-      <td>予約/取消/更新の結果表示ルールを固定</td>
-      <td>既存参加者フローが維持される</td>
+      <td>セッション一覧パネル</td>
+      <td>予約操作の起点。カード単位で即時に行動選択できる</td>
+      <td>`/participant` で参加者機能が動作する</td>
+    </tr>
+    <tr>
+      <td>予約一覧・マイページパネル</td>
+      <td>操作結果と本人情報確認を同一視野に収める</td>
+      <td>既存参加者フロー（予約/取消/マイページ）を維持する</td>
     </tr>
   </tbody>
 </table>
 
 ## ストーリー確認観点
 
-- `DefaultFlow`: 参加者導線の対象・非対象が分離されているか
-- `LoadingState`: 更新中に誤操作防止ができるか
-- `SuccessState`: 操作成功時に完了フィードバックが表示されるか
-- `ErrorState`: 操作失敗時に再試行可能な文脈が表示されるか
+- `DefaultFlow`: 参加者UIとしての画面階層が成立しているか
+- `LoadingState`: 更新中の誤操作抑止と進行中フィードバックが明確か
+- `SuccessState`: 予約反映完了を即時に認識できるか
+- `ErrorState`: 失敗時に再試行可能な文脈が維持されるか
 
 ## プレビュー
 
