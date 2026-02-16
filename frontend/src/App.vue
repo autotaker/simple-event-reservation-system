@@ -1,15 +1,167 @@
 <template>
-  <main>
+  <main
+    v-if="isParticipantRoute"
+    class="participant-portal"
+    :class="`participant-portal--${participantMode}`"
+  >
+    <header class="participant-topbar">
+      <div>
+        <p class="participant-topbar__event">Tokyo Product Summit 2026</p>
+        <h1 class="participant-topbar__title">{{ participantDateLabel }}</h1>
+      </div>
+      <div class="participant-topbar__guest">
+        <span class="participant-topbar__badge">{{ guestId || 'Guest' }}</span>
+        <button type="button" @click="loginAsGuest">ゲストでログイン</button>
+      </div>
+    </header>
+
+    <p v-if="errorMessage" class="participant-feedback participant-feedback--error">
+      {{ errorMessage }}
+    </p>
+    <p v-if="infoMessage" class="participant-feedback participant-feedback--success">
+      {{ infoMessage }}
+    </p>
+
+    <section class="participant-portal__body">
+      <section class="participant-sessions" aria-label="session list">
+        <header class="participant-sessions__header">
+          <h2>セッション一覧</h2>
+          <button
+            type="button"
+            :disabled="!token || participantBusy"
+            @click="runParticipantAction(loadSessions)"
+          >
+            更新
+          </button>
+        </header>
+        <p v-if="token && sessions.length === 0">セッション一覧は未取得です。</p>
+        <article
+          v-for="session in sessions"
+          :key="session.sessionId"
+          class="participant-session-card"
+          :class="{ 'participant-session-card--reserved': isSessionReserved(session.sessionId) }"
+        >
+          <p class="participant-session-card__meta">
+            {{ session.startTime }} | {{ session.track }}
+          </p>
+          <h3 class="participant-session-card__title">{{ session.title }}</h3>
+          <div class="participant-session-card__footer">
+            <span
+              :class="[
+                'participant-session-card__seat',
+                `participant-session-card__seat--${availabilitySeatTone(session.availabilityStatus)}`,
+              ]"
+            >
+              {{ availabilityStatusLabel(session.availabilityStatus) }}
+            </span>
+            <button
+              type="button"
+              :disabled="
+                !token ||
+                participantBusy ||
+                session.availabilityStatus === 'FULL' ||
+                isSessionReserved(session.sessionId)
+              "
+              @click="runParticipantAction(() => reserveSession(session.sessionId, session.title))"
+            >
+              {{ isSessionReserved(session.sessionId) ? '予約済み' : '予約する' }}
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <aside class="participant-side">
+        <section class="participant-panel">
+          <header class="participant-panel__header">
+            <h2>予約一覧</h2>
+            <button
+              type="button"
+              :disabled="!token || participantBusy"
+              @click="runParticipantAction(loadReservations)"
+            >
+              更新
+            </button>
+          </header>
+          <div class="participant-panel__actions">
+            <button
+              type="button"
+              :disabled="!token || participantBusy"
+              @click="runParticipantAction(reserveKeynote)"
+            >
+              キーノートを予約
+            </button>
+          </div>
+          <p v-if="registered">参加登録: 完了</p>
+          <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
+          <ul v-if="participantReservationItems.length > 0" class="participant-reservation-list">
+            <li v-for="item in participantReservationItems" :key="item.id">
+              <p>{{ item.title }}</p>
+              <span>{{ item.time }}</span>
+              <button
+                type="button"
+                :disabled="!token || participantBusy"
+                @click="runParticipantAction(() => cancelReservation(item.id))"
+              >
+                キャンセル
+              </button>
+            </li>
+          </ul>
+          <p v-else-if="token">予約はありません。</p>
+        </section>
+
+        <section class="participant-panel participant-panel--qr">
+          <header class="participant-panel__header">
+            <h2>マイページ</h2>
+            <button
+              type="button"
+              :disabled="!token || participantBusy"
+              @click="runParticipantAction(loadMyPage)"
+            >
+              更新
+            </button>
+          </header>
+          <img
+            v-if="myPageQrCodePayload"
+            :src="receptionQrCodeImageUrl"
+            alt="受付用QRコード"
+            width="180"
+            height="180"
+          />
+          <div v-else class="participant-panel__qr-placeholder" aria-hidden="true">QR</div>
+          <p>
+            {{
+              myPageQrCodePayload
+                ? '受付用QRコードを表示中'
+                : 'ログイン後に受付QRコードが表示されます。'
+            }}
+          </p>
+          <ul v-if="myPageReservations.length > 0" class="participant-mypage-list">
+            <li v-for="reservation in myPageReservations" :key="`mypage-${reservation}`">
+              {{ reservation }}
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </section>
+
+    <p
+      v-if="participantMode === 'loading'"
+      class="participant-feedback participant-feedback--loading"
+    >
+      予約情報を更新中です...
+    </p>
+  </main>
+
+  <main v-else>
     <h1>Event Reservation MVP</h1>
-    <p v-if="isParticipantRoute">参加者専用ページです。予約操作をこの画面で完結できます。</p>
-    <p v-else>ゲストでログインしてキーノート予約を行えます。</p>
+    <p>ゲストでログインしてキーノート予約を行えます。</p>
 
     <button type="button" @click="loginAsGuest">ゲストでログイン</button>
     <p v-if="guestId">ログイン中: {{ guestId }}</p>
     <p v-if="errorMessage">{{ errorMessage }}</p>
     <p v-if="infoMessage">{{ infoMessage }}</p>
 
-    <section v-if="!isParticipantRoute">
+    <section>
       <h2>セッション管理（運営）</h2>
       <label>
         管理者トークン
@@ -175,7 +327,7 @@
       </template>
     </section>
 
-    <section v-if="!isParticipantRoute">
+    <section>
       <h2>運営チェックイン</h2>
       <p v-if="!token">運営チェックインはログイン中ユーザーのみ実行できます。</p>
       <template v-else>
@@ -327,6 +479,12 @@ type AdminForm = {
   capacity: string;
 };
 
+type ParticipantReservationItem = {
+  id: string;
+  title: string;
+  time: string;
+};
+
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
 const adminToken = ref<string>(globalThis.localStorage.getItem('adminAccessToken') ?? '');
@@ -360,7 +518,45 @@ const selectedCheckInSessionId = ref<string>('');
 const checkIns = ref<CheckInHistoryEntry[]>([]);
 const checkInHistoryLoaded = ref<boolean>(false);
 const checkInResultMessage = ref<string>('');
+const participantBusy = ref<boolean>(false);
 const isParticipantRoute = computed(() => globalThis.location.pathname.startsWith('/participant'));
+const participantDateLabel = computed(() => {
+  const now = new Date();
+  const monthDay = new Intl.DateTimeFormat('en-US', { month: 'numeric', day: 'numeric' }).format(
+    now,
+  );
+  const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(now);
+  return `${monthDay} (${weekday}) Day 1`;
+});
+const participantReservationItems = computed<ParticipantReservationItem[]>(() =>
+  reservations.value.map((reservationId) => {
+    const session = sessions.value.find((candidate) => candidate.sessionId === reservationId);
+    if (session) {
+      return {
+        id: reservationId,
+        title: session.title,
+        time: `${session.startTime} | ${session.track}`,
+      };
+    }
+    return {
+      id: reservationId,
+      title: reservationId === 'keynote' ? 'キーノート' : reservationId,
+      time: reservationId === 'keynote' ? '基調講演' : '',
+    };
+  }),
+);
+const participantMode = computed<'default' | 'loading' | 'success' | 'error'>(() => {
+  if (participantBusy.value) {
+    return 'loading';
+  }
+  if (errorMessage.value) {
+    return 'error';
+  }
+  if (infoMessage.value) {
+    return 'success';
+  }
+  return 'default';
+});
 
 const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
   if (status === 'OPEN') {
@@ -373,6 +569,15 @@ const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
 };
 
 const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
+const availabilitySeatTone = (status: SessionAvailabilityStatus): 'open' | 'few' | 'full' => {
+  if (status === 'OPEN') {
+    return 'open';
+  }
+  if (status === 'FEW_LEFT') {
+    return 'few';
+  }
+  return 'full';
+};
 const checkInTypeLabel = (checkInType: CheckInType): string =>
   checkInType === 'EVENT' ? 'イベント受付' : 'セッション受付';
 const formatCheckInTime = (checkedInAt: string): string =>
@@ -392,6 +597,15 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
     return null;
   }
   return null;
+};
+
+const runParticipantAction = async (action: () => Promise<void>): Promise<void> => {
+  participantBusy.value = true;
+  try {
+    await action();
+  } finally {
+    participantBusy.value = false;
+  }
 };
 
 const downloadAdminCsv = async (
@@ -881,3 +1095,297 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.participant-portal {
+  display: grid;
+  gap: 12px;
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid #cde8de;
+  background: linear-gradient(160deg, #f4fff9, #ffffff 48%, #f8fffd);
+  font-family: 'IBM Plex Sans JP', 'Noto Sans JP', sans-serif;
+}
+
+.participant-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid #cde8dd;
+  background: linear-gradient(145deg, #effff7, #f7fffb);
+}
+
+.participant-topbar__event {
+  margin: 0;
+  font-size: 12px;
+  color: #3e7360;
+}
+
+.participant-topbar__title {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #173a2c;
+}
+
+.participant-topbar__guest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.participant-topbar__badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #163f30;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.participant-topbar button {
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 12px;
+  background: #2b7a58;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.participant-portal__body {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1.35fr 1fr;
+}
+
+.participant-sessions {
+  display: grid;
+  gap: 10px;
+}
+
+.participant-sessions__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.participant-sessions h2,
+.participant-panel h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.participant-sessions__header button,
+.participant-panel button {
+  height: 30px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background: #315e96;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.participant-session-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #d7efe5;
+  background: #ffffff;
+}
+
+.participant-session-card--reserved {
+  background: #f4fbf8;
+}
+
+.participant-session-card__meta,
+.participant-session-card__title {
+  margin: 0;
+}
+
+.participant-session-card__meta {
+  font-size: 12px;
+  color: #4a7c67;
+}
+
+.participant-session-card__title {
+  font-size: 15px;
+  color: #1c3f31;
+}
+
+.participant-session-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.participant-session-card__seat {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.participant-session-card__seat--open {
+  background: #d8fbe7;
+  color: #18613e;
+}
+
+.participant-session-card__seat--few {
+  background: #fff0cf;
+  color: #925a00;
+}
+
+.participant-session-card__seat--full {
+  background: #ffe1e1;
+  color: #a82626;
+}
+
+.participant-session-card button {
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #1f8e5f;
+  color: #ffffff;
+}
+
+.participant-side {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.participant-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #d9e8f4;
+  background: #ffffff;
+}
+
+.participant-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.participant-panel__actions {
+  display: flex;
+}
+
+.participant-reservation-list,
+.participant-mypage-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.participant-reservation-list li {
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+
+.participant-reservation-list p,
+.participant-reservation-list span {
+  margin: 0;
+}
+
+.participant-reservation-list span {
+  font-size: 11px;
+  color: #4f657f;
+}
+
+.participant-panel--qr {
+  justify-items: center;
+  border: 1px solid #d8efe3;
+}
+
+.participant-panel--qr .participant-panel__header {
+  width: 100%;
+}
+
+.participant-panel__qr-placeholder {
+  width: 112px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 2px dashed #2a7758;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2a7758;
+  background: repeating-linear-gradient(-45deg, #f5fff9, #f5fff9 7px, #ecfbf3 7px, #ecfbf3 14px);
+}
+
+.participant-feedback {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.participant-feedback--loading {
+  background: #fff6df;
+  color: #8c5a00;
+}
+
+.participant-feedback--success {
+  background: #e8fbef;
+  color: #1e6a45;
+}
+
+.participant-feedback--error {
+  background: #ffe8e8;
+  color: #9f2d2d;
+}
+
+.participant-portal--loading {
+  border-color: #e9d09a;
+}
+
+.participant-portal--success {
+  border-color: #9bd7b4;
+}
+
+.participant-portal--error {
+  border-color: #e6a5a5;
+}
+
+.participant-session-card button:disabled,
+.participant-panel button:disabled,
+.participant-sessions__header button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .participant-portal {
+    width: min(390px, 100%);
+    padding: 12px;
+  }
+
+  .participant-portal__body {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

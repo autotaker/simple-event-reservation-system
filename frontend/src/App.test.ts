@@ -31,9 +31,9 @@ describe('App', () => {
     window.history.pushState({}, '', '/participant');
     const wrapper = mount(App);
 
-    expect(wrapper.text()).toContain('参加者専用ページです。予約操作をこの画面で完結できます。');
+    expect(wrapper.text()).toContain('Tokyo Product Summit 2026');
     expect(wrapper.text()).toContain('セッション一覧');
-    expect(wrapper.text()).toContain('予約');
+    expect(wrapper.text()).toContain('予約一覧');
     expect(wrapper.text()).toContain('マイページ');
     expect(wrapper.text()).not.toContain('セッション管理（運営）');
     expect(wrapper.text()).not.toContain('運営チェックイン');
