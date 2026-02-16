@@ -7,7 +7,7 @@ test.describe('US-03 セッション一覧と残席ステータス', () => {
     await loginAsGuest(page);
 
     const cards = page.locator('article');
-    expect(await cards.count()).toBeGreaterThanOrEqual(16);
+    await expect.poll(async () => cards.count()).toBeGreaterThanOrEqual(16);
     await expect(cards.filter({ hasText: '09:00 | Keynote' })).toHaveCount(1);
     await expect(cards.filter({ hasText: '10:30 | Track A' })).toHaveCount(1);
 
