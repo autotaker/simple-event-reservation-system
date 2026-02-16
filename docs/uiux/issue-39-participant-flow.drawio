@@ -1,64 +1,58 @@
 <mxfile host="app.diagrams.net" modified="2026-02-16T00:00:00.000Z" agent="codex" version="24.7.17" editor="diagramly">
-  <diagram id="participant-flow-main" name="participant-flow">
-    <mxGraphModel dx="1246" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+  <diagram id="lofi-mobile" name="LoFi-Mobile-390x844">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
 
-        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
-          <mxGeometry x="60" y="120" width="120" height="56" as="geometry" />
+        <mxCell id="m-frame" value="iPhone class (390x844)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="120" y="60" width="360" height="740" as="geometry" />
         </mxCell>
-        <mxCell id="gate" value="/participant へ遷移" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2e8f0;strokeColor=#475569;" vertex="1" parent="1">
-          <mxGeometry x="240" y="114" width="180" height="68" as="geometry" />
+        <mxCell id="m-header" value="Header / Guest badge / Menu" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="92" width="310" height="72" as="geometry" />
         </mxCell>
-        <mxCell id="participant" value="参加者ホーム&#xa;セッション一覧 / 予約一覧 / マイページ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#166534;" vertex="1" parent="1">
-          <mxGeometry x="480" y="108" width="320" height="80" as="geometry" />
+        <mxCell id="m-filter" value="Day filter + Search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="178" width="310" height="56" as="geometry" />
         </mxCell>
-        <mxCell id="admin-block" value="管理UIは非表示&#xa;(管理一覧 / 作成編集 / CSV出力は描画しない)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
-          <mxGeometry x="850" y="108" width="360" height="80" as="geometry" />
+        <mxCell id="m-sessions" value="Session cards list&#xa;- time / track / title&#xa;- reserve button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="248" width="310" height="220" as="geometry" />
         </mxCell>
+        <mxCell id="m-reserve" value="Reserved list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="482" width="150" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="m-qr" value="MyPage QR panel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="305" y="482" width="150" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="m-feedback" value="Toast / Inline feedback (success,error,loading)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="632" width="310" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m-nav" value="Bottom navigation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="145" y="706" width="310" height="62" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 
-        <mxCell id="cp-box" value="チェックポイント&#xa;CP1: /participant で参加者機能が動作する&#xa;CP2: 参加者画面に管理機能を描画しない&#xa;CP3: 既存参加者フロー(予約/取消/マイページ表示)を維持" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="480" y="230" width="500" height="130" as="geometry" />
-        </mxCell>
+  <diagram id="lofi-tablet" name="LoFi-Tablet-834x1112">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
 
-        <mxCell id="state-loading" value="loading&#xa;参加者データ取得中は主操作を一時無効" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#a16207;" vertex="1" parent="1">
-          <mxGeometry x="140" y="420" width="290" height="84" as="geometry" />
+        <mxCell id="t-frame" value="iPad class (834x1112)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="90" y="70" width="980" height="760" as="geometry" />
         </mxCell>
-        <mxCell id="state-success" value="success&#xa;予約/取消/マイページ更新完了を即時表示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#166534;" vertex="1" parent="1">
-          <mxGeometry x="470" y="420" width="290" height="84" as="geometry" />
+        <mxCell id="t-header" value="Header / Guest badge / Actions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="130" y="110" width="900" height="74" as="geometry" />
         </mxCell>
-        <mxCell id="state-error" value="error&#xa;予約失敗時に理由と再操作導線を提示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
-          <mxGeometry x="800" y="420" width="290" height="84" as="geometry" />
+        <mxCell id="t-left" value="Session cards list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="130" y="202" width="500" height="566" as="geometry" />
         </mxCell>
-
-        <mxCell id="handoff" value="#39 実装引き渡し: participant導線の分離と既存参加者体験の維持" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="480" y="550" width="560" height="60" as="geometry" />
+        <mxCell id="t-right-top" value="Reserved list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="648" y="202" width="382" height="270" as="geometry" />
         </mxCell>
-
-        <mxCell id="edge-s-g" style="endArrow=block;html=1;strokeColor=#2563eb;" edge="1" parent="1" source="start" target="gate">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-g-p" style="endArrow=block;html=1;strokeColor=#2563eb;" edge="1" parent="1" source="gate" target="participant">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-p-a" style="endArrow=block;html=1;strokeColor=#b91c1c;dashed=1;" edge="1" parent="1" source="participant" target="admin-block">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-p-cp" style="endArrow=block;html=1;strokeColor=#64748b;dashed=1;" edge="1" parent="1" source="participant" target="cp-box">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-cp-l" style="endArrow=block;html=1;strokeColor=#a16207;" edge="1" parent="1" source="cp-box" target="state-loading">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-cp-s" style="endArrow=block;html=1;strokeColor=#166534;" edge="1" parent="1" source="cp-box" target="state-success">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-cp-e" style="endArrow=block;html=1;strokeColor=#b91c1c;" edge="1" parent="1" source="cp-box" target="state-error">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge-s-h" style="endArrow=block;html=1;strokeColor=#64748b;dashed=1;" edge="1" parent="1" source="state-success" target="handoff">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="t-right-bottom" value="MyPage QR panel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="648" y="488" width="382" height="280" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
