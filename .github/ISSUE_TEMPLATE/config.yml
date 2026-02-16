@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "運用メモ"
+    url: "https://github.com/autotaker/simple-event-reservation-system/blob/main/README.md"
+    about: "セットアップ手順や開発フローはREADMEを参照してください"
