@@ -69,8 +69,8 @@ defineProps<{
   border: none;
   border-radius: 10px;
   padding: 0 12px;
-  background: var(--semantic-component-button-bg);
-  color: var(--semantic-component-button-text);
+  background: var(--semantic-color-state-warning);
+  color: var(--semantic-color-text-on-primary);
   font-size: 12px;
   font-weight: 700;
 }

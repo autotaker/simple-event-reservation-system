@@ -30,7 +30,7 @@ defineProps<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid var(--semantic-color-border-strong);
+  border: 1px solid var(--semantic-color-state-warning);
   background: var(--semantic-color-bg-surface);
 }
 
@@ -84,8 +84,8 @@ defineProps<{
   border: none;
   border-radius: 9px;
   padding: 0 12px;
-  background: var(--semantic-component-button-bg);
-  color: var(--semantic-component-button-text);
+  background: var(--semantic-color-state-warning);
+  color: var(--semantic-color-text-on-primary);
   font-size: 12px;
   font-weight: 700;
 }

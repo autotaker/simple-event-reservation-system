@@ -21,7 +21,7 @@ defineProps<{
   gap: 10px;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid var(--semantic-color-border-strong);
+  border: 1px solid var(--semantic-color-state-warning);
   background: var(--semantic-color-bg-surface);
 }
 
@@ -44,8 +44,8 @@ defineProps<{
   height: 34px;
   border: none;
   border-radius: 10px;
-  background: var(--semantic-component-button-bg);
-  color: var(--semantic-component-button-text);
+  background: var(--semantic-color-state-warning);
+  color: var(--semantic-color-text-on-primary);
   font-size: 12px;
   font-weight: 700;
 }

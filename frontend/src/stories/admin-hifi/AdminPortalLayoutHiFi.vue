@@ -6,7 +6,7 @@
       admin-name="Ops Admin"
     />
 
-    <section class="portal__body">
+    <section v-if="mode !== 'error'" class="portal__body">
       <AdminSessionTableMock :sessions="sessions" :disabled="mode === 'loading'" />
 
       <aside class="portal__side">
