@@ -1,21 +1,18 @@
 <template>
   <main class="admin-portal">
-    <header class="admin-portal__header">
-      <h1>運営導線 /admin</h1>
-      <RouterLink to="/participant">参加者画面へ戻る</RouterLink>
-    </header>
+    <AdminTopBar
+      event-name="Tokyo Product Summit 2026"
+      section-label="運営管理ポータル /admin"
+      admin-name="Ops Admin"
+      return-to="/participant"
+      return-label="参加者画面へ戻る"
+    />
 
-    <section class="admin-portal__gate">
-      <h2>管理アクセス確認</h2>
-      <label>
-        管理者トークン
-        <input v-model="adminToken" type="password" placeholder="admin token" />
-      </label>
-      <p v-if="!hasAdminAccess" class="admin-portal__feedback admin-portal__feedback--forbidden">
-        管理権限がないため /admin
-        の管理画面を表示できません。管理者トークンを設定するか、参加者画面へ戻ってください。
-      </p>
-    </section>
+    <AdminAccessGate v-model="adminToken" />
+    <AdminAccessDeniedPanel
+      v-if="!hasAdminAccess"
+      :message="'管理権限がないため /admin の管理画面を表示できません。管理者トークンを設定するか、参加者画面へ戻ってください。'"
+    />
 
     <p v-if="errorMessage" class="admin-portal__feedback admin-portal__feedback--error">
       {{ errorMessage }}
@@ -24,97 +21,55 @@
       {{ infoMessage }}
     </p>
 
-    <section v-if="hasAdminAccess">
+    <section v-if="hasAdminAccess" class="admin-portal__body">
       <h2>セッション管理（運営）</h2>
-      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">
-        管理一覧を取得
-      </button>
-      <button type="button" :disabled="!adminToken" @click="downloadReservationCsv">
-        予約一覧CSVを出力
-      </button>
-      <button type="button" :disabled="!adminToken" @click="downloadSessionCheckInCsv">
-        チェックインCSVを出力
-      </button>
-
-      <form @submit.prevent="createAdminSession">
-        <h3>新規作成</h3>
-        <label>
-          タイトル
-          <input v-model="createForm.title" type="text" required />
-        </label>
-        <label>
-          開始時刻
-          <input v-model="createForm.startTime" type="time" required />
-        </label>
-        <label>
-          トラック
-          <input v-model="createForm.track" type="text" required />
-        </label>
-        <label>
-          定員
-          <input v-model="createForm.capacity" type="number" min="1" required />
-        </label>
-        <button type="submit" :disabled="!adminToken">セッション作成</button>
-      </form>
-
-      <table v-if="adminSessions.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">開始時刻</th>
-            <th scope="col">トラック</th>
-            <th scope="col">タイトル</th>
-            <th scope="col">定員</th>
-            <th scope="col">予約数</th>
-            <th scope="col">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="session in adminSessions" :key="session.sessionId">
-            <td>{{ session.sessionId }}</td>
-            <td>{{ session.startTime }}</td>
-            <td>{{ session.track }}</td>
-            <td>{{ session.title }}</td>
-            <td>{{ session.capacity }}</td>
-            <td>{{ session.reservedCount }}</td>
-            <td>
-              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">
-                編集
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <form v-if="editForm.sessionId" @submit.prevent="updateAdminSession">
-        <h3>編集: {{ editForm.sessionId }}</h3>
-        <label>
-          タイトル
-          <input v-model="editForm.title" type="text" required />
-        </label>
-        <label>
-          開始時刻
-          <input v-model="editForm.startTime" type="time" required />
-        </label>
-        <label>
-          トラック
-          <input v-model="editForm.track" type="text" required />
-        </label>
-        <label>
-          定員
-          <input v-model="editForm.capacity" type="number" min="1" required />
-        </label>
-        <button type="submit" :disabled="!adminToken">更新</button>
-        <button type="button" @click="clearEditForm">キャンセル</button>
-      </form>
+      <div class="admin-portal__layout">
+        <AdminSessionTable
+          :sessions="adminSessions"
+          :disabled="!adminToken"
+          @load="loadAdminSessions"
+          @edit="startEditSession"
+        />
+        <aside class="admin-portal__side">
+          <AdminSessionEditor
+            heading="新規作成"
+            :form="createForm"
+            submit-label="セッション作成"
+            :can-submit="Boolean(adminToken)"
+            @update:form="updateCreateForm"
+            @submit="createAdminSession"
+          />
+          <AdminSessionEditor
+            v-if="editForm.sessionId"
+            :heading="`編集: ${editForm.sessionId}`"
+            :form="editForm"
+            submit-label="更新"
+            :can-submit="Boolean(adminToken)"
+            show-cancel
+            @update:form="updateEditForm"
+            @submit="updateAdminSession"
+            @cancel="clearEditForm"
+          />
+          <AdminCsvExportPanel
+            :disabled="!adminToken"
+            @download-reservations="downloadReservationCsv"
+            @download-check-ins="downloadSessionCheckInCsv"
+          />
+        </aside>
+      </div>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { RouterLink } from 'vue-router';
-import { useReservationApp } from '../composables/useReservationApp';
+import AdminAccessDeniedPanel from '../components/admin/AdminAccessDeniedPanel.vue';
+import AdminAccessGate from '../components/admin/AdminAccessGate.vue';
+import AdminCsvExportPanel from '../components/admin/AdminCsvExportPanel.vue';
+import AdminSessionEditor from '../components/admin/AdminSessionEditor.vue';
+import AdminSessionTable from '../components/admin/AdminSessionTable.vue';
+import AdminTopBar from '../components/admin/AdminTopBar.vue';
+import { type AdminForm, useReservationApp } from '../composables/useReservationApp';
 
 const {
   adminToken,
@@ -134,6 +89,14 @@ const {
 
 const hasAdminAccess = computed<boolean>(() => adminToken.value.trim().length > 0);
 
+const updateCreateForm = (form: AdminForm): void => {
+  createForm.value = form;
+};
+
+const updateEditForm = (form: AdminForm): void => {
+  editForm.value = form;
+};
+
 onMounted(() => {
   if (hasAdminAccess.value) {
     void loadAdminSessions();
@@ -150,25 +113,6 @@ onMounted(() => {
   padding: 20px;
 }
 
-.admin-portal__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.admin-portal__header h1 {
-  margin: 0;
-}
-
-.admin-portal__gate {
-  display: grid;
-  gap: 8px;
-}
-
-.admin-portal__gate h2 {
-  margin: 0;
-}
-
 .admin-portal__feedback {
   margin: 0;
 }
@@ -183,5 +127,37 @@ onMounted(() => {
 
 .admin-portal__feedback--success {
   color: #136428;
+}
+
+.admin-portal__body {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-portal__body h2 {
+  margin: 0;
+}
+
+.admin-portal__layout {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1.3fr 1fr;
+}
+
+.admin-portal__side {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+@media (max-width: 900px) {
+  .admin-portal {
+    width: min(390px, 100%);
+    padding: 12px;
+  }
+
+  .admin-portal__layout {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
