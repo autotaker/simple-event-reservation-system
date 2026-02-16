@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import WireframeCard from './WireframeCard.vue';
 
 const meta = {
-  title: 'Wireframe/WireframeCard',
+  title: 'Catalog Sample/WireframeCardMock Sample',
   component: WireframeCard,
   tags: ['autodocs'],
   args: {
