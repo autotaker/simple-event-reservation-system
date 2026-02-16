@@ -1,0 +1,34 @@
+import { Meta, Title, Subtitle, Description, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as GuardStories from './AdminRouteGuardMock.stories';
+
+<Meta of={GuardStories} />
+
+<Title>US-12-2 管理導線モックカタログ</Title>
+<Subtitle>Issue #40: `/admin` への機能移設と直接アクセス制御</Subtitle>
+
+<Description>
+  このカタログは Issue #40 の実装前合意用モックです。
+  管理導線で表示すべき領域と、権限外アクセス時に表示してはいけない領域を固定します。
+</Description>
+
+## 設計意図
+
+- `/admin` に管理責務を集約し、参加者機能を混在させない。
+- 直接アクセス拒否時は「管理画面本体を描画しない」ことを UI 仕様として明示する。
+- 権限判定中に操作を無効化し、誤操作やチラつき表示を防ぐ。
+
+## ストーリー確認観点
+
+- `AdminAuthorized`: 管理機能のみ表示され、参加者機能が排除されているか
+- `AdminPermissionChecking`: 判定中に管理操作を無効化できているか
+- `AdminForbidden`: 拒否理由と復帰導線のみ表示し、管理UIを表示しないか
+
+## プレビュー
+
+<Canvas of={GuardStories.AdminAuthorized} />
+<Canvas of={GuardStories.AdminPermissionChecking} />
+<Canvas of={GuardStories.AdminForbidden} />
+
+## Props
+
+<Controls />

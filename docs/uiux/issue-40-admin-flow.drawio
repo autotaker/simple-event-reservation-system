@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" modified="2026-02-16T00:00:00.000Z" agent="codex" version="24.7.17" editor="diagramly">
+  <diagram id="admin-authorized" name="Admin-Authorized">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="a-frame" value="Admin Portal / 1280w" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="90" y="60" width="1080" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="a-header" value="Header: Admin badge / Event selector / Logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#b45309;" vertex="1" parent="1">
+          <mxGeometry x="130" y="100" width="1000" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="a-actions" value="Quick actions: CSV export / Refresh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#b45309;" vertex="1" parent="1">
+          <mxGeometry x="130" y="190" width="1000" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="a-table" value="Admin sessions table&#xa;- title / capacity / reservations&#xa;- edit button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="130" y="272" width="620" height="472" as="geometry" />
+        </mxCell>
+        <mxCell id="a-form" value="Create/Edit form&#xa;- title / startsAt / capacity&#xa;- save button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f9fafb;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="770" y="272" width="360" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="a-note" value="Do not render participant features&#xa;(session reservation / my page / participant list)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="770" y="560" width="360" height="184" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="admin-forbidden" name="Admin-Forbidden">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="f-frame" value="/admin (forbidden)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="130" y="90" width="960" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="f-panel" value="403 Forbidden&#xa;管理者権限が必要です" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="260" y="220" width="700" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="f-desc" value="理由: このアカウントは参加者導線のみ利用できます。&#xa;案内: participant画面に戻ってください。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f2;strokeColor=#be123c;" vertex="1" parent="1">
+          <mxGeometry x="260" y="372" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="f-back" value="Primary action: participant に戻る" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fecaca;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="260" y="510" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="f-hidden" value="Hidden: admin table / create edit form / csv actions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="510" width="380" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="admin-checking" name="Admin-Permission-Checking">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="c-frame" value="/admin (checking)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="130" y="90" width="960" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="c-msg" value="権限判定中..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="300" y="220" width="620" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-skeleton" value="Skeleton placeholders (admin content is not yet interactive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#60a5fa;" vertex="1" parent="1">
+          <mxGeometry x="300" y="332" width="620" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="c-disabled" value="Buttons disabled until permission check completes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="300" y="522" width="620" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
