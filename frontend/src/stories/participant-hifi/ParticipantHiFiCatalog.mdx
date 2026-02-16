@@ -1,0 +1,30 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as LayoutStories from './ParticipantPortalLayoutHiFi.stories';
+import * as TopBarStories from './ParticipantTopBarMock.stories';
+import * as SessionCardStories from './ParticipantSessionCardMock.stories';
+import * as ReservationStories from './ParticipantReservationPanelMock.stories';
+import * as QrStories from './ParticipantQrPanelMock.stories';
+
+<Meta of={LayoutStories} />
+
+<Title>US-12-1 参加者導線 HiFi カタログ</Title>
+<Subtitle>Issue #39: Onsite 利用デバイスを前提にした HiFi モック</Subtitle>
+
+<Description>
+  本カタログは HiFi 相当の画面レイアウトと、実装単位のUIコンポーネントを分けて定義する。
+  実データ連携は含めず、視覚仕様と状態表現のみを先行合意する。
+</Description>
+
+## 1. 画面レイアウトストーリー
+
+<Canvas of={LayoutStories.MobileOnsiteDefault} />
+<Canvas of={LayoutStories.MobileOnsiteLoading} />
+<Canvas of={LayoutStories.TabletKioskView} />
+<Canvas of={LayoutStories.DesktopPreEventCheck} />
+
+## 2. 実装コンポーネントストーリー
+
+<Canvas of={TopBarStories.MobileHeader} />
+<Canvas of={SessionCardStories.MobileOpenSeat} />
+<Canvas of={ReservationStories.MobileReservationPanel} />
+<Canvas of={QrStories.MobileQrPanel} />
