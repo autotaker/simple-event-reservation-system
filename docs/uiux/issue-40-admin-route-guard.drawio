@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net" modified="2026-02-16T00:00:00.000Z" agent="codex" version="24.7.17" editor="diagramly">
+  <diagram id="admin-success" name="admin-success">
+    <mxGraphModel dx="1246" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" value="管理者ユーザー" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-route" value="/admin へ遷移" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="230" y="95" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="success" value="管理画面（成功）&#xa;管理一覧・作成/編集・CSV出力を表示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="460" y="85" width="330" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="blocked" value="非表示: 参加者向け予約導線 / マイページ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="95" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#2563eb;" edge="1" parent="1" source="start" target="admin-route">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#92400e;" edge="1" parent="1" source="admin-route" target="success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#b91c1c;dashed=1;" edge="1" parent="1" source="success" target="blocked">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="admin-loading" name="admin-loading">
+    <mxGraphModel dx="1246" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" value="/admin アクセス開始" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="80" y="110" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="loading" value="権限判定中（loading）&#xa;主要操作ボタン無効 + 判定中フィードバック" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2e8f0;strokeColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="300" y="95" width="360" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="gate" value="判定完了前は遷移確定しない" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="105" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#2563eb;" edge="1" parent="1" source="start" target="loading">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#64748b;dashed=1;" edge="1" parent="1" source="loading" target="gate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="admin-forbidden" name="admin-forbidden">
+    <mxGraphModel dx="1246" dy="719" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" value="参加者ユーザー" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="direct" value="/admin へ直接アクセス" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="230" y="95" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="forbidden" value="403 拒否表示（error）&#xa;理由提示 + /participant へ戻る" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fecaca;strokeColor=#991b1b;" vertex="1" parent="1">
+          <mxGeometry x="470" y="85" width="310" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="hide-admin" value="管理画面本文は描画しない" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="105" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#2563eb;" edge="1" parent="1" source="start" target="direct">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#b91c1c;" edge="1" parent="1" source="direct" target="forbidden">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#64748b;dashed=1;" edge="1" parent="1" source="forbidden" target="hide-admin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

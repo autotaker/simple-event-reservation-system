@@ -1,0 +1,64 @@
+import { Meta, Title, Subtitle, Description, Primary, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as GuardStories from './AdminRouteGuardMock.stories';
+
+<Meta of={GuardStories} />
+
+<Title>US-12-2 /admin 直接アクセス制御モック</Title>
+<Subtitle>Issue #40: 管理導線の責務固定と権限外アクセス拒否を実装前に合意する</Subtitle>
+
+<Description>
+このモックは `/admin` 導線の表示責務と、権限外ユーザーの直接アクセス時のフィードバックを実装前に固定するための仕様カタログです。
+`success / loading / error` の3状態のみを定義し、Issue #40 の完了条件に直接対応させます。
+</Description>
+
+## 設計意図
+
+- 管理導線に管理機能のみを残し、参加者機能の混在を防ぐ。
+- 権限判定中の操作抑止を可視化し、判定タイミング差分によるUXばらつきを防ぐ。
+- 権限外アクセス時の理由提示と復帰行動を一体で定義し、迷子状態を防ぐ。
+
+## 主要UI要素の役割
+
+<table>
+  <thead>
+    <tr>
+      <th>要素</th>
+      <th>役割</th>
+      <th>Issue #40 完了条件との対応</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>表示する要素</code> リスト</td>
+      <td>状態ごとの表示責務を固定する</td>
+      <td><code>/admin</code> で管理機能が動作する</td>
+    </tr>
+    <tr>
+      <td><code>表示しない要素</code> リスト</td>
+      <td>混在禁止要素を明示する</td>
+      <td>権限なし時に管理画面を表示しない</td>
+    </tr>
+    <tr>
+      <td>フィードバック文言</td>
+      <td>判定中・拒否時の理解を補助する</td>
+      <td>拒否時に理由が分かるフィードバックがある</td>
+    </tr>
+  </tbody>
+</table>
+
+## ストーリー確認観点
+
+- `AdminAllowed`: 管理権限時に管理機能のみ表示されるか
+- `AccessChecking`: 判定中に操作が抑止されるか
+- `ForbiddenDirectAccess`: 403 + 復帰導線が表示され、管理画面が非表示か
+
+## プレビュー
+
+<Primary />
+
+<Canvas of={GuardStories.AccessChecking} />
+<Canvas of={GuardStories.ForbiddenDirectAccess} />
+
+## Props
+
+<Controls />
