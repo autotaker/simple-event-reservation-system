@@ -1,0 +1,32 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as LayoutStories from './AdminPortalLayoutHiFi.stories';
+import * as TopBarStories from './AdminTopBarMock.stories';
+import * as SessionTableStories from './AdminSessionTableMock.stories';
+import * as SessionEditorStories from './AdminSessionEditorMock.stories';
+import * as CsvStories from './AdminCsvExportPanelMock.stories';
+import * as DeniedStories from './AdminAccessDeniedPanelMock.stories';
+
+<Meta of={LayoutStories} />
+
+<Title>US-12-2 管理導線 HiFi カタログ</Title>
+<Subtitle>Issue #40: /admin 管理導線と直接アクセス制御のモック</Subtitle>
+
+<Description>
+  本カタログは #40 の受け入れ条件に合わせて、管理導線の画面構造と
+  直接アクセス拒否時のフィードバック導線を先行合意するための HiFi モックである。
+</Description>
+
+## 1. 画面レイアウトストーリー
+
+<Canvas of={LayoutStories.MobileAdminDefault} />
+<Canvas of={LayoutStories.MobileAdminLoading} />
+<Canvas of={LayoutStories.TabletAdminSuccess} />
+<Canvas of={LayoutStories.MobileForbiddenError} />
+
+## 2. 実装コンポーネントストーリー
+
+<Canvas of={TopBarStories.MobileHeader} />
+<Canvas of={SessionTableStories.MobileTable} />
+<Canvas of={SessionEditorStories.MobileEditor} />
+<Canvas of={CsvStories.MobileExportPanel} />
+<Canvas of={DeniedStories.MobileDeniedState} />

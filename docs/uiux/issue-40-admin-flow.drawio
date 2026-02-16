@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net" modified="2026-02-16T00:00:00.000Z" agent="codex" version="24.7.17" editor="diagramly">
+  <diagram id="admin-mobile" name="LoFi-Mobile-390x844">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="m-frame" value="Admin mobile (390x844)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="120" y="60" width="360" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="m-header" value="Header / Admin badge / Sign out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="145" y="92" width="310" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="m-session-list" value="Session management list&#xa;- title / track / capacity&#xa;- edit action" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="145" y="178" width="310" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m-editor" value="Create/Edit panel&#xa;- title / slot / limit&#xa;- save button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="145" y="402" width="310" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="m-csv" value="CSV export panel&#xa;- reservation.csv&#xa;- checkin.csv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="145" y="566" width="150" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="m-feedback" value="Inline feedback&#xa;loading / success / error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="305" y="566" width="150" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="m-denied" value="Forbidden state&#xa;Reason + Return to /participant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="145" y="702" width="310" height="66" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="admin-tablet" name="LoFi-Tablet-834x1112">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t-frame" value="Admin tablet (834x1112)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="90" y="70" width="980" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="t-header" value="Header / Admin badge / Guard status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="130" y="110" width="900" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="t-left" value="Session management list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="130" y="202" width="510" height="566" as="geometry" />
+        </mxCell>
+        <mxCell id="t-right-top" value="Create/Edit panel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="656" y="202" width="374" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="t-right-bottom" value="CSV export + Access denied guidance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="656" y="518" width="374" height="250" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
