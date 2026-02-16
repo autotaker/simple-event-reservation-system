@@ -7,6 +7,8 @@
 1. トップ画面で `ゲストでログイン` を押下
 2. `ログイン中: guest-xxxxxxx` が表示されることを確認
 
+![ログイン前画面](../images/manual/01-before-login.png)
+
 ### 1.2 キーノート予約
 
 1. `キーノートを予約` を押下
@@ -18,6 +20,8 @@
 2. 対象行の `予約する` を押下
 3. 予約後に `予約済み` 表示へ変わることを確認
 4. 競合時間帯・上限超過時はエラーメッセージを確認
+
+![ログイン後のセッション一覧と予約状態](../images/manual/02-after-login-session-list.png)
 
 ### 1.4 マイページ・QR
 
@@ -38,6 +42,8 @@
 
 1. `予約一覧CSVを出力` を押下し `reservations.csv` を保存
 2. `チェックインCSVを出力` を押下し `session-checkins.csv` を保存
+
+![運営画面（CSV出力・マイページQR・チェックイン入力欄）](../images/manual/03-admin-csv-mypage-checkin.png)
 
 ### 2.3 チェックイン
 

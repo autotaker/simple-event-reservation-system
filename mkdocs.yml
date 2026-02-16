@@ -38,5 +38,6 @@ nav:
       - 主要シーケンス図: review/05-sequence-diagrams.md
       - 操作マニュアル: review/06-operation-manual.md
       - 自動テストケース一覧: review/07-test-cases.md
+      - スプリントレビュー結果: review/08-sprint-review-result.md
   - 参考資料:
       - 要件定義書: 要件定義書.md
