@@ -18,16 +18,15 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     const updatedTitle = `E2E Updated Session ${uniqueId}`;
 
     await clearGuestSession(page);
+    await page.goto('/participant');
     await loginAsGuest(page);
+    await page.goto('/admin');
 
     await page.getByLabel('管理者トークン').fill(ADMIN_TOKEN);
     await page.getByRole('button', { name: '管理一覧を取得' }).click();
 
     const adminSection = page.locator('section').filter({
       has: page.getByRole('heading', { name: 'セッション管理（運営）' }),
-    });
-    const participantSection = page.locator('section').filter({
-      has: page.getByRole('heading', { name: 'セッション一覧' }),
     });
     await expect(adminSection).toBeVisible();
 
@@ -50,7 +49,9 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
 
     await createdAdminRow.getByRole('button', { name: '編集' }).click();
     const editForm = adminSection.locator('form').nth(1);
-    await expect(editForm.getByRole('heading', { name: new RegExp(`^編集: ${sessionId}$`) })).toBeVisible();
+    await expect(
+      editForm.getByRole('heading', { name: new RegExp(`^編集: ${sessionId}$`) }),
+    ).toBeVisible();
     await editForm.getByLabel('タイトル').fill(updatedTitle);
     await editForm.getByLabel('開始時刻').fill('17:15');
     await editForm.getByLabel('トラック').fill('Track E2E Updated');
@@ -65,10 +66,13 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     await expect(updatedAdminRow).toContainText('Track E2E Updated');
     await expect(updatedAdminRow).toContainText('8');
 
-    const updatedParticipantRow = participantSection.locator('tbody tr', { hasText: updatedTitle });
-    await expect(updatedParticipantRow).toBeVisible();
-    await expect(updatedParticipantRow).toContainText('17:15');
-    await expect(updatedParticipantRow).toContainText('Track E2E Updated');
+    await page.goto('/participant');
+    await page.getByRole('button', { name: '更新' }).click();
+    const updatedParticipantCard = page.locator('article').filter({ hasText: updatedTitle });
+    await expect(updatedParticipantCard).toBeVisible();
+    await expect(updatedParticipantCard).toContainText('17:15 | Track E2E Updated');
+
+    await page.goto('/admin');
 
     const guest1 = await request.post('http://127.0.0.1:8080/api/auth/guest');
     expect(guest1.status()).toBe(200);
