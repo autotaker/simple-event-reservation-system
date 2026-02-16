@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { resolveUsableAdminToken } from './support/admin';
 import { clearGuestSession, loginAsGuest } from './support/ui';
-
-const ADMIN_TOKEN = process.env.E2E_ADMIN_TOKEN ?? 'e2e-admin-token';
 
 test.describe('US-08 運営がセッション情報を管理できる', () => {
   test('未認証で管理APIにアクセスすると401になる', async ({ request }) => {
@@ -13,6 +12,7 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     page,
     request,
   }) => {
+    const adminToken = await resolveUsableAdminToken(request);
     const uniqueId = Date.now();
     const createdTitle = `E2E Session ${uniqueId}`;
     const updatedTitle = `E2E Updated Session ${uniqueId}`;
@@ -20,7 +20,7 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     await clearGuestSession(page);
     await loginAsGuest(page);
 
-    await page.getByLabel('管理者トークン').fill(ADMIN_TOKEN);
+    await page.getByLabel('管理者トークン').fill(adminToken);
     await page.getByRole('button', { name: '管理一覧を取得' }).click();
 
     const adminSection = page.locator('section').filter({

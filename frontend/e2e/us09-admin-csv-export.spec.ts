@@ -1,8 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { resolveUsableAdminToken } from './support/admin';
 import { clearGuestSession, loginAsGuest } from './support/ui';
-
-const ADMIN_TOKEN = process.env.E2E_ADMIN_TOKEN ?? 'e2e-admin-token';
 
 test.describe('US-09 予約状況をCSVでエクスポートできる', () => {
   test('未認証でCSVエクスポートAPIにアクセスすると401になる', async ({ request }) => {
@@ -13,11 +12,12 @@ test.describe('US-09 予約状況をCSVでエクスポートできる', () => {
     expect(checkInsResponse.status()).toBe(401);
   });
 
-  test('運営は予約一覧とチェックインCSVをUTF-8で出力できる', async ({ page }) => {
+  test('運営は予約一覧とチェックインCSVをUTF-8で出力できる', async ({ page, request }) => {
+    const adminToken = await resolveUsableAdminToken(request);
     await clearGuestSession(page);
     await loginAsGuest(page);
 
-    await page.getByLabel('管理者トークン').fill(ADMIN_TOKEN);
+    await page.getByLabel('管理者トークン').fill(adminToken);
     await expect(page.getByRole('button', { name: '予約一覧CSVを出力' })).toBeVisible();
 
     const reservationsDownloadPromise = page.waitForEvent('download');
