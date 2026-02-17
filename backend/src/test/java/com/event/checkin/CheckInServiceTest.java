@@ -19,7 +19,7 @@ class CheckInServiceTest {
     @BeforeEach
     void setUp() {
         reservationService = new ReservationService(200, 200, "2099-01-01", FIXED_CLOCK);
-        checkInService = new CheckInService(reservationService);
+        checkInService = new CheckInService(reservationService, new CheckInQrPayloadParser());
     }
 
     @Test

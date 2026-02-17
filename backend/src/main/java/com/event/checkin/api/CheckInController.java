@@ -1,9 +1,11 @@
 package com.event.checkin.api;
 
+import com.event.checkin.CheckInAuthorizationException;
 import com.event.checkin.CheckInRuleViolationException;
 import com.event.checkin.CheckInService;
 import com.event.checkin.CheckInService.CheckInHistoryItem;
 import com.event.checkin.CheckInService.CheckInResult;
+import com.event.checkin.CheckInWriteAuthorizationService;
 import com.event.reservation.api.ErrorResponse;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -22,18 +24,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class CheckInController {
 
     private final CheckInService checkInService;
+    private final CheckInWriteAuthorizationService checkInWriteAuthorizationService;
 
-    public CheckInController(CheckInService checkInService) {
+    public CheckInController(
+        CheckInService checkInService,
+        CheckInWriteAuthorizationService checkInWriteAuthorizationService
+    ) {
         this.checkInService = checkInService;
+        this.checkInWriteAuthorizationService = checkInWriteAuthorizationService;
     }
 
     @PostMapping("/event")
-    public CheckInResponse checkInEvent(@RequestBody CheckInRequest request) {
+    public CheckInResponse checkInEvent(Authentication authentication, @RequestBody CheckInRequest request) {
+        checkInWriteAuthorizationService.authorize(authentication, request.qrCodePayload());
         return toResponse(checkInService.checkInEvent(request.qrCodePayload()));
     }
 
     @PostMapping("/sessions/{sessionId}")
-    public CheckInResponse checkInSession(@PathVariable String sessionId, @RequestBody CheckInRequest request) {
+    public CheckInResponse checkInSession(
+        Authentication authentication,
+        @PathVariable String sessionId,
+        @RequestBody CheckInRequest request
+    ) {
+        checkInWriteAuthorizationService.authorize(authentication, request.qrCodePayload());
         return toResponse(checkInService.checkInSession(sessionId, request.qrCodePayload()));
     }
 
@@ -48,6 +61,12 @@ public class CheckInController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CheckInRuleViolationException.class)
     public ErrorResponse handleRuleViolation(CheckInRuleViolationException exception) {
+        return new ErrorResponse(exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(CheckInAuthorizationException.class)
+    public ErrorResponse handleAuthorizationViolation(CheckInAuthorizationException exception) {
         return new ErrorResponse(exception.getMessage());
     }
 

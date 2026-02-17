@@ -39,5 +39,7 @@ nav:
       - 操作マニュアル: review/06-operation-manual.md
       - 自動テストケース一覧: review/07-test-cases.md
       - スプリントレビュー結果: review/08-sprint-review-result.md
+  - テックリード仕様:
+      - "Issue #29 チェックイン認可仕様": techlead/issue-29-checkin-authz-spec.md
   - 参考資料:
       - 要件定義書: 要件定義書.md

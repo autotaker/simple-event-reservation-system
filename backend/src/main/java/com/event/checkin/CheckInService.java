@@ -1,10 +1,7 @@
 package com.event.checkin;
 
+import com.event.checkin.CheckInQrPayloadParser.CheckInQrCodeData;
 import com.event.reservation.ReservationService;
-import java.util.Arrays;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,35 +9,37 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CheckInService {
 
-    private static final String QR_SCHEME = "event-reservation";
-    private static final String QR_HOST = "checkin";
     private final Object checkInLock = new Object();
     private final ReservationService reservationService;
+    private final CheckInQrPayloadParser qrPayloadParser;
     private final Clock clock;
     private final Map<String, Instant> eventCheckInsByGuest = new ConcurrentHashMap<>();
     private final Map<String, Map<String, Instant>> sessionCheckInsBySession = new ConcurrentHashMap<>();
 
     @Autowired
-    public CheckInService(ReservationService reservationService) {
-        this(reservationService, Clock.systemDefaultZone());
+    public CheckInService(ReservationService reservationService, CheckInQrPayloadParser qrPayloadParser) {
+        this(reservationService, qrPayloadParser, Clock.systemDefaultZone());
     }
 
-    private CheckInService(ReservationService reservationService, Clock clock) {
+    private CheckInService(
+        ReservationService reservationService,
+        CheckInQrPayloadParser qrPayloadParser,
+        Clock clock
+    ) {
         this.reservationService = reservationService;
+        this.qrPayloadParser = qrPayloadParser;
         this.clock = clock;
     }
 
     public CheckInResult checkInEvent(String qrCodePayload) {
-        QrCodeData qrCodeData = parseQrCodePayload(qrCodePayload);
+        CheckInQrCodeData qrCodeData = qrPayloadParser.parse(qrCodePayload);
         Instant now = Instant.now(clock);
 
         synchronized (checkInLock) {
@@ -56,7 +55,7 @@ public class CheckInService {
         if (!reservationService.sessionExists(sessionId)) {
             throw new CheckInRuleViolationException("指定されたセッションは存在しません。");
         }
-        QrCodeData qrCodeData = parseQrCodePayload(qrCodePayload);
+        CheckInQrCodeData qrCodeData = qrPayloadParser.parse(qrCodePayload);
         if (!qrCodeData.reservations().contains(sessionId)) {
             throw new CheckInRuleViolationException("このQRコードでは対象セッションをチェックインできません。");
         }
@@ -121,53 +120,6 @@ public class CheckInService {
             return Map.copyOf(snapshot);
         }
     }
-
-    private QrCodeData parseQrCodePayload(String qrCodePayload) {
-        if (qrCodePayload == null || qrCodePayload.isBlank()) {
-            throw new CheckInRuleViolationException("QRコードの内容が空です。");
-        }
-        URI uri;
-        try {
-            uri = URI.create(qrCodePayload.trim());
-        } catch (IllegalArgumentException exception) {
-            throw new CheckInRuleViolationException("QRコードの形式が不正です。");
-        }
-        if (!QR_SCHEME.equals(uri.getScheme()) || !QR_HOST.equals(uri.getHost())) {
-            throw new CheckInRuleViolationException("QRコードの形式が不正です。");
-        }
-        Map<String, String> queryParameters = parseQueryParameters(uri.getRawQuery());
-        String guestId = queryParameters.getOrDefault("guestId", "").trim();
-        if (guestId.isEmpty()) {
-            throw new CheckInRuleViolationException("QRコードにguestIdが含まれていません。");
-        }
-        String reservations = queryParameters.getOrDefault("reservations", "");
-        Set<String> reservationIds = Arrays.stream(reservations.split(","))
-            .map(String::trim)
-            .filter(value -> !value.isEmpty())
-            .collect(Collectors.toUnmodifiableSet());
-
-        return new QrCodeData(guestId, reservationIds);
-    }
-
-    private Map<String, String> parseQueryParameters(String query) {
-        if (query == null || query.isBlank()) {
-            return Map.of();
-        }
-        Map<String, String> parameters = new HashMap<>();
-        for (String pair : query.split("&")) {
-            String[] tokens = pair.split("=", 2);
-            String key = decode(tokens[0]);
-            String value = tokens.length > 1 ? decode(tokens[1]) : "";
-            parameters.put(key, value);
-        }
-        return parameters;
-    }
-
-    private String decode(String value) {
-        return URLDecoder.decode(value, StandardCharsets.UTF_8);
-    }
-
-    private record QrCodeData(String guestId, Set<String> reservations) {}
 
     public record CheckInResult(
         String guestId,
