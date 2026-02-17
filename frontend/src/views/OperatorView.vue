@@ -164,13 +164,17 @@
           </li>
         </ul>
         <img
-          v-if="myPageQrCodePayload"
+          v-if="myPageQrCodePayload && receptionQrCodeImageUrl"
           :src="receptionQrCodeImageUrl"
+          :data-qr-payload="myPageQrCodePayload"
           alt="受付用QRコード"
           width="180"
           height="180"
         />
-        <p v-if="myPageQrCodePayload">受付用QRコードを表示中</p>
+        <p v-if="myPageQrCodePayload && receptionQrCodeImageUrl">受付用QRコードを表示中</p>
+        <p v-else-if="myPageQrCodePayload">
+          受付用QRコードを生成できませんでした。再読み込みしてください。
+        </p>
       </template>
     </section>
 

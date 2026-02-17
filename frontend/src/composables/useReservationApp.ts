@@ -1,4 +1,5 @@
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
+import { toDataURL } from 'qrcode';
 
 export type GuestLoginResponse = {
   accessToken: string;
@@ -86,6 +87,7 @@ export type AdminForm = {
 };
 
 const API_BASE_URL = 'http://127.0.0.1:8080';
+const QR_CODE_GENERATION_ERROR_MESSAGE = '受付QRコードの生成に失敗しました。';
 
 const createDefaultCreateForm = (): AdminForm => ({
   sessionId: '',
@@ -141,10 +143,7 @@ export const useReservationApp = () => {
   const checkInHistoryLoaded = ref<boolean>(false);
   const checkInResultMessage = ref<string>('');
 
-  const receptionQrCodeImageUrl = computed(
-    () =>
-      `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(myPageQrCodePayload.value)}`,
-  );
+  const receptionQrCodeImageUrl = ref<string>('');
 
   const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
     if (status === 'OPEN') {
@@ -652,6 +651,33 @@ export const useReservationApp = () => {
   watch(adminToken, (newValue) => {
     globalThis.localStorage.setItem('adminAccessToken', newValue);
   });
+
+  watch(
+    myPageQrCodePayload,
+    async (payload) => {
+      if (!payload) {
+        receptionQrCodeImageUrl.value = '';
+        if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
+          errorMessage.value = '';
+        }
+        return;
+      }
+
+      try {
+        receptionQrCodeImageUrl.value = await toDataURL(payload, {
+          width: 180,
+          margin: 1,
+        });
+        if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
+          errorMessage.value = '';
+        }
+      } catch {
+        receptionQrCodeImageUrl.value = '';
+        errorMessage.value = QR_CODE_GENERATION_ERROR_MESSAGE;
+      }
+    },
+    { immediate: true },
+  );
 
   return {
     token,

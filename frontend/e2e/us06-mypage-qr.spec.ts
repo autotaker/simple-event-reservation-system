@@ -15,7 +15,9 @@ test.describe('US-06 マイページで予約一覧とQRコードを表示でき
 
     const qrImage = page.getByRole('img', { name: '受付用QRコード' });
     await expect(qrImage).toBeVisible();
-    await expect(qrImage).toHaveAttribute('src', /guest-test/);
+    await expect(qrImage).toHaveAttribute('src', /^data:image\/png;base64,/);
+    await expect(qrImage).toHaveAttribute('data-qr-payload', /guest-test/);
+    await expect(qrImage).not.toHaveAttribute('src', /api\.qrserver\.com/);
   });
 
   test('未ログイン時はマイページがアクセス制御される', async ({ page }) => {

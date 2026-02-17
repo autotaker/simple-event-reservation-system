@@ -11,7 +11,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const qrImageUrl =
-  'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=event-reservation%3A%2F%2Fcheckin%3FguestId%3DGuest-A12';
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';
 
 export const WithQrCode: Story = {
   args: {
