@@ -657,9 +657,9 @@ export const useReservationApp = () => {
     myPageQrCodePayload,
     async (payload) => {
       const currentRequestId = ++qrGenerationRequestId;
+      receptionQrCodeImageUrl.value = '';
 
       if (!payload) {
-        receptionQrCodeImageUrl.value = '';
         if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
           errorMessage.value = '';
         }
