@@ -127,6 +127,7 @@ export const useReservationApp = () => {
   const reservations = ref<string[]>([]);
   const myPageReservations = ref<string[]>([]);
   const myPageQrCodePayload = ref<string>('');
+  const myPageQrRefreshTrigger = ref<number>(0);
   const myPageLoaded = ref<boolean>(false);
   const registered = ref<boolean>(false);
   const registrationStatusLoaded = ref<boolean>(false);
@@ -257,6 +258,7 @@ export const useReservationApp = () => {
     const data = (await response.json()) as MyPageResponse;
     myPageReservations.value = data.reservations;
     myPageQrCodePayload.value = data.receptionQrCodePayload;
+    myPageQrRefreshTrigger.value += 1;
     myPageLoaded.value = true;
   };
 
@@ -654,8 +656,8 @@ export const useReservationApp = () => {
   });
 
   watch(
-    myPageQrCodePayload,
-    async (payload) => {
+    [myPageQrCodePayload, myPageQrRefreshTrigger],
+    async ([payload]: [string, number]) => {
       const currentRequestId = ++qrGenerationRequestId;
       receptionQrCodeImageUrl.value = '';
 
