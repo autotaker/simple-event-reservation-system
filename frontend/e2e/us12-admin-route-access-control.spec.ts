@@ -13,7 +13,11 @@ test.describe('US-12-2 管理導線 (/admin) と直接アクセス制御', () =>
     await expect(page.getByText('管理権限がないため /admin の管理画面を表示できません。')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'セッション管理（運営）' })).toHaveCount(0);
 
-    await page.getByRole('link', { name: '参加者画面へ戻る' }).click();
+    await page
+      .locator('section')
+      .filter({ hasText: '403 Forbidden' })
+      .getByRole('link', { name: '参加者画面へ戻る' })
+      .click();
     await expect(page).toHaveURL(/\/participant$/);
     await expect(page.getByRole('heading', { name: 'セッション一覧' })).toBeVisible();
   });
