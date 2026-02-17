@@ -7,11 +7,26 @@
       </button>
     </header>
 
-    <img v-if="qrCodePayload" :src="qrCodeImageUrl" alt="受付用QRコード" width="180" height="180" />
+    <img
+      v-if="qrCodePayload && qrCodeImageUrl"
+      :src="qrCodeImageUrl"
+      :data-qr-payload="qrCodePayload"
+      alt="受付用QRコード"
+      width="180"
+      height="180"
+    />
     <div v-else class="qr" aria-hidden="true">QR</div>
 
     <p>
-      {{ qrCodePayload ? '受付用QRコードを表示中' : 'ログイン後に受付QRコードが表示されます。' }}
+      {{
+        qrCodePayload && qrCodeImageUrl
+          ? '受付用QRコードを表示中'
+          : qrCodePayload && qrCodeGenerationStatus === 'error'
+            ? '受付用QRコードを生成できませんでした。更新してください。'
+            : qrCodePayload
+              ? '受付用QRコードを生成中です...'
+            : 'ログイン後に受付QRコードが表示されます。'
+      }}
     </p>
 
     <ul v-if="reservations.length > 0">
@@ -24,6 +39,7 @@
 defineProps<{
   qrCodePayload: string;
   qrCodeImageUrl: string;
+  qrCodeGenerationStatus: 'idle' | 'generating' | 'ready' | 'error';
   reservations: string[];
   hasToken: boolean;
   disabled?: boolean;

@@ -1,14 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { clearGuestSession, loginAsGuest, sessionRowByTitle } from './support/ui';
 
-const extractQrPayload = (qrImageSrc: string): string => {
-  const dataParam = new URL(qrImageSrc).searchParams.get('data');
-  if (!dataParam) {
-    throw new Error('QR画像URLからdataパラメータを取得できませんでした。');
-  }
-  return decodeURIComponent(dataParam);
-};
-
 test.describe('US-07 運営がQRスキャンでチェックイン記録できる', () => {
   test('未認証でチェックイン履歴APIにアクセスすると401になる', async ({ request }) => {
     const response = await request.get('http://127.0.0.1:8080/api/checkins');
@@ -30,11 +22,10 @@ test.describe('US-07 運営がQRスキャンでチェックイン記録できる
     const qrImage = page.getByRole('img', { name: '受付用QRコード' });
     await expect(qrImage).toBeVisible();
 
-    const qrImageSrc = await qrImage.getAttribute('src');
-    expect(qrImageSrc).toBeTruthy();
-    const qrPayload = extractQrPayload(qrImageSrc ?? '');
+    const qrPayload = await qrImage.getAttribute('data-qr-payload');
+    expect(qrPayload).toBeTruthy();
 
-    await page.getByLabel('QR payload').fill(qrPayload);
+    await page.getByLabel('QR payload').fill(qrPayload ?? '');
 
     await page.getByRole('button', { name: 'イベント受付をチェックイン' }).click();
     await expect(page.getByText(/のイベント受付チェックインを記録しました。/)).toBeVisible();
