@@ -144,6 +144,7 @@ export const useReservationApp = () => {
   const checkInResultMessage = ref<string>('');
 
   const receptionQrCodeImageUrl = ref<string>('');
+  let qrGenerationRequestId = 0;
 
   const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
     if (status === 'OPEN') {
@@ -655,6 +656,8 @@ export const useReservationApp = () => {
   watch(
     myPageQrCodePayload,
     async (payload) => {
+      const currentRequestId = ++qrGenerationRequestId;
+
       if (!payload) {
         receptionQrCodeImageUrl.value = '';
         if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
@@ -664,14 +667,21 @@ export const useReservationApp = () => {
       }
 
       try {
-        receptionQrCodeImageUrl.value = await toDataURL(payload, {
+        const generatedQrCodeImageUrl = await toDataURL(payload, {
           width: 180,
           margin: 1,
         });
+        if (currentRequestId !== qrGenerationRequestId || payload !== myPageQrCodePayload.value) {
+          return;
+        }
+        receptionQrCodeImageUrl.value = generatedQrCodeImageUrl;
         if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
           errorMessage.value = '';
         }
       } catch {
+        if (currentRequestId !== qrGenerationRequestId || payload !== myPageQrCodePayload.value) {
+          return;
+        }
         receptionQrCodeImageUrl.value = '';
         errorMessage.value = QR_CODE_GENERATION_ERROR_MESSAGE;
       }
