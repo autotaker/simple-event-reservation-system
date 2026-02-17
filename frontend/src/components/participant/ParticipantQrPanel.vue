@@ -21,8 +21,10 @@
       {{
         qrCodePayload && qrCodeImageUrl
           ? '受付用QRコードを表示中'
-          : qrCodePayload
+          : qrCodePayload && qrCodeGenerationStatus === 'error'
             ? '受付用QRコードを生成できませんでした。更新してください。'
+            : qrCodePayload
+              ? '受付用QRコードを生成中です...'
             : 'ログイン後に受付QRコードが表示されます。'
       }}
     </p>
@@ -37,6 +39,7 @@
 defineProps<{
   qrCodePayload: string;
   qrCodeImageUrl: string;
+  qrCodeGenerationStatus: 'idle' | 'generating' | 'ready' | 'error';
   reservations: string[];
   hasToken: boolean;
   disabled?: boolean;

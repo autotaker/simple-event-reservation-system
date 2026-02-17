@@ -172,9 +172,10 @@
           height="180"
         />
         <p v-if="myPageQrCodePayload && receptionQrCodeImageUrl">受付用QRコードを表示中</p>
-        <p v-else-if="myPageQrCodePayload">
+        <p v-else-if="myPageQrCodePayload && qrCodeGenerationStatus === 'error'">
           受付用QRコードを生成できませんでした。再読み込みしてください。
         </p>
+        <p v-else-if="myPageQrCodePayload">受付用QRコードを生成中です...</p>
       </template>
     </section>
 
@@ -268,6 +269,7 @@ const {
   checkInHistoryLoaded,
   checkInResultMessage,
   receptionQrCodeImageUrl,
+  qrCodeGenerationStatus,
   availabilityStatusLabel,
   isSessionReserved,
   checkInTypeLabel,

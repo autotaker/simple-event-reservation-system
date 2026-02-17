@@ -54,6 +54,7 @@ type AdminSessionUpsertRequest = {
 };
 
 export type CheckInType = 'EVENT' | 'SESSION';
+export type QrCodeGenerationStatus = 'idle' | 'generating' | 'ready' | 'error';
 
 type CheckInResponse = {
   guestId: string;
@@ -145,6 +146,7 @@ export const useReservationApp = () => {
   const checkInResultMessage = ref<string>('');
 
   const receptionQrCodeImageUrl = ref<string>('');
+  const qrCodeGenerationStatus = ref<QrCodeGenerationStatus>('idle');
   let qrGenerationRequestId = 0;
 
   const availabilityStatusLabel = (status: SessionAvailabilityStatus): string => {
@@ -662,11 +664,14 @@ export const useReservationApp = () => {
       receptionQrCodeImageUrl.value = '';
 
       if (!payload) {
+        qrCodeGenerationStatus.value = 'idle';
         if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
           errorMessage.value = '';
         }
         return;
       }
+
+      qrCodeGenerationStatus.value = 'generating';
 
       try {
         const generatedQrCodeImageUrl = await toDataURL(payload, {
@@ -677,6 +682,7 @@ export const useReservationApp = () => {
           return;
         }
         receptionQrCodeImageUrl.value = generatedQrCodeImageUrl;
+        qrCodeGenerationStatus.value = 'ready';
         if (errorMessage.value === QR_CODE_GENERATION_ERROR_MESSAGE) {
           errorMessage.value = '';
         }
@@ -685,6 +691,7 @@ export const useReservationApp = () => {
           return;
         }
         receptionQrCodeImageUrl.value = '';
+        qrCodeGenerationStatus.value = 'error';
         errorMessage.value = QR_CODE_GENERATION_ERROR_MESSAGE;
       }
     },
@@ -713,6 +720,7 @@ export const useReservationApp = () => {
     checkInHistoryLoaded,
     checkInResultMessage,
     receptionQrCodeImageUrl,
+    qrCodeGenerationStatus,
     availabilityStatusLabel,
     isSessionReserved,
     checkInTypeLabel,

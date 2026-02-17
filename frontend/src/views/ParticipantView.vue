@@ -63,6 +63,7 @@
         <ParticipantQrPanel
           :qr-code-payload="myPageQrCodePayload"
           :qr-code-image-url="receptionQrCodeImageUrl"
+          :qr-code-generation-status="qrCodeGenerationStatus"
           :reservations="myPageReservations"
           :has-token="hasToken"
           :disabled="participantBusy"
@@ -109,6 +110,7 @@ const {
   errorMessage,
   infoMessage,
   receptionQrCodeImageUrl,
+  qrCodeGenerationStatus,
   availabilityStatusLabel,
   isSessionReserved,
   loginAsGuest,
