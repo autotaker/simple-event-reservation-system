@@ -465,6 +465,40 @@ class GuestAuthenticationFlowTest {
     }
 
     @Test
+    void checkInWriteReturns401WithoutAuthentication() throws Exception {
+        mockMvc.perform(post("/api/checkins/event")
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload("guest-1", "keynote"))))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void checkInWriteReturns401ForInvalidToken() throws Exception {
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer invalid-token")
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload("guest-1", "keynote"))))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void adminCanCheckInEventForAnotherGuest() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token")
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(guestId, "keynote"))))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.duplicate").value(false));
+    }
+
+    @Test
     void sessionCheckInRecordsAndMarksDuplicateOnSecondScan() throws Exception {
         MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
             .andExpect(status().isOk())
@@ -495,6 +529,77 @@ class GuestAuthenticationFlowTest {
                 .content(checkInRequestBody(payload)))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.duplicate").value(true));
+    }
+
+    @Test
+    void adminCanCheckInSessionForAnotherGuest() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        String accessToken = loginResponse.get("accessToken").asText();
+        String guestId = loginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer test-admin-token")
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(guestId, "session-1"))))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(guestId))
+            .andExpect(jsonPath("$.sessionId").value("session-1"));
+    }
+
+    @Test
+    void eventCheckInReturns403WhenGuestTriesToWriteAnotherGuestsRecord() throws Exception {
+        MvcResult firstLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode firstLoginResponse = objectMapper.readTree(firstLoginResult.getResponse().getContentAsString());
+        String firstAccessToken = firstLoginResponse.get("accessToken").asText();
+
+        MvcResult secondLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode secondLoginResponse = objectMapper.readTree(secondLoginResult.getResponse().getContentAsString());
+        String secondGuestId = secondLoginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/checkins/event")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(secondGuestId, "keynote"))))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("チェックイン書き込み権限がありません。"));
+    }
+
+    @Test
+    void sessionCheckInReturns403WhenGuestTriesToWriteAnotherGuestsRecord() throws Exception {
+        MvcResult firstLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode firstLoginResponse = objectMapper.readTree(firstLoginResult.getResponse().getContentAsString());
+        String firstAccessToken = firstLoginResponse.get("accessToken").asText();
+
+        MvcResult secondLoginResult = mockMvc.perform(post("/api/auth/guest"))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode secondLoginResponse = objectMapper.readTree(secondLoginResult.getResponse().getContentAsString());
+        String secondAccessToken = secondLoginResponse.get("accessToken").asText();
+        String secondGuestId = secondLoginResponse.get("guestId").asText();
+
+        mockMvc.perform(post("/api/reservations/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + secondAccessToken))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/checkins/sessions/session-1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + firstAccessToken)
+                .contentType("application/json")
+                .content(checkInRequestBody(toCheckInPayload(secondGuestId, "session-1"))))
+            .andExpect(status().isForbidden())
+            .andExpect(jsonPath("$.message").value("チェックイン書き込み権限がありません。"));
     }
 
     @Test
