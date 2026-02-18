@@ -55,6 +55,7 @@ type AdminSessionUpsertRequest = {
 
 export type CheckInType = 'EVENT' | 'SESSION';
 export type QrCodeGenerationStatus = 'idle' | 'generating' | 'ready' | 'error';
+export type CheckInResultTone = 'success' | 'error' | '';
 
 type CheckInResponse = {
   guestId: string;
@@ -144,6 +145,7 @@ export const useReservationApp = () => {
   const checkIns = ref<CheckInHistoryEntry[]>([]);
   const checkInHistoryLoaded = ref<boolean>(false);
   const checkInResultMessage = ref<string>('');
+  const checkInResultTone = ref<CheckInResultTone>('');
 
   const receptionQrCodeImageUrl = ref<string>('');
   const qrCodeGenerationStatus = ref<QrCodeGenerationStatus>('idle');
@@ -513,6 +515,7 @@ export const useReservationApp = () => {
     errorMessage.value = '';
     infoMessage.value = '';
     checkInResultMessage.value = '';
+    checkInResultTone.value = '';
     const response = await globalThis.fetch(`${API_BASE_URL}/api/checkins/event`, {
       method: 'POST',
       headers: {
@@ -525,8 +528,9 @@ export const useReservationApp = () => {
     });
 
     if (!response.ok) {
-      errorMessage.value =
+      checkInResultMessage.value =
         (await readErrorMessage(response)) ?? 'イベント受付チェックインに失敗しました。';
+      checkInResultTone.value = 'error';
       return;
     }
 
@@ -534,6 +538,7 @@ export const useReservationApp = () => {
     checkInResultMessage.value = data.duplicate
       ? `${data.guestId} は既にイベント受付済みです。`
       : `${data.guestId} のイベント受付チェックインを記録しました。`;
+    checkInResultTone.value = 'success';
 
     await loadCheckInHistory();
   };
@@ -546,6 +551,7 @@ export const useReservationApp = () => {
     errorMessage.value = '';
     infoMessage.value = '';
     checkInResultMessage.value = '';
+    checkInResultTone.value = '';
     const response = await globalThis.fetch(
       `${API_BASE_URL}/api/checkins/sessions/${encodeURIComponent(selectedCheckInSessionId.value)}`,
       {
@@ -561,8 +567,9 @@ export const useReservationApp = () => {
     );
 
     if (!response.ok) {
-      errorMessage.value =
+      checkInResultMessage.value =
         (await readErrorMessage(response)) ?? 'セッションチェックインに失敗しました。';
+      checkInResultTone.value = 'error';
       return;
     }
 
@@ -571,6 +578,7 @@ export const useReservationApp = () => {
     checkInResultMessage.value = data.duplicate
       ? `${data.guestId} は ${checkInTarget} で既にチェックイン済みです。`
       : `${data.guestId} の ${checkInTarget} チェックインを記録しました。`;
+    checkInResultTone.value = 'success';
 
     await loadCheckInHistory();
   };
@@ -592,7 +600,8 @@ export const useReservationApp = () => {
     if (!response.ok) {
       checkIns.value = [];
       checkInHistoryLoaded.value = false;
-      errorMessage.value = 'チェックイン履歴の取得に失敗しました。';
+      checkInResultMessage.value = 'チェックイン履歴の取得に失敗しました。';
+      checkInResultTone.value = 'error';
       return;
     }
 
@@ -630,6 +639,7 @@ export const useReservationApp = () => {
     checkIns.value = [];
     checkInHistoryLoaded.value = false;
     checkInResultMessage.value = '';
+    checkInResultTone.value = '';
 
     globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
     globalThis.localStorage.setItem('guestId', data.guestId);
@@ -719,6 +729,7 @@ export const useReservationApp = () => {
     checkIns,
     checkInHistoryLoaded,
     checkInResultMessage,
+    checkInResultTone,
     receptionQrCodeImageUrl,
     qrCodeGenerationStatus,
     availabilityStatusLabel,
