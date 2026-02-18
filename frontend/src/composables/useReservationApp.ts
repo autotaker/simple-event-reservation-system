@@ -608,6 +608,10 @@ export const useReservationApp = () => {
     const data = (await response.json()) as CheckInHistoryResponse;
     checkIns.value = data.checkIns;
     checkInHistoryLoaded.value = true;
+    if (checkInResultTone.value === 'error') {
+      checkInResultMessage.value = '';
+      checkInResultTone.value = '';
+    }
   };
 
   const loginAsGuest = async (): Promise<void> => {
