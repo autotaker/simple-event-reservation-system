@@ -6,13 +6,12 @@
       guest-name="Guest A12"
       :show-menu="isMobile"
     />
+    <p v-if="feedbackMessage" class="layout__feedback" :class="`layout__feedback--${feedbackTone}`">
+      {{ feedbackMessage }}
+    </p>
 
     <section class="layout__body">
-      <ParticipantSessionTimetableMock
-        :disabled="mode === 'loading'"
-        :feedback="feedbackMessage"
-        :feedback-tone="feedbackTone"
-      />
+      <ParticipantSessionTimetableMock :disabled="mode === 'loading'" />
 
       <aside class="layout__side">
         <ParticipantReservationPanelMock
@@ -82,6 +81,29 @@ const reservations = [
   display: grid;
   gap: 12px;
   grid-template-columns: 1.5fr 0.8fr;
+}
+
+.layout__feedback {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.layout__feedback--loading {
+  background: #fff7e0;
+  color: #8c5a00;
+}
+
+.layout__feedback--success {
+  background: #e8fbef;
+  color: #1e6a45;
+}
+
+.layout__feedback--error {
+  background: #ffe8e8;
+  color: #9f2d2d;
 }
 
 .layout__side {

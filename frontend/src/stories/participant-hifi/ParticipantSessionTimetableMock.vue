@@ -44,10 +44,6 @@
         </tbody>
       </table>
     </div>
-
-    <p v-if="feedback" class="timetable__feedback" :class="`timetable__feedback--${feedbackTone}`">
-      {{ feedback }}
-    </p>
   </section>
 </template>
 
@@ -55,13 +51,9 @@
 withDefaults(
   defineProps<{
     disabled?: boolean;
-    feedback?: string;
-    feedbackTone?: 'loading' | 'success' | 'error';
   }>(),
   {
     disabled: false,
-    feedback: '',
-    feedbackTone: 'loading',
   },
 );
 
@@ -220,28 +212,5 @@ th {
 .cell button:disabled {
   background: #94b4a5;
   cursor: not-allowed;
-}
-
-.timetable__feedback {
-  margin: 0;
-  padding: 8px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.timetable__feedback--loading {
-  background: #fff7e0;
-  color: #8c5a00;
-}
-
-.timetable__feedback--success {
-  background: #e8fbef;
-  color: #1e6a45;
-}
-
-.timetable__feedback--error {
-  background: #ffe8e8;
-  color: #9f2d2d;
 }
 </style>
