@@ -6,7 +6,7 @@ import AdminCsvExportPanel from '../../components/admin/AdminCsvExportPanel.vue'
 import AdminSessionEditor from '../../components/admin/AdminSessionEditor.vue';
 import AdminSessionTable from '../../components/admin/AdminSessionTable.vue';
 import AdminTopBar from '../../components/admin/AdminTopBar.vue';
-import { viewportParams } from './viewportPresets';
+import { fixedFrameDecorator } from './fixedFrameDecorator';
 
 const meta = {
   title: 'US-13 CSS Foundation Production/AdminFlowResponsive',
@@ -89,19 +89,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Mobile390: Story = {
-  parameters: viewportParams('mobile390'),
+  decorators: [fixedFrameDecorator('390px', '844px')],
 };
 
 export const Tablet834: Story = {
-  parameters: viewportParams('tablet834'),
+  decorators: [fixedFrameDecorator('834px', '1112px')],
 };
 
 export const Desktop1280: Story = {
-  parameters: viewportParams('desktop1280'),
+  decorators: [fixedFrameDecorator('1280px', '800px')],
 };
 
 export const AccessDenied: Story = {
-  parameters: viewportParams('mobile390'),
+  decorators: [fixedFrameDecorator('390px', '844px')],
   render: () => ({
     components: { AdminAccessDeniedPanel },
     template: `

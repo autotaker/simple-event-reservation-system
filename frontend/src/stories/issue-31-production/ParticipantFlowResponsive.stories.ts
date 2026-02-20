@@ -3,7 +3,7 @@ import ParticipantQrPanel from '../../components/participant/ParticipantQrPanel.
 import ParticipantReservationPanel from '../../components/participant/ParticipantReservationPanel.vue';
 import ParticipantSessionCard from '../../components/participant/ParticipantSessionCard.vue';
 import ParticipantTopBar from '../../components/participant/ParticipantTopBar.vue';
-import { viewportParams } from './viewportPresets';
+import { fixedFrameDecorator } from './fixedFrameDecorator';
 
 const meta = {
   title: 'US-13 CSS Foundation Production/ParticipantFlowResponsive',
@@ -83,13 +83,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Mobile390: Story = {
-  parameters: viewportParams('mobile390'),
+  decorators: [fixedFrameDecorator('390px', '844px')],
 };
 
 export const Tablet834: Story = {
-  parameters: viewportParams('tablet834'),
+  decorators: [fixedFrameDecorator('834px', '1112px')],
 };
 
 export const Desktop1280: Story = {
-  parameters: viewportParams('desktop1280'),
+  decorators: [fixedFrameDecorator('1280px', '800px')],
 };
