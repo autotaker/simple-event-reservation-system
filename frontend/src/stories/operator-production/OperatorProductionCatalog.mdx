@@ -1,0 +1,35 @@
+import { Canvas, Description, Meta, Subtitle, Title } from '@storybook/addon-docs/blocks';
+import * as CheckInPanelStories from './OperatorCheckInPanel.stories';
+import * as SessionTableStories from './OperatorSessionTable.stories';
+import * as ReservationPanelStories from './OperatorReservationPanel.stories';
+
+<Meta of={CheckInPanelStories} />
+
+<Title>US-11 運営導線 Production コンポーネント</Title>
+<Subtitle>Issue #29: operator/checkin UI の実コンポーネントカタログ</Subtitle>
+
+<Description>
+  `frontend/src/components/operator` 配下の実コンポーネントを対象に、
+  default/loading/success/error の状態を確認するためのカタログ。
+</Description>
+
+## CheckInPanel
+
+<Canvas of={CheckInPanelStories.Default} />
+<Canvas of={CheckInPanelStories.Loading} />
+<Canvas of={CheckInPanelStories.Success} />
+<Canvas of={CheckInPanelStories.Error} />
+
+## SessionTable
+
+<Canvas of={SessionTableStories.Default} />
+<Canvas of={SessionTableStories.Loading} />
+<Canvas of={SessionTableStories.Success} />
+<Canvas of={SessionTableStories.Error} />
+
+## ReservationPanel
+
+<Canvas of={ReservationPanelStories.Default} />
+<Canvas of={ReservationPanelStories.Loading} />
+<Canvas of={ReservationPanelStories.Success} />
+<Canvas of={ReservationPanelStories.Error} />

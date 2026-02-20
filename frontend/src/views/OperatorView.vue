@@ -97,60 +97,22 @@
       </form>
     </section>
 
-    <section>
-      <h2>セッション一覧</h2>
-      <button type="button" :disabled="!token" @click="loadSessions">セッション一覧を取得</button>
-      <p v-if="token && sessions.length === 0">セッション一覧は未取得です。</p>
-      <table v-else-if="sessions.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">開始時刻</th>
-            <th scope="col">トラック</th>
-            <th scope="col">セッション</th>
-            <th scope="col">残席ステータス</th>
-            <th scope="col">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="session in sessions" :key="session.sessionId">
-            <td>{{ session.startTime }}</td>
-            <td>{{ session.track }}</td>
-            <td>{{ session.title }}</td>
-            <td>{{ availabilityStatusLabel(session.availabilityStatus) }}</td>
-            <td>
-              <button
-                type="button"
-                :disabled="
-                  !token ||
-                  session.availabilityStatus === 'FULL' ||
-                  isSessionReserved(session.sessionId)
-                "
-                @click="reserveSession(session.sessionId, session.title)"
-              >
-                {{ isSessionReserved(session.sessionId) ? '予約済み' : '予約する' }}
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <OperatorSessionTable
+      :has-token="hasToken"
+      :sessions="operatorSessionRows"
+      @refresh="loadSessions"
+      @reserve="reserveSession"
+    />
 
-    <section>
-      <h2>予約</h2>
-      <button type="button" :disabled="!token" @click="loadReservations">予約一覧を取得</button>
-      <button type="button" :disabled="!token" @click="reserveKeynote">キーノートを予約</button>
-      <p v-if="registered">参加登録: 完了</p>
-      <p v-else-if="token && registrationStatusLoaded">参加登録: 未完了</p>
-
-      <ul>
-        <li v-for="reservation in reservations" :key="reservation">
-          {{ reservation }}
-          <button type="button" :disabled="!token" @click="cancelReservation(reservation)">
-            キャンセル
-          </button>
-        </li>
-      </ul>
-    </section>
+    <OperatorReservationPanel
+      :has-token="hasToken"
+      :reservations="reservations"
+      :registered="registered"
+      :registration-status-loaded="registrationStatusLoaded"
+      @refresh="loadReservations"
+      @reserve-keynote="reserveKeynote"
+      @cancel="cancelReservation"
+    />
 
     <section>
       <h2>マイページ</h2>
@@ -179,72 +141,34 @@
       </template>
     </section>
 
-    <section>
-      <h2>運営チェックイン</h2>
-      <p v-if="!token">運営チェックインはログイン中ユーザーのみ実行できます。</p>
-      <template v-else>
-        <label for="checkin-qr-payload">QR payload</label>
-        <textarea
-          id="checkin-qr-payload"
-          v-model="checkInQrCodePayload"
-          rows="3"
-          cols="60"
-          placeholder="event-reservation://checkin?guestId=...&reservations=..."
-        />
-        <div>
-          <button type="button" @click="checkInEvent">イベント受付をチェックイン</button>
-        </div>
-        <div>
-          <label for="checkin-session-id">セッション受付</label>
-          <select id="checkin-session-id" v-model="selectedCheckInSessionId">
-            <option value="">選択してください</option>
-            <option
-              v-for="session in sessions"
-              :key="`checkin-${session.sessionId}`"
-              :value="session.sessionId"
-            >
-              {{ session.startTime }} {{ session.title }}
-            </option>
-          </select>
-          <button
-            type="button"
-            :disabled="selectedCheckInSessionId.length === 0"
-            @click="checkInSession"
-          >
-            セッションをチェックイン
-          </button>
-        </div>
-        <button type="button" @click="loadCheckInHistory">チェックイン履歴を更新</button>
-        <p v-if="checkInResultMessage">{{ checkInResultMessage }}</p>
-        <p v-if="checkInHistoryLoaded && checkIns.length === 0">チェックイン履歴はありません。</p>
-        <table v-else-if="checkIns.length > 0">
-          <thead>
-            <tr>
-              <th scope="col">チェックイン種別</th>
-              <th scope="col">ゲストID</th>
-              <th scope="col">セッションID</th>
-              <th scope="col">時刻</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="checkIn in checkIns"
-              :key="`${checkIn.checkInType}-${checkIn.sessionId ?? 'event'}-${checkIn.guestId}`"
-            >
-              <td>{{ checkInTypeLabel(checkIn.checkInType) }}</td>
-              <td>{{ checkIn.guestId }}</td>
-              <td>{{ checkIn.sessionId ?? '-' }}</td>
-              <td>{{ formatCheckInTime(checkIn.checkedInAt) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </template>
-    </section>
+    <OperatorCheckInPanel
+      :has-token="hasToken"
+      :qr-code-payload="checkInQrCodePayload"
+      :selected-session-id="selectedCheckInSessionId"
+      :session-options="checkInSessionOptions"
+      :history="checkInHistoryRows"
+      :history-loaded="checkInHistoryLoaded"
+      :result-message="checkInResultMessage"
+      :result-tone="checkInResultTone"
+      @update:qr-code-payload="updateCheckInQrCodePayload"
+      @update:selected-session-id="updateSelectedCheckInSessionId"
+      @check-in-event="checkInEvent"
+      @check-in-session="checkInSession"
+      @refresh-history="loadCheckInHistory"
+    />
   </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+import OperatorCheckInPanel, {
+  type OperatorCheckInHistoryRow,
+  type OperatorCheckInSessionOption,
+} from '../components/operator/OperatorCheckInPanel.vue';
+import OperatorReservationPanel from '../components/operator/OperatorReservationPanel.vue';
+import OperatorSessionTable, {
+  type OperatorSessionRow,
+} from '../components/operator/OperatorSessionTable.vue';
 import { useReservationApp } from '../composables/useReservationApp';
 
 const {
@@ -268,6 +192,7 @@ const {
   checkIns,
   checkInHistoryLoaded,
   checkInResultMessage,
+  checkInResultTone,
   receptionQrCodeImageUrl,
   qrCodeGenerationStatus,
   availabilityStatusLabel,
@@ -293,6 +218,46 @@ const {
   loadCheckInHistory,
   loadOperatorBootstrap,
 } = useReservationApp();
+
+const hasToken = computed<boolean>(() => token.value !== null);
+
+const operatorSessionRows = computed<OperatorSessionRow[]>(() =>
+  sessions.value.map((session) => ({
+    sessionId: session.sessionId,
+    title: session.title,
+    startTime: session.startTime,
+    track: session.track,
+    availabilityStatusLabel: availabilityStatusLabel(session.availabilityStatus),
+    reserved: isSessionReserved(session.sessionId),
+    unavailable: session.availabilityStatus === 'FULL',
+  })),
+);
+
+const checkInSessionOptions = computed<OperatorCheckInSessionOption[]>(() =>
+  sessions.value.map((session) => ({
+    sessionId: session.sessionId,
+    title: session.title,
+    startTime: session.startTime,
+  })),
+);
+
+const checkInHistoryRows = computed<OperatorCheckInHistoryRow[]>(() =>
+  checkIns.value.map((entry) => ({
+    guestId: entry.guestId,
+    checkInType: entry.checkInType,
+    checkInTypeLabel: checkInTypeLabel(entry.checkInType),
+    sessionId: entry.sessionId,
+    checkedInAtLabel: formatCheckInTime(entry.checkedInAt),
+  })),
+);
+
+const updateCheckInQrCodePayload = (value: string): void => {
+  checkInQrCodePayload.value = value;
+};
+
+const updateSelectedCheckInSessionId = (value: string): void => {
+  selectedCheckInSessionId.value = value;
+};
 
 onMounted(() => {
   void loadOperatorBootstrap();
