@@ -1,0 +1,36 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as LayoutStories from './FoundationLayoutHiFi.stories';
+import * as ShellStories from './PageShellMock.stories';
+import * as ButtonStories from './BaseButtonMock.stories';
+import * as FieldStories from './BaseFieldMock.stories';
+import * as TableStories from './BaseTableMock.stories';
+import * as StatusStories from './StatusMessageMock.stories';
+
+<Meta of={LayoutStories} />
+
+<Title>US-13 CSS基盤 HiFi カタログ</Title>
+<Subtitle>Issue #31: 共通スタイル基盤（余白・階層・状態表現）モック</Subtitle>
+
+<Description>
+  本カタログは #31 の受け入れ条件に沿って、共通スタイル基盤の見た目仕様を 実装前に固定するための
+  HiFi モックである。状態表現は loading / success / error / disabled を必須とする。
+</Description>
+
+## 1. 画面レイアウトストーリー
+
+<Canvas of={LayoutStories.MobileDefault} />
+<Canvas of={LayoutStories.MobileLoading} />
+<Canvas of={LayoutStories.TabletSuccess} />
+<Canvas of={LayoutStories.DesktopError} />
+
+## 2. 実装コンポーネントストーリー
+
+<Canvas of={ShellStories.MobileShell} />
+<Canvas of={ButtonStories.Primary} />
+<Canvas of={ButtonStories.Disabled} />
+<Canvas of={FieldStories.DefaultField} />
+<Canvas of={FieldStories.ErrorField} />
+<Canvas of={TableStories.DefaultTable} />
+<Canvas of={StatusStories.Loading} />
+<Canvas of={StatusStories.Success} />
+<Canvas of={StatusStories.Error} />
