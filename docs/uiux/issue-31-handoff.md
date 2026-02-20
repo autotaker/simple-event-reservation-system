@@ -102,6 +102,10 @@
 
 - UIUX作成の初版仕様を基準に、開発担当は本番画面（participant / admin / operator）へ適用する。
 - 変更時は Storybook と handoff を同時更新し、契約差分を追跡可能にする。
+- 実コンポーネント基準の Storybook カタログ:
+  - `frontend/src/stories/issue-31-production/Issue31ProductionCatalog.mdx`
+- モバイル回帰確認メモ:
+  - `docs/uiux/issue-31-mobile-regression.md`
 
 ## UX findings
 

@@ -1,0 +1,33 @@
+import { Canvas, Description, Meta, Subtitle, Title } from '@storybook/addon-docs/blocks';
+import * as ParticipantStories from './ParticipantFlowResponsive.stories';
+import * as AdminStories from './AdminFlowResponsive.stories';
+import * as OperatorStories from './OperatorFlowResponsive.stories';
+
+<Meta of={ParticipantStories} />
+
+<Title>Issue #31 CSS Foundation Production Catalog</Title>
+<Subtitle>実コンポーネント基準の3導線レスポンシブ確認（390 / 834 / 1280）</Subtitle>
+
+<Description>
+  Issue #31 の受け入れ条件に対して、participant / admin / operator の実コンポーネントを
+  共通CSS基盤クラス（ui-shell / ui-button / ui-field / ui-table / ui-status）で確認するカタログ。
+</Description>
+
+## Participant
+
+<Canvas of={ParticipantStories.Mobile390} />
+<Canvas of={ParticipantStories.Tablet834} />
+<Canvas of={ParticipantStories.Desktop1280} />
+
+## Admin
+
+<Canvas of={AdminStories.Mobile390} />
+<Canvas of={AdminStories.Tablet834} />
+<Canvas of={AdminStories.Desktop1280} />
+<Canvas of={AdminStories.AccessDenied} />
+
+## Operator
+
+<Canvas of={OperatorStories.Mobile390} />
+<Canvas of={OperatorStories.Tablet834} />
+<Canvas of={OperatorStories.Desktop1280} />
