@@ -1,11 +1,21 @@
 <template>
-  <section class="operator-reservation-panel">
+  <section class="operator-reservation-panel ui-panel">
     <h2>予約</h2>
     <div class="operator-reservation-panel__actions">
-      <button type="button" :disabled="disabled || !hasToken" @click="$emit('refresh')">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="disabled || !hasToken"
+        @click="$emit('refresh')"
+      >
         予約一覧を取得
       </button>
-      <button type="button" :disabled="disabled || !hasToken" @click="$emit('reserveKeynote')">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="disabled || !hasToken"
+        @click="$emit('reserveKeynote')"
+      >
         キーノートを予約
       </button>
     </div>
@@ -13,10 +23,11 @@
     <p v-if="registered">参加登録: 完了</p>
     <p v-else-if="hasToken && registrationStatusLoaded">参加登録: 未完了</p>
 
-    <ul>
-      <li v-for="reservation in reservations" :key="reservation">
+    <ul class="ui-list">
+      <li v-for="reservation in reservations" :key="reservation" class="ui-list-item">
         {{ reservation }}
         <button
+          class="ui-button ui-button--secondary"
           type="button"
           :disabled="disabled || !hasToken"
           @click="$emit('cancel', reservation)"
@@ -46,7 +57,6 @@ defineEmits<{
 
 <style scoped>
 .operator-reservation-panel {
-  display: grid;
   gap: 10px;
 }
 
@@ -61,12 +71,8 @@ defineEmits<{
   flex-wrap: wrap;
 }
 
-ul {
-  margin: 0;
-  padding-left: 18px;
-}
-
-li {
-  margin-bottom: 4px;
+.operator-reservation-panel :deep(.ui-list-item) {
+  grid-template-columns: 1fr auto;
+  align-items: center;
 }
 </style>

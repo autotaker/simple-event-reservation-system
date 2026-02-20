@@ -1,0 +1,68 @@
+.ui-shell {
+  display: grid;
+  gap: var(--semantic-layout-card-gap);
+  width: min(var(--semantic-layout-page-max-width), 100%);
+  margin: 0 auto;
+  padding: var(--semantic-layout-card-padding);
+  border: var(--semantic-layout-card-border);
+  border-radius: var(--semantic-layout-card-radius);
+  background: var(--semantic-color-bg-surface);
+  box-shadow: var(--semantic-layout-card-shadow);
+}
+
+.ui-shell--participant {
+  border-color: var(--semantic-color-participant-portal-border);
+  background: linear-gradient(
+    160deg,
+    var(--semantic-color-participant-portal-bg-start),
+    var(--semantic-color-participant-portal-bg-mid) 48%,
+    var(--semantic-color-participant-portal-bg-end)
+  );
+}
+
+.ui-shell--participant-loading {
+  border-color: var(--semantic-color-participant-portal-border-loading);
+}
+
+.ui-shell--participant-success {
+  border-color: var(--semantic-color-participant-portal-border-success);
+}
+
+.ui-shell--participant-error {
+  border-color: var(--semantic-color-participant-portal-border-error);
+}
+
+.ui-shell--admin {
+  border-color: var(--semantic-color-state-warning);
+}
+
+.ui-shell--operator {
+  border-color: var(--semantic-color-border-strong);
+}
+
+.ui-layout-split {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1.3fr 1fr;
+}
+
+.ui-layout-stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (max-width: 1023px) {
+  .ui-shell {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 767px) {
+  .ui-shell {
+    width: min(390px, 100%);
+  }
+
+  .ui-layout-split {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,30 @@
+.ui-status {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.ui-status--loading {
+  background: var(--semantic-color-state-warning-soft);
+  color: var(--semantic-color-state-warning);
+}
+
+.ui-status--success {
+  background: var(--semantic-color-state-success-soft);
+  color: var(--semantic-color-state-success);
+}
+
+.ui-status--error {
+  background: var(--semantic-color-state-danger-soft);
+  color: var(--semantic-color-state-danger);
+}
+
+.ui-button:disabled,
+.ui-field__input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

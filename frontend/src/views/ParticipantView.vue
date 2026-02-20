@@ -1,5 +1,5 @@
 <template>
-  <main class="participant-portal" :class="`participant-portal--${participantMode}`">
+  <main class="participant-portal ui-shell" :class="participantShellClass">
     <ParticipantTopBar
       event-name="Tokyo Product Summit 2026"
       :date-label="participantDateLabel"
@@ -8,18 +8,19 @@
       @login="runParticipantAction(loginAsGuest)"
     />
 
-    <p v-if="errorMessage" class="participant-feedback participant-feedback--error">
+    <p v-if="errorMessage" class="participant-feedback ui-status ui-status--error">
       {{ errorMessage }}
     </p>
-    <p v-if="infoMessage" class="participant-feedback participant-feedback--success">
+    <p v-if="infoMessage" class="participant-feedback ui-status ui-status--success">
       {{ infoMessage }}
     </p>
 
-    <section class="participant-portal__body">
+    <section class="participant-portal__body ui-layout-split">
       <section class="participant-sessions" aria-label="session list">
         <header class="participant-sessions__header">
           <h2>セッション一覧</h2>
           <button
+            class="ui-button ui-button--secondary"
             type="button"
             :disabled="!hasToken || participantBusy"
             @click="runParticipantAction(loadSessions)"
@@ -74,7 +75,7 @@
 
     <p
       v-if="participantMode === 'loading'"
-      class="participant-feedback participant-feedback--loading"
+      class="participant-feedback ui-status ui-status--loading"
     >
       予約情報を更新中です...
     </p>
@@ -167,6 +168,13 @@ const participantMode = computed<'default' | 'loading' | 'success' | 'error'>(()
   return 'default';
 });
 
+const participantShellClass = computed<Record<string, boolean>>(() => ({
+  'ui-shell--participant': true,
+  'ui-shell--participant-loading': participantMode.value === 'loading',
+  'ui-shell--participant-success': participantMode.value === 'success',
+  'ui-shell--participant-error': participantMode.value === 'error',
+}));
+
 const availabilitySeatTone = (status: SessionAvailabilityStatus): 'open' | 'few' | 'full' => {
   if (status === 'OPEN') {
     return 'open';
@@ -193,26 +201,13 @@ onMounted(() => {
 
 <style scoped>
 .participant-portal {
-  display: grid;
   gap: var(--semantic-component-participant-portal-gap);
-  width: min(980px, 100%);
-  margin: 0 auto;
   padding: var(--semantic-component-participant-portal-padding);
-  border-radius: var(--semantic-component-participant-portal-radius);
-  border: 1px solid var(--semantic-color-participant-portal-border);
-  background: linear-gradient(
-    160deg,
-    var(--semantic-color-participant-portal-bg-start),
-    var(--semantic-color-participant-portal-bg-mid) 48%,
-    var(--semantic-color-participant-portal-bg-end)
-  );
   font-family: 'IBM Plex Sans JP', 'Noto Sans JP', sans-serif;
 }
 
 .participant-portal__body {
-  display: grid;
   gap: 12px;
-  grid-template-columns: 1.35fr 1fr;
 }
 
 .participant-sessions {
@@ -231,22 +226,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-.participant-sessions__header button {
-  height: var(--semantic-component-participant-button-secondary-height);
-  padding: 0 var(--semantic-component-participant-button-padding-x);
-  border: none;
-  border-radius: var(--semantic-component-participant-button-secondary-radius);
-  background: var(--semantic-color-participant-action-secondary-bg);
-  color: var(--semantic-color-participant-action-secondary-text);
-  font-size: var(--semantic-component-participant-button-text-size);
-  font-weight: var(--semantic-component-participant-button-text-weight);
-}
-
-.participant-sessions__header button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 .participant-side {
   display: grid;
   gap: 10px;
@@ -254,49 +233,18 @@ onMounted(() => {
 }
 
 .participant-feedback {
-  margin: 0;
   padding: var(--semantic-component-participant-feedback-padding-y)
     var(--semantic-component-participant-feedback-padding-x);
   border-radius: var(--semantic-component-participant-feedback-radius);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.participant-feedback--loading {
-  background: var(--semantic-color-participant-feedback-loading-bg);
-  color: var(--semantic-color-participant-feedback-loading-text);
-}
-
-.participant-feedback--success {
-  background: var(--semantic-color-participant-feedback-success-bg);
-  color: var(--semantic-color-participant-feedback-success-text);
-}
-
-.participant-feedback--error {
-  background: var(--semantic-color-participant-feedback-error-bg);
-  color: var(--semantic-color-participant-feedback-error-text);
-}
-
-.participant-portal--loading {
-  border-color: var(--semantic-color-participant-portal-border-loading);
-}
-
-.participant-portal--success {
-  border-color: var(--semantic-color-participant-portal-border-success);
-}
-
-.participant-portal--error {
-  border-color: var(--semantic-color-participant-portal-border-error);
 }
 
 @media (max-width: 900px) {
   .participant-portal {
-    width: min(390px, 100%);
     padding: 12px;
   }
 
   .participant-portal__body {
-    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 </style>

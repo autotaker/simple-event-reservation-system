@@ -1,8 +1,13 @@
 <template>
-  <section class="qr-panel">
+  <section class="qr-panel ui-panel">
     <header>
       <h2>マイページ</h2>
-      <button type="button" :disabled="disabled || !hasToken" @click="$emit('refresh')">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="disabled || !hasToken"
+        @click="$emit('refresh')"
+      >
         更新
       </button>
     </header>
@@ -25,12 +30,14 @@
             ? '受付用QRコードを生成できませんでした。更新してください。'
             : qrCodePayload
               ? '受付用QRコードを生成中です...'
-            : 'ログイン後に受付QRコードが表示されます。'
+              : 'ログイン後に受付QRコードが表示されます。'
       }}
     </p>
 
-    <ul v-if="reservations.length > 0">
-      <li v-for="reservation in reservations" :key="reservation">{{ reservation }}</li>
+    <ul v-if="reservations.length > 0" class="ui-list">
+      <li v-for="reservation in reservations" :key="reservation" class="ui-list-item">
+        {{ reservation }}
+      </li>
     </ul>
   </section>
 </template>
@@ -52,13 +59,9 @@ defineEmits<{
 
 <style scoped>
 .qr-panel {
-  display: grid;
   justify-items: center;
   gap: 10px;
-  padding: 12px;
-  border-radius: 14px;
   border: 1px solid var(--semantic-color-participant-panel-qr-border);
-  background: var(--semantic-color-participant-panel-surface);
 }
 
 header {
@@ -77,20 +80,13 @@ h2 {
   font-size: 14px;
 }
 
-button {
-  height: var(--semantic-component-participant-button-secondary-height);
-  padding: 0 var(--semantic-component-participant-button-padding-x);
-  border: none;
+.qr-panel :deep(.ui-button) {
+  min-height: var(--semantic-component-participant-button-secondary-height);
   border-radius: var(--semantic-component-participant-button-secondary-radius);
   background: var(--semantic-color-participant-action-secondary-bg);
   color: var(--semantic-color-participant-action-secondary-text);
   font-size: var(--semantic-component-participant-button-text-size);
   font-weight: var(--semantic-component-participant-button-text-weight);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .qr {
@@ -118,18 +114,11 @@ p {
   color: var(--semantic-color-participant-panel-qr-label);
 }
 
-ul {
+.qr-panel :deep(.ui-list) {
   width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 6px;
 }
 
-li {
-  padding: 8px;
-  border-radius: 10px;
+.qr-panel :deep(.ui-list-item) {
   background: var(--semantic-color-participant-panel-list-item-bg);
   font-size: 12px;
 }

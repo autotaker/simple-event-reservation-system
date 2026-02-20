@@ -1,26 +1,43 @@
 <template>
-  <main>
+  <main class="operator-portal ui-shell ui-shell--operator">
     <h1>Event Reservation MVP</h1>
     <p>ゲストでログインしてキーノート予約を行えます。</p>
 
-    <button type="button" @click="loginAsGuest">ゲストでログイン</button>
-    <p v-if="guestId">ログイン中: {{ guestId }}</p>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
-    <p v-if="infoMessage">{{ infoMessage }}</p>
+    <button class="ui-button ui-button--primary" type="button" @click="loginAsGuest">
+      ゲストでログイン
+    </button>
+    <p v-if="guestId" class="ui-muted">ログイン中: {{ guestId }}</p>
+    <p v-if="errorMessage" class="ui-status ui-status--error">{{ errorMessage }}</p>
+    <p v-if="infoMessage" class="ui-status ui-status--success">{{ infoMessage }}</p>
 
-    <section>
+    <section class="ui-panel operator-portal__section">
       <h2>セッション管理（運営）</h2>
-      <label>
-        管理者トークン
+      <label class="ui-field">
+        <span class="ui-field__label">管理者トークン</span>
         <input v-model="adminToken" type="password" placeholder="admin token" />
       </label>
-      <button type="button" :disabled="!adminToken" @click="loadAdminSessions">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="!adminToken"
+        @click="loadAdminSessions"
+      >
         管理一覧を取得
       </button>
-      <button type="button" :disabled="!adminToken" @click="downloadReservationCsv">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="!adminToken"
+        @click="downloadReservationCsv"
+      >
         予約一覧CSVを出力
       </button>
-      <button type="button" :disabled="!adminToken" @click="downloadSessionCheckInCsv">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="!adminToken"
+        @click="downloadSessionCheckInCsv"
+      >
         チェックインCSVを出力
       </button>
 
@@ -42,37 +59,46 @@
           定員
           <input v-model="createForm.capacity" type="number" min="1" required />
         </label>
-        <button type="submit" :disabled="!adminToken">セッション作成</button>
+        <button class="ui-button ui-button--primary" type="submit" :disabled="!adminToken">
+          セッション作成
+        </button>
       </form>
 
-      <table v-if="adminSessions.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">開始時刻</th>
-            <th scope="col">トラック</th>
-            <th scope="col">タイトル</th>
-            <th scope="col">定員</th>
-            <th scope="col">予約数</th>
-            <th scope="col">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="session in adminSessions" :key="session.sessionId">
-            <td>{{ session.sessionId }}</td>
-            <td>{{ session.startTime }}</td>
-            <td>{{ session.track }}</td>
-            <td>{{ session.title }}</td>
-            <td>{{ session.capacity }}</td>
-            <td>{{ session.reservedCount }}</td>
-            <td>
-              <button type="button" :disabled="!adminToken" @click="startEditSession(session)">
-                編集
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-if="adminSessions.length > 0" class="ui-table-wrap">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">開始時刻</th>
+              <th scope="col">トラック</th>
+              <th scope="col">タイトル</th>
+              <th scope="col">定員</th>
+              <th scope="col">予約数</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="session in adminSessions" :key="session.sessionId">
+              <td>{{ session.sessionId }}</td>
+              <td>{{ session.startTime }}</td>
+              <td>{{ session.track }}</td>
+              <td>{{ session.title }}</td>
+              <td>{{ session.capacity }}</td>
+              <td>{{ session.reservedCount }}</td>
+              <td>
+                <button
+                  class="ui-button ui-button--secondary"
+                  type="button"
+                  :disabled="!adminToken"
+                  @click="startEditSession(session)"
+                >
+                  編集
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <form v-if="editForm.sessionId" @submit.prevent="updateAdminSession">
         <h3>編集: {{ editForm.sessionId }}</h3>
@@ -92,8 +118,12 @@
           定員
           <input v-model="editForm.capacity" type="number" min="1" required />
         </label>
-        <button type="submit" :disabled="!adminToken">更新</button>
-        <button type="button" @click="clearEditForm">キャンセル</button>
+        <button class="ui-button ui-button--primary" type="submit" :disabled="!adminToken">
+          更新
+        </button>
+        <button class="ui-button ui-button--secondary" type="button" @click="clearEditForm">
+          キャンセル
+        </button>
       </form>
     </section>
 
@@ -114,11 +144,13 @@
       @cancel="cancelReservation"
     />
 
-    <section>
+    <section class="ui-panel operator-portal__section">
       <h2>マイページ</h2>
       <p v-if="!token">マイページはログイン中ユーザーのみ表示できます。</p>
       <template v-else>
-        <button type="button" @click="loadMyPage">マイページを更新</button>
+        <button class="ui-button ui-button--secondary" type="button" @click="loadMyPage">
+          マイページを更新
+        </button>
         <p v-if="myPageLoaded && myPageReservations.length === 0">予約はありません。</p>
         <ul v-else>
           <li v-for="reservation in myPageReservations" :key="`mypage-${reservation}`">
@@ -263,3 +295,23 @@ onMounted(() => {
   void loadOperatorBootstrap();
 });
 </script>
+
+<style scoped>
+.operator-portal {
+  gap: var(--space-4);
+}
+
+.operator-portal__section {
+  align-content: start;
+}
+
+form {
+  display: grid;
+  gap: var(--space-2);
+}
+
+label {
+  display: grid;
+  gap: var(--space-1);
+}
+</style>

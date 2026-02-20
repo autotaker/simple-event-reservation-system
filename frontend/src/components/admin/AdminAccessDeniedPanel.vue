@@ -1,9 +1,11 @@
 <template>
-  <section class="denied">
+  <section class="denied ui-panel">
     <p class="denied__code">403 Forbidden</p>
     <h3>管理導線へのアクセス権限がありません</h3>
     <p class="denied__reason">{{ message }}</p>
-    <RouterLink class="denied__link" to="/participant">参加者画面へ戻る</RouterLink>
+    <RouterLink class="denied__link ui-button ui-button--danger" to="/participant">
+      参加者画面へ戻る
+    </RouterLink>
   </section>
 </template>
 
@@ -17,10 +19,6 @@ defineProps<{
 
 <style scoped>
 .denied {
-  display: grid;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 14px;
   border: 1px solid var(--semantic-color-state-danger);
   background: var(--semantic-color-state-danger-soft);
 }
@@ -51,15 +49,6 @@ defineProps<{
 .denied__link {
   width: fit-content;
   min-width: 150px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: var(--semantic-color-state-danger);
-  color: var(--semantic-color-text-on-primary);
-  font-size: 12px;
-  font-weight: 700;
   text-decoration: none;
 }
 </style>
