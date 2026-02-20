@@ -1,9 +1,24 @@
-import type { Preview } from '@storybook/vue3-vite';
+import { setup, type Preview } from '@storybook/vue3-vite';
+import { createMemoryHistory, createRouter } from 'vue-router';
 import '../src/styles/base.css';
 import '../src/styles/layout.css';
 import '../src/styles/components.css';
 import '../src/styles/state.css';
 import '../src/styles/tokens.css';
+
+const storybookRouter = createRouter({
+  history: createMemoryHistory(),
+  routes: [
+    { path: '/', component: { template: '<div />' } },
+    { path: '/participant', component: { template: '<div />' } },
+    { path: '/admin', component: { template: '<div />' } },
+    { path: '/operator', component: { template: '<div />' } },
+  ],
+});
+
+setup((app) => {
+  app.use(storybookRouter);
+});
 
 const preview: Preview = {
   parameters: {
