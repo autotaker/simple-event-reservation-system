@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class CsvExportService {
 
     private static final String LINE_SEPARATOR = "\r\n";
+    private static final List<Character> DANGEROUS_FORMULA_PREFIXES = List.of('=', '+', '-', '@');
 
     private final ReservationService reservationService;
     private final CheckInService checkInService;
@@ -139,7 +140,7 @@ public class CsvExportService {
     }
 
     private String escapeCsv(String rawValue) {
-        String normalizedValue = rawValue == null ? "" : rawValue;
+        String normalizedValue = sanitizeForSpreadsheetFormulaInjection(rawValue == null ? "" : rawValue);
         String escapedValue = normalizedValue.replace("\"", "\"\"");
         boolean needsQuote = escapedValue.contains(",")
             || escapedValue.contains("\"")
@@ -149,6 +150,17 @@ public class CsvExportService {
             return "\"" + escapedValue + "\"";
         }
         return escapedValue;
+    }
+
+    private String sanitizeForSpreadsheetFormulaInjection(String value) {
+        if (value.isEmpty()) {
+            return value;
+        }
+
+        if (DANGEROUS_FORMULA_PREFIXES.contains(value.charAt(0))) {
+            return "'" + value;
+        }
+        return value;
     }
 
     private record SessionMetadata(String sessionTitle, String startTime, String track) {
