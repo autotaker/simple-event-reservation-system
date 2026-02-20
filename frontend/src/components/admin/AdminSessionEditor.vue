@@ -1,27 +1,36 @@
 <template>
-  <form class="editor" @submit.prevent="$emit('submit')">
+  <form class="editor ui-panel" @submit.prevent="$emit('submit')">
     <h3>{{ heading }}</h3>
     <div class="editor__grid">
-      <label>
-        タイトル
-        <input v-model="title" type="text" required />
+      <label class="ui-field">
+        <span class="ui-field__label">タイトル</span>
+        <input v-model="title" class="ui-field__input" type="text" required />
       </label>
-      <label>
-        開始時刻
-        <input v-model="startTime" type="time" required />
+      <label class="ui-field">
+        <span class="ui-field__label">開始時刻</span>
+        <input v-model="startTime" class="ui-field__input" type="time" required />
       </label>
-      <label>
-        トラック
-        <input v-model="track" type="text" required />
+      <label class="ui-field">
+        <span class="ui-field__label">トラック</span>
+        <input v-model="track" class="ui-field__input" type="text" required />
       </label>
-      <label>
-        定員
-        <input v-model="capacity" type="number" min="1" required />
+      <label class="ui-field">
+        <span class="ui-field__label">定員</span>
+        <input v-model="capacity" class="ui-field__input" type="number" min="1" required />
       </label>
     </div>
     <div class="editor__actions">
-      <button type="submit" :disabled="!canSubmit">{{ submitLabel }}</button>
-      <button v-if="showCancel" type="button" @click="$emit('cancel')">キャンセル</button>
+      <button class="ui-button ui-button--warning" type="submit" :disabled="!canSubmit">
+        {{ submitLabel }}
+      </button>
+      <button
+        v-if="showCancel"
+        class="ui-button ui-button--secondary"
+        type="button"
+        @click="$emit('cancel')"
+      >
+        キャンセル
+      </button>
     </div>
   </form>
 </template>
@@ -71,12 +80,8 @@ const capacity = computed({
 
 <style scoped>
 .editor {
-  display: grid;
   gap: 10px;
-  padding: 12px;
-  border-radius: 14px;
   border: 1px solid var(--semantic-color-state-warning);
-  background: var(--semantic-color-bg-surface);
 }
 
 .editor h3 {
@@ -90,16 +95,10 @@ const capacity = computed({
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.editor label {
-  display: grid;
-  gap: 4px;
-  font-size: 12px;
-  color: var(--semantic-color-text-secondary);
-}
-
 .editor__actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 900px) {

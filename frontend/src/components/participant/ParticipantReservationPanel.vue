@@ -1,24 +1,39 @@
 <template>
-  <section class="reservation-panel">
+  <section class="reservation-panel ui-panel">
     <header>
       <h2>予約一覧</h2>
-      <button type="button" :disabled="disabled || !hasToken" @click="$emit('refresh')">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="disabled || !hasToken"
+        @click="$emit('refresh')"
+      >
         更新
       </button>
     </header>
 
-    <button type="button" :disabled="disabled || !hasToken" @click="$emit('reserveKeynote')">
+    <button
+      class="ui-button ui-button--secondary"
+      type="button"
+      :disabled="disabled || !hasToken"
+      @click="$emit('reserveKeynote')"
+    >
       キーノートを予約
     </button>
 
     <p v-if="registered">参加登録: 完了</p>
     <p v-else-if="hasToken && registrationStatusLoaded">参加登録: 未完了</p>
 
-    <ul v-if="reservations.length > 0">
-      <li v-for="item in reservations" :key="item.id">
+    <ul v-if="reservations.length > 0" class="ui-list">
+      <li v-for="item in reservations" :key="item.id" class="ui-list-item">
         <p>{{ item.title }}</p>
         <span>{{ item.time }}</span>
-        <button type="button" :disabled="disabled || !hasToken" @click="$emit('cancel', item.id)">
+        <button
+          class="ui-button ui-button--secondary"
+          type="button"
+          :disabled="disabled || !hasToken"
+          @click="$emit('cancel', item.id)"
+        >
           キャンセル
         </button>
       </li>
@@ -46,12 +61,8 @@ defineEmits<{
 
 <style scoped>
 .reservation-panel {
-  display: grid;
   gap: 10px;
-  padding: 12px;
-  border-radius: 14px;
   border: 1px solid var(--semantic-color-participant-panel-reservation-border);
-  background: var(--semantic-color-participant-panel-surface);
 }
 
 header {
@@ -65,10 +76,8 @@ h2 {
   font-size: 14px;
 }
 
-button {
-  height: var(--semantic-component-participant-button-secondary-height);
-  padding: 0 var(--semantic-component-participant-button-padding-x);
-  border: none;
+.reservation-panel :deep(.ui-button) {
+  min-height: var(--semantic-component-participant-button-secondary-height);
   border-radius: var(--semantic-component-participant-button-secondary-radius);
   background: var(--semantic-color-participant-action-secondary-bg);
   color: var(--semantic-color-participant-action-secondary-text);
@@ -76,24 +85,8 @@ button {
   font-weight: var(--semantic-component-participant-button-text-weight);
 }
 
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 8px;
-}
-
-li {
-  display: grid;
+.reservation-panel :deep(.ui-list-item) {
   gap: 4px;
-  padding: 8px;
-  border-radius: 10px;
   background: var(--semantic-color-participant-panel-list-item-bg);
 }
 

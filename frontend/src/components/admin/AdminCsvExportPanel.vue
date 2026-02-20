@@ -1,12 +1,22 @@
 <template>
-  <section class="csv-panel">
+  <section class="csv-panel ui-panel">
     <h3>CSV出力</h3>
     <p>集計前に最新の予約状態へ同期してください。</p>
     <div class="csv-panel__actions">
-      <button type="button" :disabled="disabled" @click="$emit('downloadReservations')">
+      <button
+        class="ui-button ui-button--warning"
+        type="button"
+        :disabled="disabled"
+        @click="$emit('downloadReservations')"
+      >
         予約一覧CSVを出力
       </button>
-      <button type="button" :disabled="disabled" @click="$emit('downloadCheckIns')">
+      <button
+        class="ui-button ui-button--warning"
+        type="button"
+        :disabled="disabled"
+        @click="$emit('downloadCheckIns')"
+      >
         チェックインCSVを出力
       </button>
     </div>
@@ -26,12 +36,8 @@ defineEmits<{
 
 <style scoped>
 .csv-panel {
-  display: grid;
   gap: 10px;
-  padding: 12px;
-  border-radius: 14px;
   border: 1px solid var(--semantic-color-state-warning);
-  background: var(--semantic-color-bg-surface);
 }
 
 .csv-panel h3,

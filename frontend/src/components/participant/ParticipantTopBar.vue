@@ -6,7 +6,14 @@
     </div>
     <div class="topbar__guest">
       <span class="topbar__badge">{{ guestName }}</span>
-      <button type="button" :disabled="disabled" @click="$emit('login')">ゲストでログイン</button>
+      <button
+        class="ui-button ui-button--primary"
+        type="button"
+        :disabled="disabled"
+        @click="$emit('login')"
+      >
+        ゲストでログイン
+      </button>
     </div>
   </header>
 </template>
@@ -69,19 +76,12 @@ defineEmits<{
   font-weight: 700;
 }
 
-.topbar button {
-  height: var(--semantic-component-participant-button-topbar-height);
-  border: none;
+.topbar :deep(.ui-button) {
+  min-height: var(--semantic-component-participant-button-topbar-height);
   border-radius: var(--semantic-component-participant-button-topbar-radius);
-  padding: 0 var(--semantic-component-participant-button-padding-x);
   background: var(--semantic-color-participant-topbar-action-bg);
   color: var(--semantic-color-participant-topbar-action-text);
   font-size: var(--semantic-component-participant-button-text-size);
   font-weight: var(--semantic-component-participant-button-text-weight);
-}
-
-.topbar button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 </style>

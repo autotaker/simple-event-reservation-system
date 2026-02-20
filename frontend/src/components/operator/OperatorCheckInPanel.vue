@@ -1,12 +1,15 @@
 <template>
-  <section class="operator-checkin-panel">
+  <section class="operator-checkin-panel ui-panel">
     <h2>運営チェックイン</h2>
     <p v-if="!hasToken">運営チェックインはログイン中ユーザーのみ実行できます。</p>
 
     <template v-else>
-      <label for="checkin-qr-payload">QR payload</label>
+      <label class="ui-field" for="checkin-qr-payload">
+        <span class="ui-field__label">QR payload</span>
+      </label>
       <textarea
         id="checkin-qr-payload"
+        class="ui-field__input"
         :value="qrCodePayload"
         rows="3"
         cols="60"
@@ -15,15 +18,21 @@
       />
 
       <div class="operator-checkin-panel__actions">
-        <button type="button" :disabled="disabled" @click="$emit('checkInEvent')">
+        <button
+          class="ui-button ui-button--primary"
+          type="button"
+          :disabled="disabled"
+          @click="$emit('checkInEvent')"
+        >
           イベント受付をチェックイン
         </button>
       </div>
 
       <div class="operator-checkin-panel__actions">
-        <label for="checkin-session-id">セッション受付</label>
+        <label class="ui-field__label" for="checkin-session-id">セッション受付</label>
         <select
           id="checkin-session-id"
+          class="ui-field__input"
           :value="selectedSessionId"
           :disabled="disabled"
           @change="onSessionChange"
@@ -38,6 +47,7 @@
           </option>
         </select>
         <button
+          class="ui-button ui-button--secondary"
           type="button"
           :disabled="disabled || selectedSessionId.length === 0"
           @click="$emit('checkInSession')"
@@ -46,16 +56,21 @@
         </button>
       </div>
 
-      <button type="button" :disabled="disabled" @click="$emit('refreshHistory')">
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="disabled"
+        @click="$emit('refreshHistory')"
+      >
         チェックイン履歴を更新
       </button>
 
       <p
         v-if="resultMessage"
-        class="operator-checkin-panel__feedback"
+        class="operator-checkin-panel__feedback ui-status"
         :class="{
-          'operator-checkin-panel__feedback--success': resultTone === 'success',
-          'operator-checkin-panel__feedback--error': resultTone === 'error',
+          'ui-status--success': resultTone === 'success',
+          'ui-status--error': resultTone === 'error',
         }"
       >
         {{ resultMessage }}
@@ -63,27 +78,29 @@
 
       <p v-if="historyLoaded && history.length === 0">チェックイン履歴はありません。</p>
 
-      <table v-else-if="history.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">チェックイン種別</th>
-            <th scope="col">ゲストID</th>
-            <th scope="col">セッションID</th>
-            <th scope="col">時刻</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="entry in history"
-            :key="`${entry.checkInType}-${entry.sessionId ?? 'event'}-${entry.guestId}`"
-          >
-            <td>{{ entry.checkInTypeLabel }}</td>
-            <td>{{ entry.guestId }}</td>
-            <td>{{ entry.sessionId ?? '-' }}</td>
-            <td>{{ entry.checkedInAtLabel }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-else-if="history.length > 0" class="ui-table-wrap">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th scope="col">チェックイン種別</th>
+              <th scope="col">ゲストID</th>
+              <th scope="col">セッションID</th>
+              <th scope="col">時刻</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="entry in history"
+              :key="`${entry.checkInType}-${entry.sessionId ?? 'event'}-${entry.guestId}`"
+            >
+              <td>{{ entry.checkInTypeLabel }}</td>
+              <td>{{ entry.guestId }}</td>
+              <td>{{ entry.sessionId ?? '-' }}</td>
+              <td>{{ entry.checkedInAtLabel }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </template>
   </section>
 </template>
@@ -134,7 +151,6 @@ const onSessionChange = (event: globalThis.Event): void => {
 
 <style scoped>
 .operator-checkin-panel {
-  display: grid;
   gap: 10px;
 }
 
@@ -149,24 +165,17 @@ const onSessionChange = (event: globalThis.Event): void => {
   max-width: 100%;
 }
 
+.operator-checkin-panel textarea {
+  min-height: 84px;
+  padding-top: var(--space-2);
+}
+
 .operator-checkin-panel__actions {
   display: grid;
   gap: 6px;
 }
 
 .operator-checkin-panel__feedback {
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 700;
-}
-
-.operator-checkin-panel__feedback--success {
-  background: #eaf9ed;
-  color: #136428;
-}
-
-.operator-checkin-panel__feedback--error {
-  background: #ffecec;
-  color: #b20000;
+  margin-top: 2px;
 }
 </style>

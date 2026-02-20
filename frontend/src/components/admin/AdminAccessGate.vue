@@ -1,9 +1,9 @@
 <template>
-  <section class="gate">
+  <section class="gate ui-panel">
     <h2>管理アクセス確認</h2>
-    <label>
-      管理者トークン
-      <input v-model="model" type="password" placeholder="admin token" />
+    <label class="ui-field">
+      <span class="ui-field__label">管理者トークン</span>
+      <input v-model="model" class="ui-field__input" type="password" placeholder="admin token" />
     </label>
   </section>
 </template>
@@ -20,14 +20,5 @@ const model = defineModel<string>({ required: true });
 
 .gate h2 {
   margin: 0;
-}
-
-.gate label {
-  display: grid;
-  gap: 6px;
-}
-
-.gate input {
-  max-width: 280px;
 }
 </style>

@@ -6,7 +6,12 @@
       <span :class="['session-card__seat', `session-card__seat--${seatTone}`]">{{
         seatLabel
       }}</span>
-      <button type="button" :disabled="disabled" @click="$emit('reserve')">
+      <button
+        class="ui-button ui-button--primary"
+        type="button"
+        :disabled="disabled"
+        @click="$emit('reserve')"
+      >
         {{ reserved ? '予約済み' : '予約する' }}
       </button>
     </div>
@@ -84,20 +89,13 @@ defineEmits<{
   color: var(--semantic-color-participant-seat-full-text);
 }
 
-.session-card button {
-  height: var(--semantic-component-participant-button-primary-height);
-  border: none;
+.session-card :deep(.ui-button) {
+  min-height: var(--semantic-component-participant-button-primary-height);
   border-radius: var(--semantic-component-participant-button-primary-radius);
-  padding: 0 var(--semantic-component-participant-button-padding-x);
   font-size: var(--semantic-component-participant-button-text-size);
   font-weight: var(--semantic-component-participant-button-text-weight);
   background: var(--semantic-color-participant-action-primary-bg);
   color: var(--semantic-color-participant-action-primary-text);
-}
-
-.session-card button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .session-card--reserved {

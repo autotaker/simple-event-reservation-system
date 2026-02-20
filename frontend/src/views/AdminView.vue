@@ -1,5 +1,5 @@
 <template>
-  <main class="admin-portal">
+  <main class="admin-portal ui-shell ui-shell--admin">
     <AdminTopBar
       event-name="Tokyo Product Summit 2026"
       section-label="運営管理ポータル /admin"
@@ -14,16 +14,16 @@
       :message="'管理権限がないため /admin の管理画面を表示できません。管理者トークンを設定するか、参加者画面へ戻ってください。'"
     />
 
-    <p v-if="errorMessage" class="admin-portal__feedback admin-portal__feedback--error">
+    <p v-if="errorMessage" class="admin-portal__feedback ui-status ui-status--error">
       {{ errorMessage }}
     </p>
-    <p v-if="infoMessage" class="admin-portal__feedback admin-portal__feedback--success">
+    <p v-if="infoMessage" class="admin-portal__feedback ui-status ui-status--success">
       {{ infoMessage }}
     </p>
 
     <section v-if="hasAdminAccess" class="admin-portal__body">
       <h2>セッション管理（運営）</h2>
-      <div class="admin-portal__layout">
+      <div class="admin-portal__layout ui-layout-split">
         <AdminSessionTable
           :sessions="adminSessions"
           :disabled="!adminToken"
@@ -106,27 +106,12 @@ onMounted(() => {
 
 <style scoped>
 .admin-portal {
-  display: grid;
   gap: 16px;
-  width: min(960px, 100%);
-  margin: 0 auto;
   padding: 20px;
 }
 
 .admin-portal__feedback {
   margin: 0;
-}
-
-.admin-portal__feedback--forbidden {
-  color: #8a5a00;
-}
-
-.admin-portal__feedback--error {
-  color: #b20000;
-}
-
-.admin-portal__feedback--success {
-  color: #136428;
 }
 
 .admin-portal__body {
@@ -139,9 +124,7 @@ onMounted(() => {
 }
 
 .admin-portal__layout {
-  display: grid;
   gap: 12px;
-  grid-template-columns: 1.3fr 1fr;
 }
 
 .admin-portal__side {
@@ -152,12 +135,7 @@ onMounted(() => {
 
 @media (max-width: 900px) {
   .admin-portal {
-    width: min(390px, 100%);
     padding: 12px;
-  }
-
-  .admin-portal__layout {
-    grid-template-columns: 1fr;
   }
 }
 </style>
