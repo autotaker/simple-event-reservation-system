@@ -36,6 +36,13 @@
 - Secondary: 受付補助タブレット（834x1112 前後）
 - Tertiary: 来場前PC確認（1280幅）
 
+## ブレークポイント定義（公式）
+
+- `mobile`: `max-width: 767px`
+- `tablet`: `min-width: 768px` かつ `max-width: 1023px`
+- `desktop`: `min-width: 1024px`
+- 備考: 390 / 834 / 1280 は検証代表値であり、実装判定は上記境界値を優先する。
+
 ## UXチェックポイントとステータス
 
 - CP1: CSS基盤（余白、階層、状態表現）の適用方針が定義される - Pass
@@ -45,16 +52,51 @@
 ## CSS仕様契約（実装引き渡し）
 
 - クラス命名
-  - レイアウト: `.ui-shell-*`
-  - コンポーネント: `.ui-button-*`, `.ui-field-*`, `.ui-table-*`, `.ui-status-*`
+  - レイアウト: `.ui-shell`, `.ui-shell--compact`
+  - コンポーネント: `.ui-button`, `.ui-button--primary`, `.ui-button--secondary`
+  - コンポーネント: `.ui-field`, `.ui-field--error`
+  - コンポーネント: `.ui-table`, `.ui-table__col--id`, `.ui-table__col--title`, `.ui-table__col--action`
+  - コンポーネント: `.ui-status`, `.ui-status--loading`, `.ui-status--success`, `.ui-status--error`
 - 状態
-  - `loading`, `success`, `error`, `disabled` を必須状態とする。
+  - `loading`, `success`, `error`, `disabled` を基盤必須状態とする。
+  - コンポーネント別の必須状態:
+    - `StatusMessage`: `loading`, `success`, `error`（`disabled` 非対象）
+    - `BaseButton`: `primary`, `secondary`, `disabled`
+    - `BaseField`: `default`, `error`, `disabled`
+    - `BaseTable`: `default`（必要時に `loading`/`error` はテーブル外の `StatusMessage` で表現）
+    - `PageShell`: `default`, `compact`（レスポンシブ）
+- セカンダリーボタン意味論
+  - `secondary` は「通常補助操作（更新、戻る、キャンセル）」を指す。
+  - 注意喚起/危険操作は `secondary` を使わず、別トーン（将来 `danger`）で定義する。
 - トークン
-  - `frontend/src/styles/tokens.css` のセマンティックトークンのみ使用する。
+  - 実装コードは `frontend/src/styles/tokens.css` のトークン参照を基本とする。
+  - 例外: 検証代表値（`390`, `834`, `1280`）や未定義トークン補完は handoff 明記のうえ暫定許容。
+  - 暫定許容を使った場合は実装PR内でトークン化計画を記載する。
 - 禁止事項
   - 直値カラー指定
   - 画面ごとの独自 disabled 見た目
   - エラー表示位置の画面ごとの不統一
+
+## CSSファイル分割対応表（Issue #31コメント準拠）
+
+- `frontend/src/styles/base.css`
+  - タイポグラフィ、`body` 既定、要素リセット、フォーカス可視化の共通土台
+- `frontend/src/styles/layout.css`
+  - `.ui-shell` 系のレイアウト、`section` 間余白、ブレークポイントごとの段組み
+- `frontend/src/styles/components.css`
+  - `.ui-button` / `.ui-field` / `.ui-table` など部品の既定見た目
+- `frontend/src/styles/state.css`
+  - `.ui-status--*`、`disabled`、`loading/success/error` の状態表現
+
+## モバイルテーブル運用ルール
+
+- 優先表示列: `ID` > `Title` > `Action`
+- 最小表示要件:
+  - `ID` と `Action` は常時表示
+  - `Title` は1行省略（ellipsis）を許容
+- 横スクロールを許容する場合:
+  - 操作列（`Action`）の最小幅を確保し、誤タップを防ぐ
+  - 情報欠落を避けるため、詳細確認導線（例: 編集モーダル）を別途提供する
 
 ## 実装担当への依頼
 

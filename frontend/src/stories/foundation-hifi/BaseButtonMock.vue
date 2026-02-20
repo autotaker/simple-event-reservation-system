@@ -22,7 +22,7 @@ withDefaults(
 .ui-button {
   height: var(--semantic-component-button-height);
   padding: 0 var(--semantic-component-button-padding-x);
-  border: 0;
+  border: 1px solid transparent;
   border-radius: var(--semantic-component-button-radius);
   font-size: var(--semantic-component-button-font-size);
   font-weight: var(--semantic-component-button-font-weight);
@@ -35,7 +35,9 @@ withDefaults(
 }
 
 .ui-button--secondary {
-  background: var(--semantic-color-state-warning);
+  background: var(--semantic-color-action-primary-soft);
+  border-color: var(--semantic-color-border-default);
+  color: var(--semantic-color-text-primary);
 }
 
 .ui-button:disabled {
