@@ -40,6 +40,14 @@
       >
         チェックインCSVを出力
       </button>
+      <button
+        class="ui-button ui-button--secondary"
+        type="button"
+        :disabled="!adminToken"
+        @click="endAdminSession"
+      >
+        管理者セッションを終了
+      </button>
 
       <form @submit.prevent="createAdminSession">
         <h3>新規作成</h3>
@@ -237,6 +245,7 @@ const {
   loadReservations,
   loadMyPage,
   loadAdminSessions,
+  endAdminSession,
   reserveKeynote,
   reserveSession,
   cancelReservation,

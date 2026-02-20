@@ -120,9 +120,9 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
 };
 
 export const useReservationApp = () => {
-  const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
-  const adminToken = ref<string>(globalThis.localStorage.getItem('adminAccessToken') ?? '');
-  const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
+  const token = ref<string | null>(globalThis.sessionStorage.getItem('guestAccessToken'));
+  const adminToken = ref<string>(globalThis.sessionStorage.getItem('adminAccessToken') ?? '');
+  const guestId = ref<string>(globalThis.sessionStorage.getItem('guestId') ?? '');
 
   const sessions = ref<SessionSummary[]>([]);
   const adminSessions = ref<AdminSession[]>([]);
@@ -645,8 +645,8 @@ export const useReservationApp = () => {
     checkInResultMessage.value = '';
     checkInResultTone.value = '';
 
-    globalThis.localStorage.setItem('guestAccessToken', data.accessToken);
-    globalThis.localStorage.setItem('guestId', data.guestId);
+    globalThis.sessionStorage.setItem('guestAccessToken', data.accessToken);
+    globalThis.sessionStorage.setItem('guestId', data.guestId);
 
     await Promise.all([loadSessions(), loadReservations(), loadMyPage(), loadCheckInHistory()]);
   };
@@ -667,8 +667,19 @@ export const useReservationApp = () => {
     }
   };
 
+  const endAdminSession = (): void => {
+    adminToken.value = '';
+    adminSessions.value = [];
+    clearEditForm();
+    infoMessage.value = '管理者セッションを終了しました。';
+  };
+
   watch(adminToken, (newValue) => {
-    globalThis.localStorage.setItem('adminAccessToken', newValue);
+    if (newValue.trim().length === 0) {
+      globalThis.sessionStorage.removeItem('adminAccessToken');
+      return;
+    }
+    globalThis.sessionStorage.setItem('adminAccessToken', newValue);
   });
 
   watch(
@@ -754,6 +765,7 @@ export const useReservationApp = () => {
     createAdminSession,
     startEditSession,
     updateAdminSession,
+    endAdminSession,
     checkInEvent,
     checkInSession,
     loadCheckInHistory,
