@@ -9,6 +9,14 @@
     />
 
     <AdminAccessGate v-model="adminToken" />
+    <button
+      v-if="hasAdminAccess"
+      class="ui-button ui-button--secondary"
+      type="button"
+      @click="endAdminSession"
+    >
+      管理者セッションを終了
+    </button>
     <AdminAccessDeniedPanel
       v-if="!hasAdminAccess"
       :message="'管理権限がないため /admin の管理画面を表示できません。管理者トークンを設定するか、参加者画面へ戻ってください。'"
@@ -80,6 +88,7 @@ const {
   editForm,
   clearEditForm,
   loadAdminSessions,
+  endAdminSession,
   downloadReservationCsv,
   downloadSessionCheckInCsv,
   createAdminSession,
