@@ -1,0 +1,39 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as LayoutStories from './ParticipantTimetableLayoutHiFi.stories';
+import * as TimetableStories from './ParticipantSessionTimetableMock.stories';
+import * as ReservationStories from './ParticipantReservationPanelMock.stories';
+
+<Meta of={LayoutStories} />
+
+<Title>US-14 参加者タイムテーブル HiFi カタログ</Title>
+<Subtitle>Issue #32: セッション比較と予約判断をタイムテーブルで短縮する</Subtitle>
+
+<Description>
+  このカタログは Issue #32 の受け入れ条件（CP1-CP3）を満たすために、
+  参加者向けタイムテーブルUIの画面レイアウトと主要状態を実装前に固定する。 重点はセル内状態（OPEN /
+  FEW_LEFT / FULL / 予約済み）と、予約操作後の状態反映順序。
+</Description>
+
+## 1. 画面レイアウト（normal/loading/success/error）
+
+<Canvas of={LayoutStories.MobileDefault} />
+<Canvas of={LayoutStories.MobileLoading} />
+<Canvas of={LayoutStories.TabletSuccess} />
+<Canvas of={LayoutStories.DesktopError} />
+
+## 2. タイムテーブルセル仕様
+
+<Canvas of={TimetableStories.MobileDefault} />
+<Canvas of={TimetableStories.Loading} />
+<Canvas of={TimetableStories.Success} />
+<Canvas of={TimetableStories.Error} />
+
+## 3. 補助パネル（既存仕様再利用）
+
+<Canvas of={ReservationStories.MobileReservationPanel} />
+
+## 4. チェックポイント対応
+
+- CP1: 時間×トラック表示はレイアウトとセル仕様で固定
+- CP2: 各セルで予約操作可能（OPEN / FEW_LEFT時のみ活性）
+- CP3: 満席/予約済みはセル内トーンとボタン状態で識別
