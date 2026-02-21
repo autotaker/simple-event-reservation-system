@@ -41,7 +41,7 @@ const feedbackMessage = computed(() => {
     return '予約情報を更新中です...';
   }
   if (props.mode === 'success') {
-    return '11:00 Track A の予約を確定しました';
+    return '11:00 Track A に変更しました（Track B を解除）';
   }
   if (props.mode === 'error') {
     return '予約に失敗しました。時間を空けて再試行してください';
