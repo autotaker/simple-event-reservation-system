@@ -1,0 +1,32 @@
+import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
+import * as LayoutStories from './AdminAuthLayoutHiFi.stories';
+import * as TopBarStories from './AdminAuthTopBarMock.stories';
+import * as LoginStories from './AdminLoginCardMock.stories';
+import * as TokenStories from './AdminTokenStatusPanelMock.stories';
+import * as RevokeStories from './AdminSessionRevocationPanelMock.stories';
+import * as DeniedStories from './AdminAuthDeniedPanelMock.stories';
+
+<Meta of={LayoutStories} />
+
+<Title>US-15 管理者認証 HiFi カタログ</Title>
+<Subtitle>Issue #33: 管理者ログイン + 短命トークン + 失効導線のモック</Subtitle>
+
+<Description>
+  本カタログは #33 の受け入れ条件に合わせて、固定トークン依存を解消するための
+  管理者認証導線を先行合意する HiFi モックである。
+</Description>
+
+## 1. 画面レイアウトストーリー
+
+<Canvas of={LayoutStories.MobileAuthDefault} />
+<Canvas of={LayoutStories.MobileAuthLoading} />
+<Canvas of={LayoutStories.TabletAuthSuccess} />
+<Canvas of={LayoutStories.MobileAuthError} />
+
+## 2. 実装コンポーネントストーリー
+
+<Canvas of={TopBarStories.MobileHeader} />
+<Canvas of={LoginStories.MobileCard} />
+<Canvas of={TokenStories.ActiveTokenState} />
+<Canvas of={RevokeStories.MobileRevocationPanel} />
+<Canvas of={DeniedStories.MobileDeniedState} />
