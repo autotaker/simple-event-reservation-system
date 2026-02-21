@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { resolveUsableAdminToken } from './support/admin';
-import { clearGuestSession, loginAsGuest } from './support/ui';
+import { clearGuestSession, loginAsGuest, participantSessionCellByTitle } from './support/ui';
 
 test.describe('US-08 運営がセッション情報を管理できる', () => {
   test('未認証で管理APIにアクセスすると401になる', async ({ request }) => {
@@ -68,9 +68,11 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
 
     await page.goto('/participant');
     await page.getByLabel('session list').getByRole('button', { name: '更新' }).click();
-    const updatedParticipantCard = page.locator('article').filter({ hasText: updatedTitle });
-    await expect(updatedParticipantCard).toBeVisible();
-    await expect(updatedParticipantCard).toContainText('17:15 | Track E2E Updated');
+    await expect(page.getByRole('rowheader', { name: '17:15' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Track E2E Updated' })).toBeVisible();
+    const updatedParticipantCell = participantSessionCellByTitle(page, updatedTitle);
+    await expect(updatedParticipantCell).toBeVisible();
+    await expect(updatedParticipantCell.getByText('残りわずか')).toBeVisible();
 
     await page.goto('/admin');
 

@@ -23,8 +23,8 @@ test.describe('US-03 セッション一覧と残席ステータス', () => {
 
     await expect(page.getByRole('rowheader', { name: '09:00' })).toBeVisible();
     await expect(page.getByRole('rowheader', { name: '10:30' })).toBeVisible();
-    await expect(page.getByText('Opening Keynote')).toBeVisible();
-    await expect(page.getByText('Session 1')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /^Opening Keynote$/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /^Session 1$/ })).toBeVisible();
     await expect(page.getByText('受付中').first()).toBeVisible();
   });
 });
