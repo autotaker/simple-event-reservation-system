@@ -76,7 +76,7 @@
 6. マトリクス生成ルール（欠損セル/トラック順）
 
 - 今回は `displayOrder` を非採用とし、トラック名昇順を正とする。
-- `displayOrder` による任意順対応は別IssueでAPI拡張時に再定義する。
+- `displayOrder` による任意順対応は別IssueでAPI拡張時に再定義する（Issue: [#68](https://github.com/autotaker/simple-event-reservation-system/issues/68)）。
 - セッション欠損セルは空欄ではなく `セッションなし`（非活性セル）を表示する。
 
 ## 操作仕様
