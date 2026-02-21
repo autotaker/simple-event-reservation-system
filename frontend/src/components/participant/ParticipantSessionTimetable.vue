@@ -21,26 +21,32 @@
           <tr v-for="startTime in startTimes" :key="startTime">
             <th scope="row" class="participant-timetable__time-col">{{ startTime }}</th>
             <td v-for="track in tracks" :key="`${startTime}-${track}`">
-              <article
-                v-if="cellByKey[`${startTime}::${track}`]"
-                class="participant-timetable__cell"
-                :class="cellClass(cellByKey[`${startTime}::${track}`])"
+              <div
+                v-if="sessionsByCellKey[`${startTime}::${track}`]"
+                class="participant-timetable__cell-list"
               >
-                <h3 class="participant-timetable__title">
-                  {{ cellByKey[`${startTime}::${track}`].title }}
-                </h3>
-                <p class="participant-timetable__status">
-                  {{ cellStatusLabel(cellByKey[`${startTime}::${track}`]) }}
-                </p>
-                <button
-                  class="ui-button ui-button--primary participant-timetable__action"
-                  type="button"
-                  :disabled="isCellDisabled(cellByKey[`${startTime}::${track}`])"
-                  @click="$emit('reserve', cellByKey[`${startTime}::${track}`])"
+                <article
+                  v-for="session in sessionsByCellKey[`${startTime}::${track}`]"
+                  :key="session.sessionId"
+                  class="participant-timetable__cell"
+                  :class="cellClass(session)"
                 >
-                  {{ cellButtonLabel(cellByKey[`${startTime}::${track}`]) }}
-                </button>
-              </article>
+                  <h3 class="participant-timetable__title">
+                    {{ session.title }}
+                  </h3>
+                  <p class="participant-timetable__status">
+                    {{ cellStatusLabel(session) }}
+                  </p>
+                  <button
+                    class="ui-button ui-button--primary participant-timetable__action"
+                    type="button"
+                    :disabled="isCellDisabled(session)"
+                    @click="$emit('reserve', session)"
+                  >
+                    {{ cellButtonLabel(session) }}
+                  </button>
+                </article>
+              </div>
               <article
                 v-else
                 class="participant-timetable__cell participant-timetable__cell--empty"
@@ -105,9 +111,13 @@ const startTimes = computed<string[]>(() =>
 
 const reservedSessionIdSet = computed<Set<string>>(() => new Set(props.reservedSessionIds));
 
-const cellByKey = computed<Record<string, TimetableSession>>(() =>
-  props.sessions.reduce<Record<string, TimetableSession>>((map, session) => {
-    map[`${session.startTime}::${session.track}`] = session;
+const sessionsByCellKey = computed<Record<string, TimetableSession[]>>(() =>
+  props.sessions.reduce<Record<string, TimetableSession[]>>((map, session) => {
+    const key = `${session.startTime}::${session.track}`;
+    if (!map[key]) {
+      map[key] = [];
+    }
+    map[key].push(session);
     return map;
   }, {}),
 );
@@ -201,6 +211,11 @@ const cellButtonLabel = (session: TimetableSession): string => {
 .participant-timetable__table {
   min-width: 720px;
   table-layout: fixed;
+}
+
+.participant-timetable__cell-list {
+  display: grid;
+  gap: var(--space-2);
 }
 
 .participant-timetable__time-col {
