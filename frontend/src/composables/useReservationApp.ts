@@ -163,6 +163,13 @@ export const useReservationApp = () => {
 
   const isSessionReserved = (sessionId: string): boolean => reservations.value.includes(sessionId);
 
+  const sessionTitleById = (sessionId: string): string => {
+    if (sessionId === 'keynote') {
+      return 'キーノート';
+    }
+    return sessions.value.find((session) => session.sessionId === sessionId)?.title ?? sessionId;
+  };
+
   const checkInTypeLabel = (checkInType: CheckInType): string =>
     checkInType === 'EVENT' ? 'イベント受付' : 'セッション受付';
 
@@ -323,6 +330,7 @@ export const useReservationApp = () => {
       return;
     }
 
+    const beforeReservationIds = [...reservations.value];
     errorMessage.value = '';
     infoMessage.value = '';
     const response = await globalThis.fetch(
@@ -346,7 +354,18 @@ export const useReservationApp = () => {
     registered.value = data.registered ?? data.reservations.includes('keynote');
     registrationStatusLoaded.value = true;
 
+    const removedReservationIds = beforeReservationIds.filter(
+      (reservedId) => !data.reservations.includes(reservedId),
+    );
+    const isReplacedReservation =
+      removedReservationIds.length === 1 && removedReservationIds[0] !== sessionId;
+    const replacedTitle = isReplacedReservation ? sessionTitleById(removedReservationIds[0]) : '';
+
     await Promise.all([loadSessions(), loadMyPage()]);
+    if (isReplacedReservation) {
+      infoMessage.value = `${title} に変更しました（${replacedTitle} を解除）`;
+      return;
+    }
     infoMessage.value = `${title} を予約しました。`;
   };
 
