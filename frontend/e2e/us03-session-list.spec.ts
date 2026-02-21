@@ -6,16 +6,25 @@ test.describe('US-03 セッション一覧と残席ステータス', () => {
     await clearGuestSession(page);
     await loginAsGuest(page);
 
-    const cards = page.locator('article');
-    await expect.poll(async () => cards.count()).toBeGreaterThanOrEqual(16);
-    await expect(cards.filter({ hasText: '09:00 | Keynote' })).toHaveCount(1);
-    await expect(cards.filter({ hasText: '10:30 | Track A' })).toHaveCount(1);
+    const timetable = page.getByRole('table');
+    await expect(timetable).toBeVisible();
+    await expect(timetable.getByRole('columnheader', { name: 'Keynote' })).toBeVisible();
+    await expect(timetable.getByRole('columnheader', { name: 'Track A' })).toBeVisible();
 
-    const cardCount = await cards.count();
-    for (let index = 0; index < cardCount; index += 1) {
-      const cardText = await cards.nth(index).innerText();
-      expect(cardText).toMatch(/(受付中|残りわずか|満席)/);
+    const sessionCells = page.locator('.participant-timetable__cell').filter({
+      hasNotText: 'セッションなし',
+    });
+    await expect.poll(async () => sessionCells.count()).toBeGreaterThanOrEqual(16);
+    const cellCount = await sessionCells.count();
+    for (let index = 0; index < cellCount; index += 1) {
+      const cellText = await sessionCells.nth(index).innerText();
+      expect(cellText).toMatch(/(受付中|残りわずか|満席|予約済み)/);
     }
+
+    await expect(page.getByRole('rowheader', { name: '09:00' })).toBeVisible();
+    await expect(page.getByRole('rowheader', { name: '10:30' })).toBeVisible();
+    await expect(page.getByText('Opening Keynote')).toBeVisible();
+    await expect(page.getByText('Session 1')).toBeVisible();
     await expect(page.getByText('受付中').first()).toBeVisible();
   });
 });

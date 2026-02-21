@@ -1,6 +1,6 @@
 import { Canvas, Description, Meta, Subtitle, Title } from '@storybook/addon-docs/blocks';
 import * as TopBarStories from './ParticipantTopBar.stories';
-import * as SessionCardStories from './ParticipantSessionCard.stories';
+import * as SessionTimetableStories from './ParticipantSessionTimetable.stories';
 import * as ReservationPanelStories from './ParticipantReservationPanel.stories';
 import * as QrPanelStories from './ParticipantQrPanel.stories';
 
@@ -19,11 +19,11 @@ import * as QrPanelStories from './ParticipantQrPanel.stories';
 <Canvas of={TopBarStories.Default} />
 <Canvas of={TopBarStories.Busy} />
 
-## SessionCard
+## SessionTimetable
 
-<Canvas of={SessionCardStories.OpenSeat} />
-<Canvas of={SessionCardStories.ReservedFewLeft} />
-<Canvas of={SessionCardStories.FullSeat} />
+<Canvas of={SessionTimetableStories.Default} />
+<Canvas of={SessionTimetableStories.WithReserved} />
+<Canvas of={SessionTimetableStories.Loading} />
 
 ## ReservationPanel
 

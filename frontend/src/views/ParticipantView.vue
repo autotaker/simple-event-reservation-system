@@ -30,22 +30,15 @@
         </header>
         <p v-if="hasToken && sessions.length === 0">セッション一覧は未取得です。</p>
 
-        <ParticipantSessionCard
-          v-for="session in sessions"
-          :key="session.sessionId"
-          :start-time="session.startTime"
-          :track="session.track"
-          :title="session.title"
-          :seat-label="availabilityStatusLabel(session.availabilityStatus)"
-          :seat-tone="availabilitySeatTone(session.availabilityStatus)"
-          :reserved="isSessionReserved(session.sessionId)"
-          :disabled="
-            !hasToken ||
-            participantBusy ||
-            session.availabilityStatus === 'FULL' ||
-            isSessionReserved(session.sessionId)
+        <ParticipantSessionTimetable
+          v-if="sessions.length > 0"
+          :sessions="sessions"
+          :reserved-session-ids="reservations"
+          :disabled="!hasToken || participantBusy"
+          @reserve="
+            (session) =>
+              runParticipantAction(() => reserveSession(session.sessionId, session.title))
           "
-          @reserve="runParticipantAction(() => reserveSession(session.sessionId, session.title))"
         />
       </section>
 
@@ -86,12 +79,9 @@
 import { computed, onMounted, ref } from 'vue';
 import ParticipantQrPanel from '../components/participant/ParticipantQrPanel.vue';
 import ParticipantReservationPanel from '../components/participant/ParticipantReservationPanel.vue';
-import ParticipantSessionCard from '../components/participant/ParticipantSessionCard.vue';
+import ParticipantSessionTimetable from '../components/participant/ParticipantSessionTimetable.vue';
 import ParticipantTopBar from '../components/participant/ParticipantTopBar.vue';
-import {
-  type SessionAvailabilityStatus,
-  useReservationApp,
-} from '../composables/useReservationApp';
+import { useReservationApp } from '../composables/useReservationApp';
 
 type ParticipantReservationItem = {
   id: string;
@@ -112,8 +102,6 @@ const {
   infoMessage,
   receptionQrCodeImageUrl,
   qrCodeGenerationStatus,
-  availabilityStatusLabel,
-  isSessionReserved,
   loginAsGuest,
   loadSessions,
   loadReservations,
@@ -174,16 +162,6 @@ const participantShellClass = computed<Record<string, boolean>>(() => ({
   'ui-shell--participant-success': participantMode.value === 'success',
   'ui-shell--participant-error': participantMode.value === 'error',
 }));
-
-const availabilitySeatTone = (status: SessionAvailabilityStatus): 'open' | 'few' | 'full' => {
-  if (status === 'OPEN') {
-    return 'open';
-  }
-  if (status === 'FEW_LEFT') {
-    return 'few';
-  }
-  return 'full';
-};
 
 const runParticipantAction = async (action: () => Promise<void>): Promise<void> => {
   participantBusy.value = true;

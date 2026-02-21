@@ -29,3 +29,8 @@ export const participantSessionCardByTitle = (page: Page, title: string) =>
   page
     .locator('article')
     .filter({ has: page.getByRole('heading', { name: new RegExp(`^${title}$`) }) });
+
+export const participantSessionCellByTitle = (page: Page, title: string) =>
+  page
+    .locator('.participant-timetable__cell')
+    .filter({ has: page.getByRole('heading', { name: new RegExp(`^${title}$`) }) });
