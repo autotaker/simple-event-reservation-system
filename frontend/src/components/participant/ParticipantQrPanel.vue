@@ -160,6 +160,6 @@ p {
 }
 
 .qr-panel :deep(.ui-list-item--fallback) {
-  background: #fff7ed;
+  border: 1px solid var(--semantic-color-participant-panel-qr-accent);
 }
 </style>
