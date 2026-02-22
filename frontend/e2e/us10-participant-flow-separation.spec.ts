@@ -18,10 +18,13 @@ test.describe('US-10 参加者導線の分離', () => {
 
     await page.getByRole('button', { name: 'キーノートを予約' }).click();
     await expect(page.getByText('参加登録: 完了')).toBeVisible();
-    await expect(page.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toBeVisible();
+    const myPagePanel = page.locator('section', {
+      has: page.getByRole('heading', { name: 'マイページ' }),
+    });
+    await expect(myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toBeVisible();
     await expect(page.getByRole('img', { name: '受付用QRコード' })).toBeVisible();
 
     await page.getByRole('button', { name: 'キャンセル' }).first().click();
-    await expect(page.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toHaveCount(0);
+    await expect(myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toHaveCount(0);
   });
 });
