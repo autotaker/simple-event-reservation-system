@@ -30,3 +30,16 @@ export const Revoked401State: Story = {
     docs: { description: { story: '想定デバイス: 参加者スマートフォン（失効401）' } },
   },
 };
+
+export const Invalid401State: Story = {
+  args: {
+    heading: '認証情報を確認できません',
+    message:
+      '未認証、または不正なトークンです。sessionStorageのトークンを破棄し、再ログインしてください。',
+  },
+  parameters: {
+    docs: {
+      description: { story: '想定デバイス: 参加者スマートフォン（未認証/不正トークン401）' },
+    },
+  },
+};

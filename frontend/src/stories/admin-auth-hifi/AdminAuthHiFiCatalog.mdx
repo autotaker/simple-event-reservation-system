@@ -26,6 +26,7 @@ import * as ForbiddenStories from './AdminForbiddenPanelMock.stories';
 <Canvas of={AuthLayoutStories.TabletAuthenticated} />
 <Canvas of={AuthLayoutStories.MobileExpired401} />
 <Canvas of={AuthLayoutStories.MobileRevoked401} />
+<Canvas of={AuthLayoutStories.MobileInvalid401} />
 
 ## 2. 管理画面 `/admin` の403レイアウト
 
@@ -40,4 +41,5 @@ import * as ForbiddenStories from './AdminForbiddenPanelMock.stories';
 <Canvas of={RevokeStories.MobileLogoutPanel} />
 <Canvas of={DeniedStories.Expired401State} />
 <Canvas of={DeniedStories.Revoked401State} />
+<Canvas of={DeniedStories.Invalid401State} />
 <Canvas of={ForbiddenStories.MobileForbidden403} />

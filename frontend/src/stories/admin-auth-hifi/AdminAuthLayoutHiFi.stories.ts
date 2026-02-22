@@ -49,3 +49,13 @@ export const MobileRevoked401: Story = {
     layout: 'centered',
   },
 };
+
+export const MobileInvalid401: Story = {
+  args: { mode: 'invalid' },
+  parameters: {
+    docs: {
+      description: { story: '想定デバイス: 参加者スマートフォン（未認証/不正トークン401）' },
+    },
+    layout: 'centered',
+  },
+};

@@ -6,15 +6,22 @@
       admin-name="Ops Admin"
     />
 
-    <section v-if="mode !== 'expired' && mode !== 'revoked'" class="portal__body">
+    <section
+      v-if="mode === 'unauthenticated' || mode === 'authenticating'"
+      class="portal__body portal__body--login-only"
+    >
       <AdminLoginCardMock :disabled="mode === 'authenticating'" />
+    </section>
+
+    <section v-if="mode === 'authenticated'" class="portal__body">
+      <AdminLoginCardMock :disabled="true" />
       <AdminTokenStatusPanelMock
         :operator-id="tokenState.operatorId"
         :expires-at="tokenState.expiresAt"
         :api-status="tokenState.apiStatus"
-        :disabled="mode === 'authenticating'"
+        :disabled="false"
       />
-      <AdminSessionRevocationPanelMock :disabled="mode === 'authenticating'" />
+      <AdminSessionRevocationPanelMock :disabled="false" />
     </section>
 
     <AdminAuthDeniedPanelMock
@@ -29,12 +36,21 @@
       message="ログアウト済み、または失効されたトークンです。再ログインして新しいトークンを発行してください。"
     />
 
+    <AdminAuthDeniedPanelMock
+      v-if="mode === 'invalid'"
+      heading="認証情報を確認できません"
+      message="未認証、または不正なトークンです。sessionStorageのトークンを破棄し、再ログインしてください。"
+    />
+
     <p v-if="mode === 'authenticating'" class="portal__feedback portal__feedback--loading">
       認証中です。`operatorId + password` を検証しています...
     </p>
     <p v-if="mode === 'authenticated'" class="portal__feedback portal__feedback--success">
       認証済みです。/admin へ遷移して管理操作を開始できます。
     </p>
+    <button v-if="mode === 'authenticated'" type="button" class="portal__cta">
+      管理画面へ進む
+    </button>
   </main>
 </template>
 
@@ -46,7 +62,7 @@ import AdminSessionRevocationPanelMock from './AdminSessionRevocationPanelMock.v
 import AdminTokenStatusPanelMock from './AdminTokenStatusPanelMock.vue';
 
 const props = defineProps<{
-  mode: 'unauthenticated' | 'authenticating' | 'authenticated' | 'expired' | 'revoked';
+  mode: 'unauthenticated' | 'authenticating' | 'authenticated' | 'expired' | 'revoked' | 'invalid';
 }>();
 
 const tokenState =
@@ -86,6 +102,10 @@ const tokenState =
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.portal__body--login-only {
+  grid-template-columns: 1fr;
+}
+
 .portal__body :deep(section:last-child) {
   grid-column: span 2;
 }
@@ -117,8 +137,22 @@ const tokenState =
 }
 
 .portal--expired,
-.portal--revoked {
+.portal--revoked,
+.portal--invalid {
   border-color: var(--semantic-color-state-danger);
+}
+
+.portal__cta {
+  width: fit-content;
+  min-width: 140px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  padding: 0 12px;
+  background: var(--semantic-color-state-success);
+  color: var(--semantic-color-text-on-primary);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
