@@ -69,7 +69,10 @@ const meta = {
               qr-code-payload="event-reservation://checkin?guestId=Guest-A12"
               :qr-code-image-url="qrImageUrl"
               qr-code-generation-status="ready"
-              :reservations="['keynote', 'session-a1']"
+              :reservations="[
+                { id: 'keynote', title: 'Keynote: Product Vision', meta: '10:00 | Track A' },
+                { id: 'session-a1', title: 'API Design Clinic', meta: '11:30 | Track B' }
+              ]"
               :has-token="true"
             />
           </aside>

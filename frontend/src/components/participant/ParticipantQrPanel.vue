@@ -34,20 +34,35 @@
       }}
     </p>
 
-    <ul v-if="reservations.length > 0" class="ui-list">
-      <li v-for="reservation in reservations" :key="reservation" class="ui-list-item">
-        {{ reservation }}
+    <p v-if="reservations.length === 0" class="empty-message">予約はありません。</p>
+
+    <ul v-else class="ui-list">
+      <li
+        v-for="reservation in reservations"
+        :key="reservation.id"
+        class="ui-list-item"
+        :class="{ 'ui-list-item--fallback': reservation.fallback }"
+      >
+        <p class="reservation-title">{{ reservation.title }}</p>
+        <span class="reservation-meta">{{ reservation.meta }}</span>
       </li>
     </ul>
   </section>
 </template>
 
 <script setup lang="ts">
+type MyPageReservationItem = {
+  id: string;
+  title: string;
+  meta: string;
+  fallback?: boolean;
+};
+
 defineProps<{
   qrCodePayload: string;
   qrCodeImageUrl: string;
   qrCodeGenerationStatus: 'idle' | 'generating' | 'ready' | 'error';
-  reservations: string[];
+  reservations: MyPageReservationItem[];
   hasToken: boolean;
   disabled?: boolean;
 }>();
@@ -121,5 +136,30 @@ p {
 .qr-panel :deep(.ui-list-item) {
   background: var(--semantic-color-participant-panel-list-item-bg);
   font-size: 12px;
+}
+
+.empty-message {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--semantic-color-participant-panel-list-item-bg);
+}
+
+.reservation-title,
+.reservation-meta {
+  margin: 0;
+}
+
+.reservation-title {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reservation-meta {
+  font-size: 11px;
+}
+
+.qr-panel :deep(.ui-list-item--fallback) {
+  background: #fff7ed;
 }
 </style>

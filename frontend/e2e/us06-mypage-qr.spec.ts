@@ -11,7 +11,9 @@ test.describe('US-06 マイページで予約一覧とQRコードを表示でき
 
     await page.getByRole('button', { name: 'キーノートを予約' }).click();
     await expect(page.getByRole('heading', { name: 'マイページ' })).toBeVisible();
-    await expect(page.locator('li', { hasText: 'keynote' }).first()).toBeVisible();
+    await expect(page.locator('li', { hasText: 'Opening Keynote' }).first()).toBeVisible();
+    await expect(page.locator('li', { hasText: '09:00 | Keynote' }).first()).toBeVisible();
+    await expect(page.locator('li', { hasText: '不明なセッション' })).toHaveCount(0);
 
     const qrImage = page.getByRole('img', { name: '受付用QRコード' });
     await expect(qrImage).toBeVisible();
