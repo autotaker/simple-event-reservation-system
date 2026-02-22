@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" modified="2026-02-22T00:00:00.000Z" agent="codex" version="24.7.17" editor="diagramly">
+  <diagram id="auth-mobile" name="LoFi-Mobile-390x844">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="m-frame" value="/admin/auth Mobile (390x844)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="100" y="50" width="380" height="760" as="geometry" />
+        </mxCell>
+        <mxCell id="m-header" value="Header / admin auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="130" y="84" width="320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="m-login" value="Login card&#xa;- 運用者ID(operatorId)&#xa;- password&#xa;- submit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="130" y="168" width="320" height="176" as="geometry" />
+        </mxCell>
+        <mxCell id="m-token" value="Token summary&#xa;- expiresAt (30min fixed)&#xa;- storage: sessionStorage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfeff;strokeColor=#0e7490;" vertex="1" parent="1">
+          <mxGeometry x="130" y="358" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m-revoke" value="Logout / revoke current token only&#xa;- POST /api/auth/admin/logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="130" y="492" width="320" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="m-401" value="401 (expired/revoked/invalid)&#xa;- clear token immediately&#xa;- CTA: 再ログインする" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="604" width="320" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="m-note" value="No refresh UI / No OTP / No global revoke" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;" vertex="1" parent="1">
+          <mxGeometry x="130" y="704" width="320" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="auth-tablet" name="LoFi-Tablet-834x1112">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t-auth-frame" value="/admin/auth Tablet (834x1112)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="720" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="t-header" value="Auth Header" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="90" y="110" width="660" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="t-login" value="operatorId + password login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="90" y="194" width="660" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="t-token" value="expiresAt and auth state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfeff;strokeColor=#0e7490;" vertex="1" parent="1">
+          <mxGeometry x="90" y="366" width="660" height="132" as="geometry" />
+        </mxCell>
+        <mxCell id="t-logout" value="logout (revoke current token only)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="90" y="510" width="660" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="t-401" value="401 -> clear sessionStorage token + redirect /admin/auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="622" width="660" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t-admin-frame" value="/admin (authenticated area)" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#111827;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="820" y="70" width="700" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="t-403" value="403 forbidden panel only&#xa;- hide admin management UI&#xa;- show reason + contact admin owner + back to participant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#b91c1c;" vertex="1" parent="1">
+          <mxGeometry x="850" y="140" width="640" height="200" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
