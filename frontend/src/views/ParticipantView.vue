@@ -58,7 +58,7 @@
           :qr-code-payload="myPageQrCodePayload"
           :qr-code-image-url="receptionQrCodeImageUrl"
           :qr-code-generation-status="qrCodeGenerationStatus"
-          :reservations="myPageReservations"
+          :reservations="myPageReservationItems"
           :has-token="hasToken"
           :disabled="participantBusy"
           @refresh="runParticipantAction(loadMyPage)"
@@ -87,6 +87,13 @@ type ParticipantReservationItem = {
   id: string;
   title: string;
   time: string;
+};
+
+type MyPageReservationItem = {
+  id: string;
+  title: string;
+  meta: string;
+  fallback?: boolean;
 };
 
 const {
@@ -139,6 +146,26 @@ const participantReservationItems = computed<ParticipantReservationItem[]>(() =>
       id: reservationId,
       title: reservationId === 'keynote' ? 'キーノート' : reservationId,
       time: reservationId === 'keynote' ? '基調講演' : '',
+    };
+  }),
+);
+
+const myPageReservationItems = computed<MyPageReservationItem[]>(() =>
+  myPageReservations.value.map((reservationId) => {
+    const session = sessions.value.find((candidate) => candidate.sessionId === reservationId);
+    if (!session) {
+      return {
+        id: reservationId,
+        title: '不明なセッション',
+        meta: '更新して最新情報を取得してください',
+        fallback: true,
+      };
+    }
+
+    return {
+      id: reservationId,
+      title: session.title,
+      meta: `${session.startTime} | ${session.track.trim().length > 0 ? session.track : 'Track 未設定'}`,
     };
   }),
 );
