@@ -33,6 +33,12 @@ public class ReservationService {
     private static final int MAX_REGULAR_RESERVATIONS = 5;
     private static final String KEYNOTE_SESSION = "keynote";
     private static final DateTimeFormatter START_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    private static final Map<String, Integer> TRACK_DISPLAY_ORDER_BY_TRACK = Map.of(
+        "Keynote", 0,
+        "Track A", 1,
+        "Track B", 2,
+        "Track C", 3
+    );
 
     private final LocalDate eventDate;
     private final Clock clock;
@@ -155,6 +161,7 @@ public class ReservationService {
                 sessionDefinition.title,
                 sessionDefinition.startTime.format(START_TIME_FORMATTER),
                 sessionDefinition.track,
+                sessionDefinition.displayOrder,
                 toAvailabilityStatus(remainingSeats(sessionDefinition.sessionId))
             ))
             .toList();
@@ -198,7 +205,15 @@ public class ReservationService {
 
         synchronized (reservationLock) {
             String sessionId = nextRegularSessionId();
-            SessionDefinition sessionDefinition = new SessionDefinition(sessionId, title.trim(), track.trim(), parsedStartTime, normalizedCapacity);
+            String normalizedTrack = track.trim();
+            SessionDefinition sessionDefinition = new SessionDefinition(
+                sessionId,
+                title.trim(),
+                normalizedTrack,
+                parsedStartTime,
+                normalizedCapacity,
+                resolveDisplayOrder(normalizedTrack)
+            );
             sessionCatalogById.put(sessionId, sessionDefinition);
             reservationsBySession.put(sessionId, ConcurrentHashMap.newKeySet());
             return toAdminSessionResponse(sessionDefinition);
@@ -227,7 +242,8 @@ public class ReservationService {
                 title.trim(),
                 track.trim(),
                 parsedStartTime,
-                normalizedCapacity
+                normalizedCapacity,
+                resolveDisplayOrder(track.trim())
             );
             sessionCatalogById.put(sessionId, updatedSession);
             return toAdminSessionResponse(updatedSession);
@@ -363,6 +379,7 @@ public class ReservationService {
         return sessionCatalogById.values().stream()
             .sorted(Comparator
                 .comparing(SessionDefinition::startTime)
+                .thenComparing(SessionDefinition::displayOrder, Comparator.nullsLast(Comparator.naturalOrder()))
                 .thenComparing(SessionDefinition::track)
                 .thenComparing(SessionDefinition::sessionId))
             .toList();
@@ -417,7 +434,14 @@ public class ReservationService {
 
     private static List<SessionDefinition> createDefaultSessionCatalog(int keynoteCapacity, int regularSessionCapacity) {
         List<SessionDefinition> sessions = new ArrayList<>();
-        sessions.add(new SessionDefinition(KEYNOTE_SESSION, "Opening Keynote", "Keynote", LocalTime.of(9, 0), keynoteCapacity));
+        sessions.add(new SessionDefinition(
+            KEYNOTE_SESSION,
+            "Opening Keynote",
+            "Keynote",
+            LocalTime.of(9, 0),
+            keynoteCapacity,
+            resolveDisplayOrder("Keynote")
+        ));
 
         LocalTime[] regularStartTimes = {
             LocalTime.of(10, 30),
@@ -433,7 +457,14 @@ public class ReservationService {
             for (String track : tracks) {
                 String sessionId = "session-" + sequence;
                 String title = "Session " + sequence;
-                sessions.add(new SessionDefinition(sessionId, title, track, startTime, regularSessionCapacity));
+                sessions.add(new SessionDefinition(
+                    sessionId,
+                    title,
+                    track,
+                    startTime,
+                    regularSessionCapacity,
+                    resolveDisplayOrder(track)
+                ));
                 sequence++;
             }
         }
@@ -441,7 +472,18 @@ public class ReservationService {
         return sessions;
     }
 
-    private record SessionDefinition(String sessionId, String title, String track, LocalTime startTime, int capacity) {
+    private static Integer resolveDisplayOrder(String track) {
+        return TRACK_DISPLAY_ORDER_BY_TRACK.get(track);
+    }
+
+    private record SessionDefinition(
+        String sessionId,
+        String title,
+        String track,
+        LocalTime startTime,
+        int capacity,
+        Integer displayOrder
+    ) {
     }
 
     public record ReservationExportRow(

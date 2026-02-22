@@ -9,6 +9,7 @@ public record SessionSummaryResponse(List<SessionSummary> sessions) {
         String title,
         String startTime,
         String track,
+        Integer displayOrder,
         SessionAvailabilityStatus availabilityStatus
     ) {
     }
