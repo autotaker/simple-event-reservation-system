@@ -59,10 +59,11 @@ class GuestCheckInFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminCanCheckInEventForAnotherGuest() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         GuestSession guest = loginGuest();
 
         mockMvc.perform(post("/api/checkins/event")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken))
                 .contentType("application/json")
                 .content(checkInRequestBody(toCheckInPayload(guest.guestId(), "keynote"))))
             .andExpect(status().isOk())
@@ -100,6 +101,7 @@ class GuestCheckInFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminCanCheckInSessionForAnotherGuest() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         GuestSession guest = loginGuest();
 
         mockMvc.perform(post("/api/reservations/sessions/session-1")
@@ -107,7 +109,7 @@ class GuestCheckInFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk());
 
         mockMvc.perform(post("/api/checkins/sessions/session-1")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken))
                 .contentType("application/json")
                 .content(checkInRequestBody(toCheckInPayload(guest.guestId(), "session-1"))))
             .andExpect(status().isOk())

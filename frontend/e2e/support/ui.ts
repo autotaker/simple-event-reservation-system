@@ -5,7 +5,7 @@ export const clearGuestSession = async (page: Page): Promise<void> => {
   await page.evaluate(() => {
     localStorage.removeItem('guestAccessToken');
     localStorage.removeItem('guestId');
-    localStorage.removeItem('adminAccessToken');
+    sessionStorage.removeItem('adminAccessToken');
   });
   await page.reload();
 };
