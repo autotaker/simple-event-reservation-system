@@ -64,6 +64,24 @@ class AdminSessionServiceTest {
         assertThat(service.resolve(second.token()).state()).isEqualTo(AdminTokenState.REVOKED);
     }
 
+    @Test
+    void resolveWithoutTokenDoesNotEvictExpiredStateOfTrackedToken() {
+        MutableClock clock = new MutableClock(Instant.parse("2026-02-22T00:00:00Z"), ZoneId.of("UTC"));
+        AdminSessionService service = new AdminSessionService(
+            "operator",
+            "password",
+            clock,
+            Duration.ofSeconds(1),
+            10
+        );
+
+        AdminSession session = service.login("operator", "password").orElseThrow();
+        clock.advance(Duration.ofSeconds(2));
+
+        assertThat(service.resolve(null).state()).isEqualTo(AdminTokenState.UNAUTHORIZED);
+        assertThat(service.resolve(session.token()).state()).isEqualTo(AdminTokenState.EXPIRED);
+    }
+
     private static final class MutableClock extends Clock {
 
         private Instant currentInstant;

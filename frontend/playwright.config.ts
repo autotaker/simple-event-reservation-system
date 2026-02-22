@@ -13,7 +13,7 @@ export default defineConfig({
   webServer: [
     {
       command:
-        "cd ../backend && ./gradlew bootRun --args='--spring.profiles.active=local --app.reservation.event-date=2099-12-31 --app.auth.admin-token=e2e-admin-token'",
+        "cd ../backend && ./gradlew bootRun --args='--spring.profiles.active=local --app.reservation.event-date=2099-12-31 --app.auth.admin-operator-id=e2e-admin --app.auth.admin-password=e2e-admin-password'",
       url: 'http://127.0.0.1:8080/api/health',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,

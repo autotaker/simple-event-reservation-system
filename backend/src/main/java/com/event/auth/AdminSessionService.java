@@ -83,7 +83,6 @@ public class AdminSessionService {
         Instant now = clock.instant();
 
         if (token == null || token.isBlank()) {
-            evictExpired(now);
             return new AdminTokenValidationResult(AdminTokenState.UNAUTHORIZED, null);
         }
 

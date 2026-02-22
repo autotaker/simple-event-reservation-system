@@ -29,11 +29,11 @@ export const resolveAdminCredentials = (): { operatorId: string; password: strin
   const operatorId =
     process.env.E2E_ADMIN_OPERATOR_ID?.trim() ??
     readAdminCredentialFromLocalConfig('admin-operator-id') ??
-    'change-me-local-admin';
+    'e2e-admin';
   const password =
     process.env.E2E_ADMIN_PASSWORD?.trim() ??
     readAdminCredentialFromLocalConfig('admin-password') ??
-    'change-me-local-admin-password';
+    'e2e-admin-password';
   return { operatorId, password };
 };
 
