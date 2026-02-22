@@ -49,7 +49,7 @@
       <ul>
         <li>operatorId: {{ adminAuthenticatedOperatorId }}</li>
         <li>有効期限（固定30分）: {{ adminTokenExpiresAt }}</li>
-        <li>保存先: sessionStorage</li>
+        <li>保存先: メモリ（ブラウザ終了/リロードで破棄）</li>
       </ul>
       <div class="auth-portal__actions">
         <button class="ui-button ui-button--primary" type="button" @click="goToAdmin">
@@ -64,7 +64,7 @@
     <section v-if="adminAuthState === 'expired'" class="ui-panel auth-portal__error">
       <p class="auth-portal__error-code">401 Unauthorized</p>
       <h2>トークンの有効期限が切れました</h2>
-      <p>sessionStorageのトークンを破棄しました。再ログインしてください。</p>
+      <p>トークンを破棄しました。再ログインしてください。</p>
       <button class="ui-button ui-button--danger" type="button" @click="resetToLogin">
         再ログインする
       </button>

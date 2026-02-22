@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
+import { hasAdminSession } from '../composables/useReservationApp';
 import AdminAuthView from '../views/AdminAuthView.vue';
 import AdminView from '../views/AdminView.vue';
 import OperatorView from '../views/OperatorView.vue';
@@ -19,8 +20,7 @@ export const routes: RouteRecordRaw[] = [
     name: 'admin',
     component: AdminView,
     beforeEnter: () => {
-      const token = globalThis.sessionStorage.getItem('adminAccessToken') ?? '';
-      if (token.trim().length === 0) {
+      if (!hasAdminSession()) {
         return '/admin/auth';
       }
       return true;

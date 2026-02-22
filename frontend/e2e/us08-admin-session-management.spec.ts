@@ -75,7 +75,11 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     await expect(updatedParticipantCell).toBeVisible();
     await expect(updatedParticipantCell.getByText('残りわずか')).toBeVisible();
 
-    await page.goto('/admin');
+    await page.goto('/admin/auth');
+    await page.getByLabel('運用者ID（operatorId）').fill(adminCredentials.operatorId);
+    await page.getByLabel('パスワード').fill(adminCredentials.password);
+    await page.getByRole('button', { name: 'ログインして管理画面へ進む' }).click();
+    await expect(page).toHaveURL(/\/admin$/);
 
     const guest1 = await request.post('http://127.0.0.1:8080/api/auth/guest');
     expect(guest1.status()).toBe(200);

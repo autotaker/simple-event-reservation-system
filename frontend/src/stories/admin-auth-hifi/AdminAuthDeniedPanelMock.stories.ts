@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Expired401State: Story = {
   args: {
     heading: 'トークンの有効期限が切れました',
-    message: '管理APIが401を返しました。sessionStorageのトークンを破棄し、再ログインしてください。',
+    message: '管理APIが401を返しました。トークンを破棄し、再ログインしてください。',
   },
   parameters: {
     docs: { description: { story: '想定デバイス: 参加者スマートフォン（期限切れ401）' } },
@@ -34,8 +34,7 @@ export const Revoked401State: Story = {
 export const Invalid401State: Story = {
   args: {
     heading: '認証情報を確認できません',
-    message:
-      '未認証、または不正なトークンです。sessionStorageのトークンを破棄し、再ログインしてください。',
+    message: '未認証、または不正なトークンです。トークンを破棄し、再ログインしてください。',
   },
   parameters: {
     docs: {

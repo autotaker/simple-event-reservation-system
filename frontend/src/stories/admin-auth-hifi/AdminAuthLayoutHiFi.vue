@@ -27,7 +27,7 @@
     <AdminAuthDeniedPanelMock
       v-if="mode === 'expired'"
       heading="トークンの有効期限が切れました"
-      message="管理APIが401を返しました。sessionStorageのトークンを破棄し、再ログインしてください。"
+      message="管理APIが401を返しました。トークンを破棄し、再ログインしてください。"
     />
 
     <AdminAuthDeniedPanelMock
@@ -39,7 +39,7 @@
     <AdminAuthDeniedPanelMock
       v-if="mode === 'invalid'"
       heading="認証情報を確認できません"
-      message="未認証、または不正なトークンです。sessionStorageのトークンを破棄し、再ログインしてください。"
+      message="未認証、または不正なトークンです。トークンを破棄し、再ログインしてください。"
     />
 
     <p v-if="mode === 'authenticating'" class="portal__feedback portal__feedback--loading">

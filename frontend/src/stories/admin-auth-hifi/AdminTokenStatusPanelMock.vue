@@ -4,7 +4,7 @@
     <ul>
       <li>operatorId: {{ operatorId }}</li>
       <li>有効期限（固定30分）: {{ expiresAt }}</li>
-      <li>保存先: sessionStorage</li>
+      <li>保存先: メモリ（ブラウザ終了/リロードで破棄）</li>
       <li>管理API: {{ apiStatus }}</li>
     </ul>
   </section>
