@@ -29,8 +29,8 @@ public class AdminSessionService {
 
     @Autowired
     public AdminSessionService(
-        @Value("${app.auth.admin-operator-id:change-me-local-admin}") String adminOperatorId,
-        @Value("${app.auth.admin-password:change-me-local-admin-password}") String adminPassword
+        @Value("${app.auth.admin-operator-id}") String adminOperatorId,
+        @Value("${app.auth.admin-password}") String adminPassword
     ) {
         this(adminOperatorId, adminPassword, Clock.systemUTC(), DEFAULT_ADMIN_SESSION_TTL, DEFAULT_MAX_SESSIONS);
     }
@@ -42,7 +42,20 @@ public class AdminSessionService {
         Duration sessionTtl,
         int maxSessions
     ) {
-        this.adminOperatorId = adminOperatorId;
+        if (adminOperatorId == null || adminOperatorId.trim().isBlank()) {
+            throw new IllegalArgumentException("adminOperatorId must not be blank");
+        }
+        if (adminPassword == null || adminPassword.isBlank()) {
+            throw new IllegalArgumentException("adminPassword must not be blank");
+        }
+        if (sessionTtl == null || sessionTtl.isZero() || sessionTtl.isNegative()) {
+            throw new IllegalArgumentException("sessionTtl must be positive");
+        }
+        if (maxSessions <= 0) {
+            throw new IllegalArgumentException("maxSessions must be positive");
+        }
+
+        this.adminOperatorId = adminOperatorId.trim();
         this.adminPassword = adminPassword;
         this.clock = clock;
         this.sessionTtl = sessionTtl;
@@ -68,9 +81,9 @@ public class AdminSessionService {
 
     public AdminTokenValidationResult resolve(String token) {
         Instant now = clock.instant();
-        evictExpired(now);
 
         if (token == null || token.isBlank()) {
+            evictExpired(now);
             return new AdminTokenValidationResult(AdminTokenState.UNAUTHORIZED, null);
         }
 
@@ -92,6 +105,7 @@ public class AdminSessionService {
             return new AdminTokenValidationResult(AdminTokenState.REVOKED, revokedSession.operatorId());
         }
 
+        evictExpired(now);
         return new AdminTokenValidationResult(AdminTokenState.UNAUTHORIZED, null);
     }
 
