@@ -10,9 +10,7 @@ test.describe('US-06 マイページで予約一覧とQRコードを表示でき
     await loginAsGuest(page, 'guest-test');
 
     await page.getByRole('button', { name: 'キーノートを予約' }).click();
-    const myPagePanel = page.locator('section', {
-      has: page.getByRole('heading', { name: 'マイページ' }),
-    });
+    const myPagePanel = page.locator('section.qr-panel');
     await expect(myPagePanel.getByRole('heading', { name: 'マイページ' })).toBeVisible();
     await expect(myPagePanel.locator('li', { hasText: 'Opening Keynote' }).first()).toBeVisible();
     await expect(myPagePanel.locator('li', { hasText: '09:00 | Keynote' }).first()).toBeVisible();

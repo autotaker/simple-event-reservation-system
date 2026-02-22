@@ -13,9 +13,7 @@ test.describe('US-02 キーノート予約', () => {
 
     await expect(page.getByText('キーノートを予約しました。')).toBeVisible();
     await expect(page.getByText('参加登録: 完了')).toBeVisible();
-    const myPagePanel = page.locator('section', {
-      has: page.getByRole('heading', { name: 'マイページ' }),
-    });
+    const myPagePanel = page.locator('section.qr-panel');
     await expect(myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toBeVisible();
   });
 });
