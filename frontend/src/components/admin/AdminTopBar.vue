@@ -71,6 +71,7 @@ defineProps<{
   height: 34px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   border-radius: 10px;
   padding: 0 12px;
   background: var(--semantic-color-state-warning);
@@ -78,5 +79,27 @@ defineProps<{
   font-size: 12px;
   font-weight: 700;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topbar__title {
+    font-size: 16px;
+  }
+
+  .topbar__meta {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .topbar__link {
+    width: 100%;
+  }
 }
 </style>

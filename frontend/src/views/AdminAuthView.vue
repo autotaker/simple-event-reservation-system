@@ -112,6 +112,7 @@ const {
   infoMessage,
   loginAsAdmin,
   logoutAdmin,
+  resetAdminLoginPrompt,
 } = useReservationApp();
 
 const adminBadge = computed<string>(() => adminAuthenticatedOperatorId.value || 'Ops Admin');
@@ -135,7 +136,7 @@ const goToAdmin = async (): Promise<void> => {
 };
 
 const resetToLogin = (): void => {
-  adminAuthState.value = 'unauthenticated';
+  resetAdminLoginPrompt();
 };
 </script>
 
