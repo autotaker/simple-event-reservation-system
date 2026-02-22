@@ -3,19 +3,15 @@
     <h3>管理者ログイン</h3>
     <div class="card__grid">
       <label>
-        メールアドレス
-        <input type="email" value="ops-admin@example.com" :disabled="disabled" />
+        運用者ID（operatorId）
+        <input type="text" value="ops_admin_01" :disabled="disabled" />
       </label>
       <label>
         パスワード
         <input type="password" value="********" :disabled="disabled" />
       </label>
-      <label>
-        ワンタイムコード
-        <input type="text" value="573911" :disabled="disabled" />
-      </label>
     </div>
-    <button type="button" :disabled="disabled">ログインして短命トークンを発行</button>
+    <button type="button" :disabled="disabled">ログインして管理画面へ進む</button>
   </section>
 </template>
 

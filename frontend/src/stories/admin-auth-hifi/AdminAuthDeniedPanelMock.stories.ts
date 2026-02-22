@@ -10,12 +10,23 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const MobileDeniedState: Story = {
+export const Expired401State: Story = {
+  args: {
+    heading: 'トークンの有効期限が切れました',
+    message: '管理APIが401を返しました。sessionStorageのトークンを破棄し、再ログインしてください。',
+  },
   parameters: {
-    docs: {
-      description: {
-        story: '想定デバイス: 参加者スマートフォン（期限切れ/失効済みトークンで拒否）',
-      },
-    },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（期限切れ401）' } },
+  },
+};
+
+export const Revoked401State: Story = {
+  args: {
+    heading: 'トークンは失効済みです',
+    message:
+      'ログアウト済み、または失効されたトークンです。再ログインして新しいトークンを発行してください。',
+  },
+  parameters: {
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（失効401）' } },
   },
 };

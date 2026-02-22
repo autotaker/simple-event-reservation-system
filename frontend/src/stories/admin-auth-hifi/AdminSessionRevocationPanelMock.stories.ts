@@ -10,16 +10,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const MobileRevocationPanel: Story = {
+export const MobileLogoutPanel: Story = {
   args: { disabled: false },
   parameters: {
-    docs: { description: { story: '想定デバイス: 参加者スマートフォン（失効運用操作）' } },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（当該トークン失効）' } },
   },
 };
 
-export const DisabledRevocationPanel: Story = {
+export const LogoutInProgressPanel: Story = {
   args: { disabled: true },
   parameters: {
-    docs: { description: { story: '想定デバイス: 受付補助タブレット（失効実行中）' } },
+    docs: { description: { story: '想定デバイス: 受付補助タブレット（失効処理中）' } },
   },
 };

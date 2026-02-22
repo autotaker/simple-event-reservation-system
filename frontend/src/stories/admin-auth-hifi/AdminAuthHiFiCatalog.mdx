@@ -1,32 +1,43 @@
 import { Meta, Title, Subtitle, Description, Canvas } from '@storybook/addon-docs/blocks';
-import * as LayoutStories from './AdminAuthLayoutHiFi.stories';
+import * as AuthLayoutStories from './AdminAuthLayoutHiFi.stories';
+import * as ForbiddenLayoutStories from './AdminForbiddenLayoutHiFi.stories';
 import * as TopBarStories from './AdminAuthTopBarMock.stories';
 import * as LoginStories from './AdminLoginCardMock.stories';
 import * as TokenStories from './AdminTokenStatusPanelMock.stories';
 import * as RevokeStories from './AdminSessionRevocationPanelMock.stories';
 import * as DeniedStories from './AdminAuthDeniedPanelMock.stories';
+import * as ForbiddenStories from './AdminForbiddenPanelMock.stories';
 
-<Meta of={LayoutStories} />
+<Meta of={AuthLayoutStories} />
 
-<Title>US-15 管理者認証 HiFi カタログ</Title>
-<Subtitle>Issue #33: 管理者ログイン + 短命トークン + 失効導線のモック</Subtitle>
+<Title>US-15 管理者認証 HiFi カタログ（会議反映版）</Title>
+<Subtitle>Issue #33: `/admin/auth` と `/admin` の責務分離、401/403分岐</Subtitle>
 
 <Description>
-  本カタログは #33 の受け入れ条件に合わせて、固定トークン依存を解消するための
-  管理者認証導線を先行合意する HiFi モックである。
+  2026-02-22 の会議決定に合わせて、`operatorId + password`、TTL30分固定、
+  当該トークン失効のみ、401/403の導線分離を反映したモック。 refresh UI、OTP、全失効UIは #33
+  スコープ外として除外した。
 </Description>
 
-## 1. 画面レイアウトストーリー
+## 1. 認証画面 `/admin/auth` レイアウト
 
-<Canvas of={LayoutStories.MobileAuthDefault} />
-<Canvas of={LayoutStories.MobileAuthLoading} />
-<Canvas of={LayoutStories.TabletAuthSuccess} />
-<Canvas of={LayoutStories.MobileAuthError} />
+<Canvas of={AuthLayoutStories.MobileUnauthenticated} />
+<Canvas of={AuthLayoutStories.MobileAuthenticating} />
+<Canvas of={AuthLayoutStories.TabletAuthenticated} />
+<Canvas of={AuthLayoutStories.MobileExpired401} />
+<Canvas of={AuthLayoutStories.MobileRevoked401} />
 
-## 2. 実装コンポーネントストーリー
+## 2. 管理画面 `/admin` の403レイアウト
+
+<Canvas of={ForbiddenLayoutStories.MobileForbidden403} />
+<Canvas of={ForbiddenLayoutStories.TabletForbidden403} />
+
+## 3. 実装コンポーネントストーリー
 
 <Canvas of={TopBarStories.MobileHeader} />
 <Canvas of={LoginStories.MobileCard} />
-<Canvas of={TokenStories.ActiveTokenState} />
-<Canvas of={RevokeStories.MobileRevocationPanel} />
-<Canvas of={DeniedStories.MobileDeniedState} />
+<Canvas of={TokenStories.AuthenticatedState} />
+<Canvas of={RevokeStories.MobileLogoutPanel} />
+<Canvas of={DeniedStories.Expired401State} />
+<Canvas of={DeniedStories.Revoked401State} />
+<Canvas of={ForbiddenStories.MobileForbidden403} />

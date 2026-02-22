@@ -6,8 +6,8 @@
 
 ## 目的
 
-- #33 の受け入れ条件に沿って、固定トークン依存から「ログイン + 短命トークン + 失効」へ移行する管理者導線を合意する。
-- 期限切れ・失効時の再認証導線と、運用時の失効操作（発行/失効）の理解負荷を下げる。
+- #33 の受け入れ条件に沿って、固定トークン依存から「operatorId + password ログイン + 短命トークン（30分固定） + 当該トークン失効」へ移行する。
+- 会議決定（2026-02-22）に合わせて、`/admin/auth`（認証）と `/admin`（管理UI）の責務分離、および 401/403 導線分岐を実装前に固定する。
 
 ## モック成果物
 
@@ -20,14 +20,17 @@
 
 ### HiFi（Storybook）
 
-- Layout: `frontend/src/stories/admin-auth-hifi/AdminAuthLayoutHiFi.vue`
-- Layout Stories: `frontend/src/stories/admin-auth-hifi/AdminAuthLayoutHiFi.stories.ts`
+- Auth Layout: `frontend/src/stories/admin-auth-hifi/AdminAuthLayoutHiFi.vue`
+- Auth Layout Stories: `frontend/src/stories/admin-auth-hifi/AdminAuthLayoutHiFi.stories.ts`
+- Admin Forbidden Layout: `frontend/src/stories/admin-auth-hifi/AdminForbiddenLayoutHiFi.vue`
+- Admin Forbidden Layout Stories: `frontend/src/stories/admin-auth-hifi/AdminForbiddenLayoutHiFi.stories.ts`
 - Component Stories:
   - `frontend/src/stories/admin-auth-hifi/AdminAuthTopBarMock.stories.ts`
   - `frontend/src/stories/admin-auth-hifi/AdminLoginCardMock.stories.ts`
   - `frontend/src/stories/admin-auth-hifi/AdminTokenStatusPanelMock.stories.ts`
   - `frontend/src/stories/admin-auth-hifi/AdminSessionRevocationPanelMock.stories.ts`
-  - `frontend/src/stories/admin-auth-hifi/AdminAuthDeniedPanelMock.stories.ts`
+  - `frontend/src/stories/admin-auth-hifi/AdminAuthDeniedPanelMock.stories.ts`（401）
+  - `frontend/src/stories/admin-auth-hifi/AdminForbiddenPanelMock.stories.ts`（403）
 - Storybook MDX: `frontend/src/stories/admin-auth-hifi/AdminAuthHiFiCatalog.mdx`
 
 ## デバイス想定
@@ -38,15 +41,21 @@
 
 ## ユーザーフローチェックポイントとステータス
 
-- CP1: 正規管理者がログイン後に管理API利用可能になる - Pass（`default/success` 状態で認証済み導線を定義）
-- CP2: 期限切れまたは失効済みトークンで管理APIが拒否される - Pass（`error` 状態で再ログイン導線を定義）
-- CP3: 失効運用（全失効/選択失効）を実行できる - Pass（失効パネルで操作と監査メモ入力を定義）
+- CP1: 正規運用者が `operatorId + password` ログイン後に管理API利用可能 - Pass（認証済み状態を `/admin/auth` で定義）
+- CP2: 401（未認証/期限切れ/失効/不正トークン）で token を即時破棄し `/admin/auth` へ再遷移 - Pass（401専用パネルと再ログイン CTA を定義）
+- CP3: 403（権限不足）では `/admin` で管理UIを非表示にして拒否表示 - Pass（403専用レイアウトで表示境界を固定）
+- CP4: 失効運用は `POST /api/auth/admin/logout` による当該トークン失効のみ - Pass（全失効/OTP/更新UIを除外）
 
 ## モック概要（実装引き渡し）
 
-- 固定トークン入力UIは提供せず、管理者ログインカードを導線の起点にする。
-- 認証後はトークン寿命を常時可視化し、更新・失効の操作結果を同画面で即時フィードバックする。
-- `error` 状態では「期限切れ/失効済みで拒否された理由」と「再ログイン」への復帰導線を必須表示にする。
+- `/admin/auth` は認証状態（未認証/認証中/認証済み/期限切れ/失効）を扱い、管理本体UIは含めない。
+- `/admin` は認証済み前提の管理導線で、403時は管理UIを表示せず拒否パネルのみ表示する。
+- 会議決定により、`Refresh token` 表示・更新ボタン・OTP入力・全失効UIは #33 スコープ外として除外する。
+
+## 意思決定ログ（2026-02-22反映）
+
+- 採用: `operatorId + password` / TTL30分固定 / 当該トークン失効 / `/admin/auth` と `/admin` 分離
+- 非採用（別Issue候補）: refresh運用、全失効、OTP同時導入
 
 ## UX findings
 
@@ -54,4 +63,4 @@
 
 ## Overall recommendation
 
-- proceed（本モック合意後に #33 の実装PRへ進行可能）
+- proceed（会議決定反映済みのため、#33 実装PRへ進行可能）

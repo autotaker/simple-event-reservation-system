@@ -1,21 +1,14 @@
 <template>
-  <section class="denied">
-    <p class="denied__code">401 Unauthorized</p>
-    <h3>{{ heading }}</h3>
-    <p class="denied__reason">{{ message }}</p>
-    <button type="button">再ログインする</button>
+  <section class="forbidden">
+    <p class="forbidden__code">403 Forbidden</p>
+    <h3>管理画面を表示できません</h3>
+    <p class="forbidden__reason">権限がありません。管理責任者に連絡してください。</p>
+    <button type="button">参加者トップへ戻る</button>
   </section>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-  heading: string;
-  message: string;
-}>();
-</script>
-
 <style scoped>
-.denied {
+.forbidden {
   display: grid;
   gap: 8px;
   padding: 12px;
@@ -24,32 +17,32 @@ defineProps<{
   background: var(--semantic-color-state-danger-soft);
 }
 
-.denied__code,
-.denied h3,
-.denied__reason {
+.forbidden__code,
+.forbidden h3,
+.forbidden__reason {
   margin: 0;
 }
 
-.denied__code {
+.forbidden__code {
   font-size: 12px;
   font-weight: 700;
   color: var(--semantic-color-state-danger);
 }
 
-.denied h3 {
+.forbidden h3 {
   font-size: 14px;
   color: var(--semantic-color-text-primary);
 }
 
-.denied__reason {
+.forbidden__reason {
   font-size: 12px;
   color: var(--semantic-color-text-secondary);
   line-height: 1.4;
 }
 
-.denied button {
+.forbidden button {
   width: fit-content;
-  min-width: 130px;
+  min-width: 150px;
   height: 34px;
   border: none;
   border-radius: 10px;

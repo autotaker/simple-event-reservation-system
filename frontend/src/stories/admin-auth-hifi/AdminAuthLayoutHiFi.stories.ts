@@ -10,36 +10,42 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const MobileAuthDefault: Story = {
-  args: { mode: 'default' },
+export const MobileUnauthenticated: Story = {
+  args: { mode: 'unauthenticated' },
   parameters: {
-    docs: { description: { story: '想定デバイス: 参加者スマートフォン（ログイン前の初期状態）' } },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（未認証の初期状態）' } },
     layout: 'centered',
   },
 };
 
-export const MobileAuthLoading: Story = {
-  args: { mode: 'loading' },
+export const MobileAuthenticating: Story = {
+  args: { mode: 'authenticating' },
   parameters: {
-    docs: { description: { story: '想定デバイス: 参加者スマートフォン（認証確認中）' } },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（認証中）' } },
     layout: 'centered',
   },
 };
 
-export const TabletAuthSuccess: Story = {
-  args: { mode: 'success' },
+export const TabletAuthenticated: Story = {
+  args: { mode: 'authenticated' },
   parameters: {
-    docs: { description: { story: '想定デバイス: 受付補助タブレット（更新成功後）' } },
+    docs: { description: { story: '想定デバイス: 受付補助タブレット（認証済み）' } },
     layout: 'centered',
   },
 };
 
-export const MobileAuthError: Story = {
-  args: { mode: 'error' },
+export const MobileExpired401: Story = {
+  args: { mode: 'expired' },
   parameters: {
-    docs: {
-      description: { story: '想定デバイス: 参加者スマートフォン（期限切れ/失効トークンで拒否）' },
-    },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（期限切れ401）' } },
+    layout: 'centered',
+  },
+};
+
+export const MobileRevoked401: Story = {
+  args: { mode: 'revoked' },
+  parameters: {
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（失効401）' } },
     layout: 'centered',
   },
 };

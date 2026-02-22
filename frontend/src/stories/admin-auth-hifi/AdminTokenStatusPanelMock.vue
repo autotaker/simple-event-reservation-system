@@ -1,19 +1,19 @@
 <template>
   <section class="panel" :class="{ 'panel--disabled': disabled }">
-    <h3>トークン状態</h3>
+    <h3>認証状態</h3>
     <ul>
-      <li>Access token: 残り {{ ttlLabel }}</li>
-      <li>Refresh token: 有効（最終更新 {{ lastRefreshAt }}）</li>
+      <li>operatorId: {{ operatorId }}</li>
+      <li>有効期限（固定30分）: {{ expiresAt }}</li>
+      <li>保存先: sessionStorage</li>
       <li>管理API: {{ apiStatus }}</li>
     </ul>
-    <button type="button" :disabled="disabled">期限延長（更新）</button>
   </section>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  ttlLabel: string;
-  lastRefreshAt: string;
+  operatorId: string;
+  expiresAt: string;
   apiStatus: string;
   disabled?: boolean;
 }>();
@@ -40,18 +40,6 @@ defineProps<{
   gap: 4px;
   font-size: 12px;
   color: var(--semantic-color-text-secondary);
-}
-
-.panel button {
-  width: fit-content;
-  min-width: 150px;
-  height: 34px;
-  border: none;
-  border-radius: 10px;
-  background: var(--semantic-color-state-info);
-  color: var(--semantic-color-text-on-primary);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .panel--disabled {

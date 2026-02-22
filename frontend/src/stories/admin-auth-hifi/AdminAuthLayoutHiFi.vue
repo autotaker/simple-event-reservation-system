@@ -6,24 +6,34 @@
       admin-name="Ops Admin"
     />
 
-    <section v-if="mode !== 'error'" class="portal__body">
-      <AdminLoginCardMock :disabled="mode === 'loading'" />
+    <section v-if="mode !== 'expired' && mode !== 'revoked'" class="portal__body">
+      <AdminLoginCardMock :disabled="mode === 'authenticating'" />
       <AdminTokenStatusPanelMock
-        :ttl-label="tokenState.ttl"
-        :last-refresh-at="tokenState.lastRefresh"
+        :operator-id="tokenState.operatorId"
+        :expires-at="tokenState.expiresAt"
         :api-status="tokenState.apiStatus"
-        :disabled="mode === 'loading'"
+        :disabled="mode === 'authenticating'"
       />
-      <AdminSessionRevocationPanelMock :disabled="mode === 'loading'" />
+      <AdminSessionRevocationPanelMock :disabled="mode === 'authenticating'" />
     </section>
 
-    <AdminAuthDeniedPanelMock v-if="mode === 'error'" />
+    <AdminAuthDeniedPanelMock
+      v-if="mode === 'expired'"
+      heading="トークンの有効期限が切れました"
+      message="管理APIが401を返しました。sessionStorageのトークンを破棄し、再ログインしてください。"
+    />
 
-    <p v-if="mode === 'loading'" class="portal__feedback portal__feedback--loading">
-      認証を確認中です。短命トークンを発行しています...
+    <AdminAuthDeniedPanelMock
+      v-if="mode === 'revoked'"
+      heading="トークンは失効済みです"
+      message="ログアウト済み、または失効されたトークンです。再ログインして新しいトークンを発行してください。"
+    />
+
+    <p v-if="mode === 'authenticating'" class="portal__feedback portal__feedback--loading">
+      認証中です。`operatorId + password` を検証しています...
     </p>
-    <p v-if="mode === 'success'" class="portal__feedback portal__feedback--success">
-      トークンを更新しました。管理APIを継続利用できます。
+    <p v-if="mode === 'authenticated'" class="portal__feedback portal__feedback--success">
+      認証済みです。/admin へ遷移して管理操作を開始できます。
     </p>
   </main>
 </template>
@@ -36,20 +46,20 @@ import AdminSessionRevocationPanelMock from './AdminSessionRevocationPanelMock.v
 import AdminTokenStatusPanelMock from './AdminTokenStatusPanelMock.vue';
 
 const props = defineProps<{
-  mode: 'default' | 'loading' | 'success' | 'error';
+  mode: 'unauthenticated' | 'authenticating' | 'authenticated' | 'expired' | 'revoked';
 }>();
 
 const tokenState =
-  props.mode === 'success'
+  props.mode === 'authenticated'
     ? {
-        ttl: '14:59',
-        lastRefresh: '2026-02-21 09:35',
-        apiStatus: '利用可能（更新済み）',
+        operatorId: 'ops_admin_01',
+        expiresAt: '2026-02-22T10:00:00+09:00',
+        apiStatus: '利用可能',
       }
     : {
-        ttl: '09:45',
-        lastRefresh: '2026-02-21 09:20',
-        apiStatus: '利用可能',
+        operatorId: 'ops_admin_01',
+        expiresAt: '2026-02-22T09:30:00+09:00',
+        apiStatus: '認証前',
       };
 </script>
 
@@ -98,15 +108,16 @@ const tokenState =
   color: var(--semantic-color-state-success);
 }
 
-.portal--loading {
+.portal--authenticating {
   border-color: var(--semantic-color-state-warning);
 }
 
-.portal--success {
+.portal--authenticated {
   border-color: var(--semantic-color-state-success);
 }
 
-.portal--error {
+.portal--expired,
+.portal--revoked {
   border-color: var(--semantic-color-state-danger);
 }
 

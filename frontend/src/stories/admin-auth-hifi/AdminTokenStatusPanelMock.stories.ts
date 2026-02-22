@@ -10,28 +10,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ActiveTokenState: Story = {
+export const AuthenticatedState: Story = {
   args: {
-    ttlLabel: '09:45',
-    lastRefreshAt: '2026-02-21 09:20',
+    operatorId: 'ops_admin_01',
+    expiresAt: '2026-02-22T10:00:00+09:00',
     apiStatus: '利用可能',
     disabled: false,
   },
   parameters: {
-    docs: { description: { story: '想定デバイス: 受付補助タブレット（有効トークン運用）' } },
+    docs: { description: { story: '想定デバイス: 受付補助タブレット（認証済み）' } },
   },
 };
 
-export const ExpiredTokenState: Story = {
+export const PreAuthState: Story = {
   args: {
-    ttlLabel: '00:00',
-    lastRefreshAt: '2026-02-21 08:55',
-    apiStatus: '期限切れのため拒否',
+    operatorId: 'ops_admin_01',
+    expiresAt: '2026-02-22T09:30:00+09:00',
+    apiStatus: '認証前',
     disabled: true,
   },
   parameters: {
-    docs: {
-      description: { story: '想定デバイス: 参加者スマートフォン（期限切れで再ログイン必要）' },
-    },
+    docs: { description: { story: '想定デバイス: 参加者スマートフォン（認証判定前）' } },
   },
 };
