@@ -413,6 +413,7 @@ export const useReservationApp = () => {
       return;
     }
 
+    const canceledTitle = sessionTitleById(sessionId);
     errorMessage.value = '';
     infoMessage.value = '';
     const response = await globalThis.fetch(
@@ -427,7 +428,7 @@ export const useReservationApp = () => {
 
     if (!response.ok) {
       errorMessage.value =
-        (await readErrorMessage(response)) ?? `${sessionId} のキャンセルに失敗しました。`;
+        (await readErrorMessage(response)) ?? `${canceledTitle} のキャンセルに失敗しました。`;
       return;
     }
 
@@ -438,7 +439,7 @@ export const useReservationApp = () => {
     registrationStatusLoaded.value = true;
 
     await Promise.all([loadSessions(), loadMyPage()]);
-    infoMessage.value = `${sessionId} をキャンセルしました。`;
+    infoMessage.value = `${canceledTitle} をキャンセルしました。`;
   };
 
   const downloadAdminCsv = async (

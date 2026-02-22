@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { participantSessionCellByTitle } from './support/ui';
 
 test.describe('US-10 参加者導線の分離', () => {
   test('/participant で参加者フローが動作し、管理機能は表示されない', async ({ page }) => {
@@ -16,13 +17,28 @@ test.describe('US-10 参加者導線の分離', () => {
     await page.getByRole('button', { name: 'ゲストでログイン' }).click();
     await expect(page.getByRole('button', { name: 'キーノートを予約' })).toBeVisible();
 
+    const session1Cell = participantSessionCellByTitle(page, 'Session 1');
+    await session1Cell.getByRole('button', { name: '予約する' }).click();
+    await expect(page.getByText('Session 1 を予約しました。')).toBeVisible();
+
+    const reservationList = page.locator('section.reservation-panel');
+    await reservationList
+      .locator('li', { hasText: 'Session 1' })
+      .getByRole('button', { name: 'キャンセル' })
+      .click();
+    await expect(page.getByText('Session 1 をキャンセルしました。')).toBeVisible();
+
     await page.getByRole('button', { name: 'キーノートを予約' }).click();
     await expect(page.getByText('参加登録: 完了')).toBeVisible();
     const myPagePanel = page.locator('section.qr-panel');
-    await expect(myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toBeVisible();
+    await expect(
+      myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' }),
+    ).toBeVisible();
     await expect(page.getByRole('img', { name: '受付用QRコード' })).toBeVisible();
 
     await page.getByRole('button', { name: 'キャンセル' }).first().click();
-    await expect(myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' })).toHaveCount(0);
+    await expect(
+      myPagePanel.getByRole('listitem').filter({ hasText: 'Opening Keynote' }),
+    ).toHaveCount(0);
   });
 });
