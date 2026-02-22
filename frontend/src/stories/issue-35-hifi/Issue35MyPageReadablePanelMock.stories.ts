@@ -43,6 +43,18 @@ export const ErrorKeepList: Story = {
   },
 };
 
+export const ErrorInitialEmpty: Story = {
+  args: { mode: 'error', variant: 'empty' },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '初回取得失敗（直前リストなし）では `予約はありません。` とエラーメッセージを併記する。',
+      },
+    },
+  },
+};
+
 export const Success: Story = {
   args: { mode: 'success', variant: 'normal' },
   parameters: {
