@@ -20,6 +20,38 @@ class GuestAuthenticationApiFlowTest extends GuestFlowIntegrationTestBase {
     }
 
     @Test
+    void adminLoginIssuesToken() throws Exception {
+        mockMvc.perform(post("/api/auth/admin")
+                .contentType("application/json")
+                .content("""
+                    {
+                      "operatorId": "%s",
+                      "password": "%s"
+                    }
+                    """.formatted(ADMIN_OPERATOR_ID, ADMIN_PASSWORD)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.accessToken").isNotEmpty())
+            .andExpect(jsonPath("$.tokenType").value("Bearer"))
+            .andExpect(jsonPath("$.operatorId").value(ADMIN_OPERATOR_ID))
+            .andExpect(jsonPath("$.expiresAt").isNotEmpty());
+    }
+
+    @Test
+    void adminLoginReturns401ForInvalidCredential() throws Exception {
+        mockMvc.perform(post("/api/auth/admin")
+                .contentType("application/json")
+                .content("""
+                    {
+                      "operatorId": "unknown",
+                      "password": "invalid"
+                    }
+                    """))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.code").value("UNAUTHORIZED"))
+            .andExpect(jsonPath("$.message").isNotEmpty());
+    }
+
+    @Test
     void protectedApiReturns401WithoutLogin() throws Exception {
         mockMvc.perform(get("/api/reservations"))
             .andExpect(status().isUnauthorized());
@@ -37,6 +69,16 @@ class GuestAuthenticationApiFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(jsonPath("$.guestId").value(guest.guestId()))
             .andExpect(jsonPath("$.reservations").isEmpty())
             .andExpect(jsonPath("$.registered").value(false));
+    }
+
+    @Test
+    void adminTokenDoesNotLeakIntoAuthenticatedName() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
+
+        mockMvc.perform(get("/api/reservations")
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(ADMIN_OPERATOR_ID));
     }
 
     @Test

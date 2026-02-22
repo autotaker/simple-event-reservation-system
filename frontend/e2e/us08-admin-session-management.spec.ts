@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { resolveUsableAdminToken } from './support/admin';
+import { resolveAdminCredentials } from './support/admin';
 import { clearGuestSession, loginAsGuest, participantSessionCellByTitle } from './support/ui';
 
 test.describe('US-08 運営がセッション情報を管理できる', () => {
@@ -12,7 +12,7 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     page,
     request,
   }) => {
-    const adminToken = await resolveUsableAdminToken(request);
+    const adminCredentials = resolveAdminCredentials();
     const uniqueId = Date.now();
     const createdTitle = `E2E Session ${uniqueId}`;
     const updatedTitle = `E2E Updated Session ${uniqueId}`;
@@ -20,10 +20,11 @@ test.describe('US-08 運営がセッション情報を管理できる', () => {
     await clearGuestSession(page);
     await page.goto('/participant');
     await loginAsGuest(page);
-    await page.goto('/admin');
-
-    await page.getByLabel('管理者トークン').fill(adminToken);
-    await page.getByRole('button', { name: '管理一覧を取得' }).click();
+    await page.goto('/admin/auth');
+    await page.getByLabel('運用者ID（operatorId）').fill(adminCredentials.operatorId);
+    await page.getByLabel('パスワード').fill(adminCredentials.password);
+    await page.getByRole('button', { name: 'ログインして管理画面へ進む' }).click();
+    await expect(page).toHaveURL(/\/admin$/);
 
     const adminSection = page.locator('section').filter({
       has: page.getByRole('heading', { name: 'セッション管理（運営）' }),

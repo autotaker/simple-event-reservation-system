@@ -21,14 +21,16 @@ import org.springframework.test.web.servlet.MvcResult;
         "app.reservation.keynote-capacity=2",
         "app.reservation.regular-capacity=1",
         "app.reservation.event-date=2099-01-01",
-        "app.auth.admin-token=test-admin-token"
+        "app.auth.admin-operator-id=test-admin",
+        "app.auth.admin-password=test-admin-password"
     }
 )
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 abstract class GuestFlowIntegrationTestBase {
 
-    protected static final String ADMIN_TOKEN = "test-admin-token";
+    protected static final String ADMIN_OPERATOR_ID = "test-admin";
+    protected static final String ADMIN_PASSWORD = "test-admin-password";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -46,6 +48,21 @@ abstract class GuestFlowIntegrationTestBase {
 
     protected String loginAndGetAccessToken() throws Exception {
         return loginGuest().accessToken();
+    }
+
+    protected String loginAdminAndGetAccessToken() throws Exception {
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/admin")
+                .contentType("application/json")
+                .content("""
+                    {
+                      "operatorId": "%s",
+                      "password": "%s"
+                    }
+                    """.formatted(ADMIN_OPERATOR_ID, ADMIN_PASSWORD)))
+            .andExpect(status().isOk())
+            .andReturn();
+        JsonNode loginResponse = objectMapper.readTree(loginResult.getResponse().getContentAsString());
+        return loginResponse.get("accessToken").asText();
     }
 
     protected String bearer(String token) {

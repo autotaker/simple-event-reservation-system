@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | 認証 | ゲストログイン | `POST /api/auth/guest` でアクセストークンと `guestId` を発行 |
 | 認証 | APIアクセス制御 | 未認証は `401`、管理APIは `ROLE_ADMIN` のみ許可 |
-| 認証 | 管理者トークン認証 | `Authorization: Bearer <admin-token>` で管理APIを実行 |
+| 認証 | 管理者ログイン認証 | `POST /api/auth/admin` で短命トークンを発行し `Authorization: Bearer <accessToken>` で管理APIを実行 |
 
 ## 2. 予約管理（参加者）
 

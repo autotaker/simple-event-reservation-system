@@ -4,14 +4,13 @@
       event-name="Tokyo Product Summit 2026"
       section-label="運営管理ポータル /admin"
       admin-name="Ops Admin"
-      return-to="/participant"
-      return-label="参加者画面へ戻る"
+      return-to="/admin/auth"
+      return-label="認証画面へ戻る"
     />
 
-    <AdminAccessGate v-model="adminToken" />
     <AdminAccessDeniedPanel
-      v-if="!hasAdminAccess"
-      :message="'管理権限がないため /admin の管理画面を表示できません。管理者トークンを設定するか、参加者画面へ戻ってください。'"
+      v-if="showForbiddenPanel"
+      :message="'権限がありません。管理責任者に連絡してください。'"
     />
 
     <p v-if="errorMessage" class="admin-portal__feedback ui-status ui-status--error">
@@ -21,7 +20,7 @@
       {{ infoMessage }}
     </p>
 
-    <section v-if="hasAdminAccess" class="admin-portal__body">
+    <section v-if="hasAdminAccess && !showForbiddenPanel" class="admin-portal__body">
       <h2>セッション管理（運営）</h2>
       <div class="admin-portal__layout ui-layout-split">
         <AdminSessionTable
@@ -62,9 +61,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import AdminAccessDeniedPanel from '../components/admin/AdminAccessDeniedPanel.vue';
-import AdminAccessGate from '../components/admin/AdminAccessGate.vue';
 import AdminCsvExportPanel from '../components/admin/AdminCsvExportPanel.vue';
 import AdminSessionEditor from '../components/admin/AdminSessionEditor.vue';
 import AdminSessionTable from '../components/admin/AdminSessionTable.vue';
@@ -87,7 +86,11 @@ const {
   updateAdminSession,
 } = useReservationApp();
 
+const router = useRouter();
 const hasAdminAccess = computed<boolean>(() => adminToken.value.trim().length > 0);
+const showForbiddenPanel = computed<boolean>(
+  () => errorMessage.value.includes('権限') && hasAdminAccess.value,
+);
 
 const updateCreateForm = (form: AdminForm): void => {
   createForm.value = form;
@@ -98,8 +101,16 @@ const updateEditForm = (form: AdminForm): void => {
 };
 
 onMounted(() => {
-  if (hasAdminAccess.value) {
-    void loadAdminSessions();
+  if (!hasAdminAccess.value) {
+    void router.replace('/admin/auth');
+    return;
+  }
+  void loadAdminSessions();
+});
+
+watch(hasAdminAccess, (value) => {
+  if (!value) {
+    void router.replace('/admin/auth');
   }
 });
 </script>

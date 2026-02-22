@@ -77,7 +77,15 @@ type CheckInHistoryResponse = {
 };
 
 type ErrorResponse = {
+  code?: string;
   message?: string;
+};
+
+type AdminLoginResponse = {
+  accessToken: string;
+  tokenType: string;
+  operatorId: string;
+  expiresAt: string;
 };
 
 export type AdminForm = {
@@ -87,6 +95,14 @@ export type AdminForm = {
   track: string;
   capacity: string;
 };
+
+export type AdminAuthState =
+  | 'unauthenticated'
+  | 'authenticating'
+  | 'authenticated'
+  | 'expired'
+  | 'revoked'
+  | 'invalid';
 
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const QR_CODE_GENERATION_ERROR_MESSAGE = '受付QRコードの生成に失敗しました。';
@@ -121,8 +137,15 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
 
 export const useReservationApp = () => {
   const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
-  const adminToken = ref<string>(globalThis.localStorage.getItem('adminAccessToken') ?? '');
+  const adminToken = ref<string>(globalThis.sessionStorage.getItem('adminAccessToken') ?? '');
   const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
+  const adminOperatorIdInput = ref<string>('');
+  const adminPasswordInput = ref<string>('');
+  const adminAuthState = ref<AdminAuthState>(
+    adminToken.value ? 'authenticated' : 'unauthenticated',
+  );
+  const adminAuthenticatedOperatorId = ref<string>('');
+  const adminTokenExpiresAt = ref<string>('');
 
   const sessions = ref<SessionSummary[]>([]);
   const adminSessions = ref<AdminSession[]>([]);
@@ -287,6 +310,14 @@ export const useReservationApp = () => {
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        await handleAdminUnauthorized(response);
+        return;
+      }
+      if (response.status === 403) {
+        errorMessage.value = (await readErrorMessage(response)) ?? '管理操作の権限がありません。';
+        return;
+      }
       errorMessage.value =
         (await readErrorMessage(response)) ?? '管理セッション一覧の取得に失敗しました。';
       return;
@@ -420,6 +451,14 @@ export const useReservationApp = () => {
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        await handleAdminUnauthorized(response);
+        return;
+      }
+      if (response.status === 403) {
+        errorMessage.value = (await readErrorMessage(response)) ?? '管理操作の権限がありません。';
+        return;
+      }
       errorMessage.value = (await readErrorMessage(response)) ?? 'CSVの出力に失敗しました。';
       return;
     }
@@ -472,6 +511,14 @@ export const useReservationApp = () => {
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        await handleAdminUnauthorized(response);
+        return;
+      }
+      if (response.status === 403) {
+        errorMessage.value = (await readErrorMessage(response)) ?? '管理操作の権限がありません。';
+        return;
+      }
       errorMessage.value = (await readErrorMessage(response)) ?? 'セッション作成に失敗しました。';
       return;
     }
@@ -518,6 +565,14 @@ export const useReservationApp = () => {
     );
 
     if (!response.ok) {
+      if (response.status === 401) {
+        await handleAdminUnauthorized(response);
+        return;
+      }
+      if (response.status === 403) {
+        errorMessage.value = (await readErrorMessage(response)) ?? '管理操作の権限がありません。';
+        return;
+      }
       errorMessage.value = (await readErrorMessage(response)) ?? 'セッション更新に失敗しました。';
       return;
     }
@@ -686,8 +741,108 @@ export const useReservationApp = () => {
     }
   };
 
+  const clearAdminToken = (): void => {
+    adminToken.value = '';
+    adminAuthenticatedOperatorId.value = '';
+    adminTokenExpiresAt.value = '';
+  };
+
+  const handleAdminUnauthorized = async (response: globalThis.Response): Promise<void> => {
+    const payload = (await response.json().catch(() => ({}))) as ErrorResponse;
+    const code = (payload.code ?? 'UNAUTHORIZED').toUpperCase();
+    if (code === 'EXPIRED') {
+      adminAuthState.value = 'expired';
+    } else if (code === 'REVOKED') {
+      adminAuthState.value = 'revoked';
+    } else {
+      adminAuthState.value = 'invalid';
+    }
+    clearAdminToken();
+    errorMessage.value = payload.message ?? '認証情報を確認できません。再ログインしてください。';
+    infoMessage.value = '';
+  };
+
+  const loginAsAdmin = async (): Promise<boolean> => {
+    const operatorId = adminOperatorIdInput.value.trim();
+    const password = adminPasswordInput.value;
+    if (!operatorId || !password) {
+      adminAuthState.value = 'invalid';
+      errorMessage.value = '運用者IDとパスワードを入力してください。';
+      infoMessage.value = '';
+      return false;
+    }
+
+    adminAuthState.value = 'authenticating';
+    errorMessage.value = '';
+    infoMessage.value = '';
+
+    const response = await globalThis.fetch(`${API_BASE_URL}/api/auth/admin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        operatorId,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        await handleAdminUnauthorized(response);
+        return false;
+      }
+      adminAuthState.value = 'invalid';
+      errorMessage.value = (await readErrorMessage(response)) ?? '管理者ログインに失敗しました。';
+      return false;
+    }
+
+    const data = (await response.json()) as AdminLoginResponse;
+    adminToken.value = data.accessToken;
+    adminAuthenticatedOperatorId.value = data.operatorId;
+    adminTokenExpiresAt.value = data.expiresAt;
+    adminPasswordInput.value = '';
+    adminAuthState.value = 'authenticated';
+    infoMessage.value = '認証に成功しました。管理画面へ進めます。';
+    return true;
+  };
+
+  const logoutAdmin = async (): Promise<void> => {
+    if (!adminToken.value) {
+      clearAdminToken();
+      adminAuthState.value = 'unauthenticated';
+      return;
+    }
+
+    const response = await globalThis.fetch(`${API_BASE_URL}/api/auth/admin/logout`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${adminToken.value}`,
+      },
+    });
+
+    if (response.status === 401) {
+      await handleAdminUnauthorized(response);
+      return;
+    }
+
+    if (!response.ok) {
+      errorMessage.value = (await readErrorMessage(response)) ?? 'ログアウト処理に失敗しました。';
+      return;
+    }
+
+    clearAdminToken();
+    adminAuthState.value = 'unauthenticated';
+    infoMessage.value = 'ログアウトしました。';
+    errorMessage.value = '';
+  };
+
   watch(adminToken, (newValue) => {
-    globalThis.localStorage.setItem('adminAccessToken', newValue);
+    if (newValue && newValue.trim().length > 0) {
+      globalThis.sessionStorage.setItem('adminAccessToken', newValue);
+    } else {
+      globalThis.sessionStorage.removeItem('adminAccessToken');
+    }
   });
 
   watch(
@@ -734,6 +889,11 @@ export const useReservationApp = () => {
   return {
     token,
     adminToken,
+    adminOperatorIdInput,
+    adminPasswordInput,
+    adminAuthState,
+    adminAuthenticatedOperatorId,
+    adminTokenExpiresAt,
     guestId,
     sessions,
     adminSessions,
@@ -761,6 +921,8 @@ export const useReservationApp = () => {
     formatCheckInTime,
     clearEditForm,
     loginAsGuest,
+    loginAsAdmin,
+    logoutAdmin,
     loadSessions,
     loadReservations,
     loadMyPage,

@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class GuestAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String AUTH_ERROR_CODE_ATTR = "auth.error.code";
+
     private static final String BEARER_PREFIX = "Bearer ";
     private static final List<SimpleGrantedAuthority> GUEST_AUTHORITIES =
         List.of(new SimpleGrantedAuthority("ROLE_GUEST"));
@@ -25,14 +26,14 @@ public class GuestAuthenticationFilter extends OncePerRequestFilter {
         List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
     private final GuestSessionService guestSessionService;
-    private final String adminToken;
+    private final AdminSessionService adminSessionService;
 
     public GuestAuthenticationFilter(
         GuestSessionService guestSessionService,
-        @Value("${app.auth.admin-token:}") String adminToken
+        AdminSessionService adminSessionService
     ) {
         this.guestSessionService = guestSessionService;
-        this.adminToken = adminToken;
+        this.adminSessionService = adminSessionService;
     }
 
     @Override
@@ -45,17 +46,29 @@ public class GuestAuthenticationFilter extends OncePerRequestFilter {
 
         if (currentAuthentication == null) {
             String token = extractBearerToken(request);
-            if (isAdminToken(token)) {
+            AdminTokenValidationResult adminResult = adminSessionService.resolve(token);
+            if (adminResult.isValid()) {
                 UsernamePasswordAuthenticationToken adminAuth =
-                    new UsernamePasswordAuthenticationToken("admin", null, ADMIN_AUTHORITIES);
+                    new UsernamePasswordAuthenticationToken(
+                        new AdminAuthenticationPrincipal(adminResult.operatorId()),
+                        token,
+                        ADMIN_AUTHORITIES
+                    );
                 SecurityContextHolder.getContext().setAuthentication(adminAuth);
+                request.removeAttribute(AUTH_ERROR_CODE_ATTR);
                 filterChain.doFilter(request, response);
                 return;
             }
+
+            if (adminResult.state() == AdminTokenState.EXPIRED || adminResult.state() == AdminTokenState.REVOKED) {
+                request.setAttribute(AUTH_ERROR_CODE_ATTR, adminResult.state().name());
+            }
+
             guestSessionService.resolveGuestId(token).ifPresent(guestId -> {
                 UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(guestId, null, GUEST_AUTHORITIES);
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                request.removeAttribute(AUTH_ERROR_CODE_ATTR);
             });
         }
 
@@ -68,9 +81,5 @@ public class GuestAuthenticationFilter extends OncePerRequestFilter {
             return null;
         }
         return authorizationHeader.substring(BEARER_PREFIX.length()).trim();
-    }
-
-    private boolean isAdminToken(String token) {
-        return adminToken != null && !adminToken.isBlank() && adminToken.equals(token);
     }
 }

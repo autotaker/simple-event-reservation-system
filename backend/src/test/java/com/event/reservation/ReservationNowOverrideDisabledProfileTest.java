@@ -14,6 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
             + "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,"
             + "org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,"
             + "org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration",
+        "app.auth.admin-operator-id=test-admin",
+        "app.auth.admin-password=test-admin-password",
         "app.reservation.event-date=2999-01-01",
         "app.reservation.now-override=2999-01-01T10:01:00"
     }

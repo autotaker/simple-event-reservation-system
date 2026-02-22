@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
-import { resolveUsableAdminToken } from './support/admin';
+import { resolveAdminCredentials } from './support/admin';
 import { clearGuestSession, loginAsGuest } from './support/ui';
 
 test.describe('US-09 予約状況をCSVでエクスポートできる', () => {
@@ -16,14 +16,16 @@ test.describe('US-09 予約状況をCSVでエクスポートできる', () => {
     expect(checkInsResponse.status()).toBe(401);
   });
 
-  test('運営は予約一覧とチェックインCSVをUTF-8で出力できる', async ({ page, request }) => {
-    const adminToken = await resolveUsableAdminToken(request);
+  test('運営は予約一覧とチェックインCSVをUTF-8で出力できる', async ({ page }) => {
+    const adminCredentials = resolveAdminCredentials();
     await clearGuestSession(page);
     await page.goto('/participant');
     await loginAsGuest(page);
-    await page.goto('/admin');
-
-    await page.getByLabel('管理者トークン').fill(adminToken);
+    await page.goto('/admin/auth');
+    await page.getByLabel('運用者ID（operatorId）').fill(adminCredentials.operatorId);
+    await page.getByLabel('パスワード').fill(adminCredentials.password);
+    await page.getByRole('button', { name: 'ログインして管理画面へ進む' }).click();
+    await expect(page).toHaveURL(/\/admin$/);
     await expect(page.getByRole('button', { name: '予約一覧CSVを出力' })).toBeVisible();
 
     const reservationsDownloadPromise = page.waitForEvent('download');

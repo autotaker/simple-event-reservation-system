@@ -21,8 +21,9 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminCanCreateAndUpdateSessionAndParticipantListReflectsIt() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         MvcResult createResult = mockMvc.perform(post("/api/admin/sessions")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken))
                 .contentType("application/json")
                 .content("""
                     {
@@ -42,7 +43,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .asText();
 
         mockMvc.perform(put("/api/admin/sessions/{sessionId}", createdSessionId)
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken))
                 .contentType("application/json")
                 .content("""
                     {
@@ -59,7 +60,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(jsonPath("$.capacity").value(15));
 
         mockMvc.perform(get("/api/reservations/sessions")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN)))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sessions[16].sessionId").value("session-16"))
             .andExpect(jsonPath("$.sessions[16].title").value("Admin Updated Session"))
@@ -77,6 +78,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminCanExportReservationsCsvAsUtf8() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         GuestSession firstGuest = loginGuest();
         GuestSession secondGuest = loginGuest();
 
@@ -88,7 +90,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk());
 
         MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/reservations")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN)))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("text/csv")))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("charset=UTF-8")))
@@ -103,6 +105,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminCanExportSessionCheckInsCsvAsUtf8() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         GuestSession firstGuest = loginGuest();
         GuestSession secondGuest = loginGuest();
 
@@ -120,7 +123,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk());
 
         MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/session-checkins")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN)))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("text/csv")))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, containsString("charset=UTF-8")))
@@ -135,6 +138,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
 
     @Test
     void adminSessionCheckInsCsvIncludesGuestAfterReservationCancellation() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
         GuestSession guest = loginGuest();
 
         mockMvc.perform(post("/api/reservations/sessions/session-1")
@@ -152,7 +156,7 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk());
 
         MvcResult exportResult = mockMvc.perform(get("/api/admin/exports/session-checkins")
-                .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN)))
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
             .andExpect(status().isOk())
             .andReturn();
 
@@ -169,5 +173,20 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://127.0.0.1:5173"))
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PUT")));
+    }
+
+    @Test
+    void revokedAdminTokenReturns401WithRevokedCode() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
+
+        mockMvc.perform(post("/api/auth/admin/logout")
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
+            .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/admin/sessions")
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.code").value("REVOKED"))
+            .andExpect(jsonPath("$.message").isNotEmpty());
     }
 }
