@@ -18,10 +18,12 @@ import * as MyPageStories from './Issue35MyPageReadablePanelMock.stories';
 ## 1. 画面レイアウトストーリー
 
 <Canvas of={LayoutStories.Default} />
-<Canvas of={LayoutStories.Loading} />
+<Canvas of={LayoutStories.LoadingKeepList} />
+<Canvas of={LayoutStories.ErrorKeepList} />
 <Canvas of={LayoutStories.Success} />
-<Canvas of={LayoutStories.Error} />
-<Canvas of={LayoutStories.FallbackText} />
+<Canvas of={LayoutStories.MixedFallbackText} />
+<Canvas of={LayoutStories.EmptyReservations} />
+<Canvas of={LayoutStories.ManyReservations} />
 
 ## 2. 実装コンポーネントストーリー
 
@@ -29,7 +31,11 @@ import * as MyPageStories from './Issue35MyPageReadablePanelMock.stories';
 <Canvas of={SessionCardStories.Primary} />
 <Canvas of={ReservationStories.WithCancelCta} />
 <Canvas of={MyPageStories.Default} />
-<Canvas of={MyPageStories.Fallback} />
+<Canvas of={MyPageStories.LoadingKeepList} />
+<Canvas of={MyPageStories.ErrorKeepList} />
+<Canvas of={MyPageStories.MixedFallbackRow} />
+<Canvas of={MyPageStories.Empty} />
+<Canvas of={MyPageStories.ManyReservations} />
 
 ## 3. 想定デバイス
 
@@ -39,6 +45,11 @@ import * as MyPageStories from './Issue35MyPageReadablePanelMock.stories';
 
 ## 4. 受け入れ条件との対応
 
-- CP1（sessionId依存表示改善）: `MyPageReadablePanelMock` と `FallbackText` で固定
-- CP2（可読性向上）: タイトル主表示 + 時刻/トラック副表示を全ストーリーに反映
+- CP1（sessionId依存表示改善）: `MyPageReadablePanelMock` の `MixedFallbackRow` / `AllFallback` で固定
+- CP2（可読性向上）: タイトル主表示 + `HH:mm | Track X` 副表示を全ストーリーに反映
 - CP3（キャンセル導線維持）: `ReservationPanelMock` で `キャンセル` CTA を維持
+
+## 5. 境界ケース
+
+- 0件: `Empty` / `EmptyReservations`
+- 多件: `ManyReservations`

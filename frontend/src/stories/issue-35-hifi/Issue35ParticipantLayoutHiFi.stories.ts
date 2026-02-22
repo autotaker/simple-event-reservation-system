@@ -11,41 +11,77 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { mode: 'default', fallback: false },
+  args: { mode: 'default', contentVariant: 'normal' },
   parameters: {
     docs: { description: { story: '想定デバイス: 参加者スマートフォン (390x844)。通常表示。' } },
     layout: 'centered',
   },
 };
 
-export const Loading: Story = {
-  args: { mode: 'loading', fallback: false },
+export const LoadingKeepList: Story = {
+  args: { mode: 'loading', contentVariant: 'normal' },
   parameters: {
-    docs: { description: { story: '想定デバイス: 参加者スマートフォン。更新中状態。' } },
+    docs: {
+      description: {
+        story: '想定デバイス: 参加者スマートフォン。更新中でも予約リストを維持。',
+      },
+    },
     layout: 'centered',
   },
 };
 
+export const ErrorKeepList: Story = {
+  args: { mode: 'error', contentVariant: 'normal' },
+  parameters: {
+    docs: {
+      description: {
+        story: '想定デバイス: 来場前PC確認。取得失敗でも予約リストを維持。',
+      },
+    },
+    layout: 'fullscreen',
+  },
+};
+
 export const Success: Story = {
-  args: { mode: 'success', fallback: false },
+  args: { mode: 'success', contentVariant: 'normal' },
   parameters: {
     docs: { description: { story: '想定デバイス: 受付補助タブレット (834x1112)。更新成功状態。' } },
     layout: 'centered',
   },
 };
 
-export const Error: Story = {
-  args: { mode: 'error', fallback: false },
+export const MixedFallbackText: Story = {
+  args: { mode: 'default', contentVariant: 'mixed-fallback' },
   parameters: {
-    docs: { description: { story: '想定デバイス: 来場前PC確認 (1280幅)。取得失敗状態。' } },
-    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: '欠損行のみ `不明なセッション` を表示する（行単位フォールバック）。',
+      },
+    },
+    layout: 'centered',
   },
 };
 
-export const FallbackText: Story = {
-  args: { mode: 'default', fallback: true },
+export const EmptyReservations: Story = {
+  args: { mode: 'default', contentVariant: 'empty' },
   parameters: {
-    docs: { description: { story: '表示データ不足時は `不明なセッション` と更新誘導を表示。' } },
+    docs: {
+      description: {
+        story: '予約0件時の表示。',
+      },
+    },
+    layout: 'centered',
+  },
+};
+
+export const ManyReservations: Story = {
+  args: { mode: 'default', contentVariant: 'many' },
+  parameters: {
+    docs: {
+      description: {
+        story: '多件時はリスト領域のみスクロールさせ、QR導線を維持する。',
+      },
+    },
     layout: 'centered',
   },
 };

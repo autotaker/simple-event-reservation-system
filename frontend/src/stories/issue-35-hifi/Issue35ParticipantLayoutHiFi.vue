@@ -10,7 +10,7 @@
 
       <aside class="layout__right">
         <Issue35ReservationPanelMock />
-        <Issue35MyPageReadablePanelMock :mode="mypageMode" />
+        <Issue35MyPageReadablePanelMock :mode="mode" :variant="contentVariant" />
       </aside>
     </section>
 
@@ -21,23 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import Issue35MyPageReadablePanelMock from './Issue35MyPageReadablePanelMock.vue';
 import Issue35ReservationPanelMock from './Issue35ReservationPanelMock.vue';
 import Issue35SessionCardMock from './Issue35SessionCardMock.vue';
 import Issue35TopBarMock from './Issue35TopBarMock.vue';
 
-const props = defineProps<{
+defineProps<{
   mode: 'default' | 'loading' | 'success' | 'error';
-  fallback?: boolean;
+  contentVariant?: 'normal' | 'mixed-fallback' | 'all-fallback' | 'empty' | 'many';
 }>();
-
-const mypageMode = computed(() => {
-  if (props.fallback) {
-    return 'fallback';
-  }
-  return props.mode;
-});
 </script>
 
 <style scoped>

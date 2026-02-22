@@ -7,21 +7,18 @@
 
     <div class="qr" aria-hidden="true">QR</div>
 
-    <ul v-if="mode === 'default' || mode === 'success'" class="list">
-      <li>
-        <p class="title">Keynote: Product Vision</p>
-        <span>10:00 | Track A</span>
-      </li>
-      <li>
-        <p class="title">API Design Clinic</p>
-        <span>11:30 | Track B</span>
-      </li>
-    </ul>
+    <p class="format-rule">表示形式: HH:mm | Track X</p>
 
-    <ul v-else-if="mode === 'fallback'" class="list">
-      <li>
-        <p class="title">不明なセッション</p>
-        <span>更新して最新情報を取得してください</span>
+    <p v-if="reservations.length === 0" class="empty">予約はありません。</p>
+
+    <ul v-else class="list" :class="{ 'list--many': variant === 'many' }">
+      <li
+        v-for="reservation in reservations"
+        :key="reservation.id"
+        :class="{ 'is-fallback': reservation.fallback }"
+      >
+        <p class="title">{{ reservation.title }}</p>
+        <span>{{ reservation.meta }}</span>
       </li>
     </ul>
 
@@ -32,9 +29,70 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  mode: 'default' | 'loading' | 'success' | 'error' | 'fallback';
+import { computed } from 'vue';
+
+type ReservationItem = {
+  id: string;
+  title: string;
+  meta: string;
+  fallback?: boolean;
+};
+
+const props = defineProps<{
+  mode: 'default' | 'loading' | 'success' | 'error';
+  variant?: 'normal' | 'mixed-fallback' | 'all-fallback' | 'empty' | 'many';
 }>();
+
+const reservations = computed<ReservationItem[]>(() => {
+  if (props.variant === 'empty') {
+    return [];
+  }
+
+  if (props.variant === 'all-fallback') {
+    return [
+      {
+        id: 'fallback-1',
+        title: '不明なセッション',
+        meta: '更新して最新情報を取得してください',
+        fallback: true,
+      },
+      {
+        id: 'fallback-2',
+        title: '不明なセッション',
+        meta: '更新して最新情報を取得してください',
+        fallback: true,
+      },
+    ];
+  }
+
+  if (props.variant === 'mixed-fallback') {
+    return [
+      { id: 'keynote', title: 'Keynote: Product Vision', meta: '10:00 | Track A' },
+      {
+        id: 'unknown-1',
+        title: '不明なセッション',
+        meta: '更新して最新情報を取得してください',
+        fallback: true,
+      },
+      { id: 'session-a1', title: 'API Design Clinic', meta: '11:30 | Track B' },
+    ];
+  }
+
+  if (props.variant === 'many') {
+    return [
+      { id: 'r1', title: 'Keynote: Product Vision', meta: '10:00 | Track A' },
+      { id: 'r2', title: 'API Design Clinic', meta: '11:30 | Track B' },
+      { id: 'r3', title: 'Design QA Loop', meta: '13:00 | Track C' },
+      { id: 'r4', title: 'Prompt Engineering', meta: '14:30 | Track A' },
+      { id: 'r5', title: 'Closing Session', meta: '16:00 | Track B' },
+    ];
+  }
+
+  return [
+    { id: 'keynote', title: 'Keynote: Product Vision', meta: '10:00 | Track A' },
+    { id: 'session-a1', title: 'API Design Clinic', meta: '11:30 | Track B' },
+  ];
+});
 </script>
 
 <style scoped>
@@ -86,12 +144,30 @@ button {
   background: repeating-linear-gradient(-45deg, #f5fff9, #f5fff9 7px, #ecfbf3 7px, #ecfbf3 14px);
 }
 
+.format-rule {
+  font-size: 11px;
+  color: #335f4f;
+}
+
+.empty {
+  font-size: 12px;
+  color: #3f6758;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f6fffa;
+}
+
 .list {
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
   gap: 8px;
+}
+
+.list--many {
+  max-height: 180px;
+  overflow-y: auto;
 }
 
 .list li {
@@ -102,15 +178,27 @@ button {
   background: #f6fffa;
 }
 
+.list li.is-fallback {
+  background: #fff7ed;
+}
+
 .title {
   font-size: 13px;
   font-weight: 700;
   color: #123c2d;
 }
 
+.is-fallback .title {
+  color: #7c2d12;
+}
+
 span {
   font-size: 11px;
   color: #3f6758;
+}
+
+.is-fallback span {
+  color: #9a3412;
 }
 
 .status {
