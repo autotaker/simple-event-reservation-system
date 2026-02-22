@@ -31,6 +31,29 @@ test.describe('US-12-2 管理導線 (/admin) と直接アクセス制御', () =>
     await expect(page.getByRole('button', { name: 'チェックインCSVを出力' })).toBeVisible();
   });
 
+  test('管理者トークンはWeb Storageに永続化されず、リロード後は再認証が必要', async ({ page }) => {
+    const adminCredentials = resolveAdminCredentials();
+
+    await clearGuestSession(page);
+    await page.goto('/admin/auth');
+
+    await page.getByLabel('運用者ID（operatorId）').fill(adminCredentials.operatorId);
+    await page.getByLabel('パスワード').fill(adminCredentials.password);
+    await page.getByRole('button', { name: 'ログインして管理画面へ進む' }).click();
+    await expect(page).toHaveURL(/\/admin$/);
+
+    const persistedToken = await page.evaluate(() => ({
+      localStorageToken: localStorage.getItem('adminAccessToken'),
+      sessionStorageToken: sessionStorage.getItem('adminAccessToken'),
+    }));
+    expect(persistedToken.localStorageToken).toBeNull();
+    expect(persistedToken.sessionStorageToken).toBeNull();
+
+    await page.reload();
+    await expect(page).toHaveURL(/\/admin\/auth$/);
+    await expect(page.getByRole('heading', { name: '管理者ログイン' })).toBeVisible();
+  });
+
   test('再ログイン導線で機密入力とエラーメッセージが初期化される', async ({ page }) => {
     const adminCredentials = resolveAdminCredentials();
 
