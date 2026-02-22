@@ -106,11 +106,20 @@ export type AdminAuthState =
 
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const QR_CODE_GENERATION_ERROR_MESSAGE = '受付QRコードの生成に失敗しました。';
+const LEGACY_ADMIN_ACCESS_TOKEN_STORAGE_KEY = 'adminAccessToken';
+const LEGACY_ADMIN_OPERATOR_ID_STORAGE_KEY = 'adminOperatorId';
+const LEGACY_ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY = 'adminTokenExpiresAt';
 const adminTokenState = ref<string>('');
 const adminOperatorIdState = ref<string>('');
 const adminTokenExpiresAtState = ref<string>('');
 
 export const hasAdminSession = (): boolean => adminTokenState.value.trim().length > 0;
+
+const clearLegacyAdminStorage = (): void => {
+  globalThis.sessionStorage.removeItem(LEGACY_ADMIN_ACCESS_TOKEN_STORAGE_KEY);
+  globalThis.sessionStorage.removeItem(LEGACY_ADMIN_OPERATOR_ID_STORAGE_KEY);
+  globalThis.sessionStorage.removeItem(LEGACY_ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY);
+};
 
 const createDefaultCreateForm = (): AdminForm => ({
   sessionId: '',
@@ -141,6 +150,8 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
 };
 
 export const useReservationApp = () => {
+  clearLegacyAdminStorage();
+
   const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
   const adminToken = adminTokenState;
   const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
@@ -746,6 +757,7 @@ export const useReservationApp = () => {
   };
 
   const clearAdminToken = (): void => {
+    clearLegacyAdminStorage();
     adminToken.value = '';
     adminAuthenticatedOperatorId.value = '';
     adminTokenExpiresAt.value = '';
