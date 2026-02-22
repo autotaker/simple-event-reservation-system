@@ -72,6 +72,16 @@ class GuestAuthenticationApiFlowTest extends GuestFlowIntegrationTestBase {
     }
 
     @Test
+    void adminTokenDoesNotLeakIntoAuthenticatedName() throws Exception {
+        String adminToken = loginAdminAndGetAccessToken();
+
+        mockMvc.perform(get("/api/reservations")
+                .header(HttpHeaders.AUTHORIZATION, bearer(adminToken)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.guestId").value(ADMIN_OPERATOR_ID));
+    }
+
+    @Test
     void myPageApiReturnsReservationListAndReceptionQrPayload() throws Exception {
         GuestSession guest = loginGuest();
 

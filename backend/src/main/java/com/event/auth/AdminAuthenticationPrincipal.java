@@ -1,4 +1,11 @@
 package com.event.auth;
 
-public record AdminAuthenticationPrincipal(String operatorId, String token) {
+import java.security.Principal;
+
+public record AdminAuthenticationPrincipal(String operatorId) implements Principal {
+
+    @Override
+    public String getName() {
+        return operatorId;
+    }
 }

@@ -42,6 +42,28 @@ class AdminSessionServiceTest {
             .hasMessage("adminPassword must not be blank");
     }
 
+    @Test
+    void revokeEvictsOldestWhenRevokedSessionsReachCapacity() {
+        MutableClock clock = new MutableClock(Instant.parse("2026-02-22T00:00:00Z"), ZoneId.of("UTC"));
+        AdminSessionService service = new AdminSessionService(
+            "operator",
+            "password",
+            clock,
+            Duration.ofMinutes(30),
+            1
+        );
+
+        AdminSession first = service.login("operator", "password").orElseThrow();
+        service.revoke(first.token());
+
+        clock.advance(Duration.ofSeconds(1));
+        AdminSession second = service.login("operator", "password").orElseThrow();
+        service.revoke(second.token());
+
+        assertThat(service.resolve(first.token()).state()).isEqualTo(AdminTokenState.UNAUTHORIZED);
+        assertThat(service.resolve(second.token()).state()).isEqualTo(AdminTokenState.REVOKED);
+    }
+
     private static final class MutableClock extends Clock {
 
         private Instant currentInstant;

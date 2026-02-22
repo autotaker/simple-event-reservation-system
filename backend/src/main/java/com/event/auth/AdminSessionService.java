@@ -115,8 +115,12 @@ public class AdminSessionService {
         }
 
         Instant now = clock.instant();
+        evictExpired(now);
         ActiveSessionEntry removed = activeSessions.remove(token);
         if (removed != null) {
+            if (revokedSessions.size() >= maxSessions) {
+                evictOldestRevokedSession();
+            }
             Instant expiresAt = removed.expiresAt().isAfter(now) ? removed.expiresAt() : now.plus(sessionTtl);
             revokedSessions.put(token, new RevokedSessionEntry(removed.operatorId(), expiresAt));
         }
@@ -142,6 +146,13 @@ public class AdminSessionService {
             .min(Comparator.comparing(entry -> entry.getValue().expiresAt()))
             .map(Map.Entry::getKey);
         tokenToEvict.ifPresent(activeSessions::remove);
+    }
+
+    private void evictOldestRevokedSession() {
+        Optional<String> tokenToEvict = revokedSessions.entrySet().stream()
+            .min(Comparator.comparing(entry -> entry.getValue().expiresAt()))
+            .map(Map.Entry::getKey);
+        tokenToEvict.ifPresent(revokedSessions::remove);
     }
 
     private record ActiveSessionEntry(String operatorId, Instant expiresAt) {

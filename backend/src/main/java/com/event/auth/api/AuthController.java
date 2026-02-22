@@ -1,6 +1,5 @@
 package com.event.auth.api;
 
-import com.event.auth.AdminAuthenticationPrincipal;
 import com.event.auth.AdminSession;
 import com.event.auth.AdminSessionService;
 import com.event.auth.GuestSession;
@@ -51,8 +50,8 @@ public class AuthController {
 
     @PostMapping("/admin/logout")
     public ResponseEntity<Void> adminLogout(Authentication authentication) {
-        if (authentication != null && authentication.getPrincipal() instanceof AdminAuthenticationPrincipal principal) {
-            adminSessionService.revoke(principal.token());
+        if (authentication != null && authentication.getCredentials() instanceof String token) {
+            adminSessionService.revoke(token);
         }
         return ResponseEntity.ok()
             .header(HttpHeaders.CACHE_CONTROL, "no-store")

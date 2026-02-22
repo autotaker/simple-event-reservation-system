@@ -50,8 +50,8 @@ public class GuestAuthenticationFilter extends OncePerRequestFilter {
             if (adminResult.isValid()) {
                 UsernamePasswordAuthenticationToken adminAuth =
                     new UsernamePasswordAuthenticationToken(
-                        new AdminAuthenticationPrincipal(adminResult.operatorId(), token),
-                        null,
+                        new AdminAuthenticationPrincipal(adminResult.operatorId()),
+                        token,
                         ADMIN_AUTHORITIES
                     );
                 SecurityContextHolder.getContext().setAuthentication(adminAuth);
