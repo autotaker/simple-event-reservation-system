@@ -34,7 +34,7 @@
       }}
     </p>
 
-    <p v-if="reservations.length === 0" class="empty-message">予約はありません。</p>
+    <p v-if="hasToken && reservations.length === 0" class="empty-message">予約はありません。</p>
 
     <ul v-else class="ui-list">
       <li
