@@ -38,13 +38,13 @@ test.describe('US-12-2 管理導線 (/admin) と直接アクセス制御', () =>
     await page.goto('/admin/auth');
 
     await page.getByLabel('運用者ID（operatorId）').fill(adminCredentials.operatorId);
-    await page.getByLabel('パスワード').fill('wrong-password');
+    const passwordInput = page.getByLabel('パスワード');
+    await passwordInput.fill('wrong-password');
+    await expect(passwordInput).toHaveValue('wrong-password');
     await page.getByRole('button', { name: 'ログインして管理画面へ進む' }).click();
 
     await expect(page.getByRole('heading', { name: '認証情報を確認できません' })).toBeVisible();
-    const passwordInput = page.getByLabel('パスワード');
     const authError = page.locator('.ui-status--error');
-    await expect(passwordInput).toHaveValue('wrong-password');
     await expect(authError).toBeVisible();
 
     await page.getByRole('button', { name: '再ログインする' }).click();
