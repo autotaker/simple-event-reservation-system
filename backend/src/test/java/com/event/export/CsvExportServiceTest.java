@@ -94,6 +94,7 @@ class CsvExportServiceTest {
                         "Session 1",
                         "10:30",
                         "Track A",
+                        1,
                         SessionAvailabilityStatus.OPEN
                     )
                 )
@@ -138,6 +139,7 @@ class CsvExportServiceTest {
                         "-Session 1",
                         "@10:30",
                         "Track A",
+                        1,
                         SessionAvailabilityStatus.OPEN
                     )
                 )

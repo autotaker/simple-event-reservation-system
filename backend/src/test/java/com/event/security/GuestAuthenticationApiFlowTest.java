@@ -65,8 +65,10 @@ class GuestAuthenticationApiFlowTest extends GuestFlowIntegrationTestBase {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sessions.length()").value(16))
             .andExpect(jsonPath("$.sessions[0].sessionId").value("keynote"))
+            .andExpect(jsonPath("$.sessions[0].displayOrder").value(0))
             .andExpect(jsonPath("$.sessions[0].availabilityStatus").value("FEW_LEFT"))
             .andExpect(jsonPath("$.sessions[1].startTime").isNotEmpty())
-            .andExpect(jsonPath("$.sessions[1].track").isNotEmpty());
+            .andExpect(jsonPath("$.sessions[1].track").isNotEmpty())
+            .andExpect(jsonPath("$.sessions[1].displayOrder").value(1));
     }
 }

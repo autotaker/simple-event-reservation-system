@@ -40,6 +40,18 @@ class ReservationServiceTest {
     }
 
     @Test
+    void listSessionsIncludesDisplayOrderForDefaultTracks() {
+        ReservationService reservationService = new ReservationService(20, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+
+        SessionSummaryResponse response = reservationService.listSessions();
+
+        assertThat(response.sessions().get(0).displayOrder()).isEqualTo(0);
+        assertThat(response.sessions().get(1).displayOrder()).isEqualTo(1);
+        assertThat(response.sessions().get(2).displayOrder()).isEqualTo(2);
+        assertThat(response.sessions().get(3).displayOrder()).isEqualTo(3);
+    }
+
+    @Test
     void reserveSessionReplacesReservationForSameStartTime() {
         ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T09:00:00Z"));
 
@@ -115,6 +127,19 @@ class ReservationServiceTest {
         assertThat(reservationService.listSessions().sessions())
             .extracting(SessionSummaryResponse.SessionSummary::title)
             .contains("New Session");
+    }
+
+    @Test
+    void createSessionSetsNullDisplayOrderForUnknownTrack() {
+        ReservationService reservationService = new ReservationService(200, 200, EVENT_DATE, fixedClockAt("2026-01-01T08:00:00Z"));
+        reservationService.createSession("New Session", "16:30", "Track D", 30);
+
+        SessionSummaryResponse.SessionSummary createdSession = reservationService.listSessions().sessions().stream()
+            .filter(session -> session.sessionId().equals("session-16"))
+            .findFirst()
+            .orElseThrow();
+
+        assertThat(createdSession.displayOrder()).isNull();
     }
 
     @Test

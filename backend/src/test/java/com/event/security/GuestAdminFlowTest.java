@@ -62,7 +62,8 @@ class GuestAdminFlowTest extends GuestFlowIntegrationTestBase {
                 .header(HttpHeaders.AUTHORIZATION, bearer(ADMIN_TOKEN)))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sessions[16].sessionId").value("session-16"))
-            .andExpect(jsonPath("$.sessions[16].title").value("Admin Updated Session"));
+            .andExpect(jsonPath("$.sessions[16].title").value("Admin Updated Session"))
+            .andExpect(jsonPath("$.sessions[16].displayOrder").isEmpty());
     }
 
     @Test
