@@ -106,6 +106,9 @@ export type AdminAuthState =
 
 const API_BASE_URL = 'http://127.0.0.1:8080';
 const QR_CODE_GENERATION_ERROR_MESSAGE = '受付QRコードの生成に失敗しました。';
+const ADMIN_ACCESS_TOKEN_STORAGE_KEY = 'adminAccessToken';
+const ADMIN_OPERATOR_ID_STORAGE_KEY = 'adminOperatorId';
+const ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY = 'adminTokenExpiresAt';
 
 const createDefaultCreateForm = (): AdminForm => ({
   sessionId: '',
@@ -137,15 +140,21 @@ const readErrorMessage = async (response: globalThis.Response): Promise<string |
 
 export const useReservationApp = () => {
   const token = ref<string | null>(globalThis.localStorage.getItem('guestAccessToken'));
-  const adminToken = ref<string>(globalThis.sessionStorage.getItem('adminAccessToken') ?? '');
+  const adminToken = ref<string>(
+    globalThis.sessionStorage.getItem(ADMIN_ACCESS_TOKEN_STORAGE_KEY) ?? '',
+  );
   const guestId = ref<string>(globalThis.localStorage.getItem('guestId') ?? '');
   const adminOperatorIdInput = ref<string>('');
   const adminPasswordInput = ref<string>('');
   const adminAuthState = ref<AdminAuthState>(
     adminToken.value ? 'authenticated' : 'unauthenticated',
   );
-  const adminAuthenticatedOperatorId = ref<string>('');
-  const adminTokenExpiresAt = ref<string>('');
+  const adminAuthenticatedOperatorId = ref<string>(
+    globalThis.sessionStorage.getItem(ADMIN_OPERATOR_ID_STORAGE_KEY) ?? '',
+  );
+  const adminTokenExpiresAt = ref<string>(
+    globalThis.sessionStorage.getItem(ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY) ?? '',
+  );
 
   const sessions = ref<SessionSummary[]>([]);
   const adminSessions = ref<AdminSession[]>([]);
@@ -836,11 +845,36 @@ export const useReservationApp = () => {
     errorMessage.value = '';
   };
 
+  const resetAdminLoginPrompt = (): void => {
+    adminPasswordInput.value = '';
+    adminAuthState.value = 'unauthenticated';
+    errorMessage.value = '';
+    infoMessage.value = '';
+  };
+
   watch(adminToken, (newValue) => {
     if (newValue && newValue.trim().length > 0) {
-      globalThis.sessionStorage.setItem('adminAccessToken', newValue);
+      globalThis.sessionStorage.setItem(ADMIN_ACCESS_TOKEN_STORAGE_KEY, newValue);
     } else {
-      globalThis.sessionStorage.removeItem('adminAccessToken');
+      globalThis.sessionStorage.removeItem(ADMIN_ACCESS_TOKEN_STORAGE_KEY);
+      globalThis.sessionStorage.removeItem(ADMIN_OPERATOR_ID_STORAGE_KEY);
+      globalThis.sessionStorage.removeItem(ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY);
+    }
+  });
+
+  watch(adminAuthenticatedOperatorId, (newValue) => {
+    if (newValue.trim().length > 0 && adminToken.value.trim().length > 0) {
+      globalThis.sessionStorage.setItem(ADMIN_OPERATOR_ID_STORAGE_KEY, newValue);
+    } else {
+      globalThis.sessionStorage.removeItem(ADMIN_OPERATOR_ID_STORAGE_KEY);
+    }
+  });
+
+  watch(adminTokenExpiresAt, (newValue) => {
+    if (newValue.trim().length > 0 && adminToken.value.trim().length > 0) {
+      globalThis.sessionStorage.setItem(ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY, newValue);
+    } else {
+      globalThis.sessionStorage.removeItem(ADMIN_TOKEN_EXPIRES_AT_STORAGE_KEY);
     }
   });
 
@@ -922,6 +956,7 @@ export const useReservationApp = () => {
     loginAsGuest,
     loginAsAdmin,
     logoutAdmin,
+    resetAdminLoginPrompt,
     loadSessions,
     loadReservations,
     loadMyPage,

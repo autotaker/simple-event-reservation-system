@@ -15,7 +15,7 @@
       </div>
     </header>
 
-    <div v-if="sessions.length > 0" class="ui-table-wrap">
+    <div v-if="sessions.length > 0" class="table-wrap__desktop ui-table-wrap">
       <table class="ui-table">
         <thead>
           <tr>
@@ -49,6 +49,41 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div v-if="sessions.length > 0" class="table-wrap__mobile">
+      <article
+        v-for="session in sessions"
+        :key="`mobile-${session.sessionId}`"
+        class="table-wrap__mobile-item"
+      >
+        <header class="table-wrap__mobile-header">
+          <h4>{{ session.title }}</h4>
+          <span>{{ session.sessionId }}</span>
+        </header>
+        <dl class="table-wrap__mobile-meta">
+          <div>
+            <dt>開始時刻</dt>
+            <dd>{{ session.startTime }}</dd>
+          </div>
+          <div>
+            <dt>トラック</dt>
+            <dd>{{ session.track }}</dd>
+          </div>
+          <div>
+            <dt>定員 / 予約数</dt>
+            <dd>{{ session.capacity }} / {{ session.reservedCount }}</dd>
+          </div>
+        </dl>
+        <button
+          class="ui-button ui-button--secondary"
+          type="button"
+          :disabled="disabled"
+          @click="$emit('edit', session)"
+        >
+          編集
+        </button>
+      </article>
     </div>
   </section>
 </template>
@@ -84,5 +119,71 @@ defineEmits<{
 .table-wrap__header h3,
 .table-wrap__actions span {
   margin: 0;
+}
+
+.table-wrap__mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .table-wrap__desktop {
+    display: none;
+  }
+
+  .table-wrap__mobile {
+    display: grid;
+    gap: 8px;
+  }
+
+  .table-wrap__mobile-item {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--semantic-color-border-default);
+    background: var(--semantic-color-bg-subtle);
+  }
+
+  .table-wrap__mobile-header {
+    display: grid;
+    gap: 4px;
+  }
+
+  .table-wrap__mobile-header h4,
+  .table-wrap__mobile-header span {
+    margin: 0;
+  }
+
+  .table-wrap__mobile-header h4 {
+    font-size: 14px;
+  }
+
+  .table-wrap__mobile-header span {
+    font-size: 12px;
+    color: var(--semantic-color-text-secondary);
+  }
+
+  .table-wrap__mobile-meta {
+    margin: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .table-wrap__mobile-meta div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .table-wrap__mobile-meta dt,
+  .table-wrap__mobile-meta dd {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .table-wrap__mobile-meta dt {
+    color: var(--semantic-color-text-secondary);
+  }
 }
 </style>
