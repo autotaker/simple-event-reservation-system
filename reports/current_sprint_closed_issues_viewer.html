@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Current Sprint Closed Issues Viewer</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --ink: #1c2430;
+        --muted: #5d6b7a;
+        --line: #d7e0eb;
+        --accent: #006d77;
+        --accent-soft: #d8f0f2;
+        --good: #0b7a4b;
+        --warn: #945700;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+          sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% -12%, #e1f4f5 0%, transparent 30%),
+          radial-gradient(circle at 92% -18%, #e8f0ff 0%, transparent 33%),
+          var(--bg);
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 28px 16px 44px;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 1.5rem;
+        letter-spacing: 0.02em;
+      }
+
+      .sub {
+        color: var(--muted);
+        margin: 0 0 18px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: 0 8px 30px rgba(16, 46, 90, 0.06);
+      }
+
+      .uploader {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      input[type="file"] {
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        padding: 8px;
+        background: #fbfdff;
+      }
+
+      button {
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: #fff;
+        border-radius: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: #fff;
+        color: var(--accent);
+      }
+
+      .status {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(130px, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px;
+        background: linear-gradient(145deg, #fff, #f7fbff);
+      }
+
+      .metric .label {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .metric .val {
+        font-weight: 700;
+        font-size: 1.24rem;
+        margin-top: 4px;
+      }
+
+      .layout {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 8px 6px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 0.92rem;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        background: #f8fbff;
+        z-index: 1;
+      }
+
+      .table-wrap {
+        max-height: 520px;
+        overflow: auto;
+      }
+
+      .track-meta {
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin: 6px 0 10px;
+      }
+
+      .issue-tracks {
+        max-height: 520px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .track-row {
+        display: grid;
+        grid-template-columns: 82px 1fr;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .track-label a {
+        font-weight: 600;
+      }
+
+      .track-lane {
+        position: relative;
+        height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(0, 109, 119, 0.04) 0%,
+            rgba(0, 109, 119, 0.04) 50%,
+            rgba(0, 109, 119, 0.08) 50%,
+            rgba(0, 109, 119, 0.08) 100%
+          );
+      }
+
+      .track-span {
+        position: absolute;
+        top: 11px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .track-point {
+        position: absolute;
+        top: 8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        border: 2px solid #fff;
+      }
+
+      .track-point.first-pr {
+        background: #ec6f00;
+      }
+
+      .track-point.close {
+        background: #0b7a4b;
+      }
+
+      .track-duration {
+        position: absolute;
+        right: 6px;
+        top: 1px;
+        color: #214;
+        font-size: 0.76rem;
+        background: rgba(255, 255, 255, 0.84);
+        border-radius: 6px;
+        padding: 1px 6px;
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        border-radius: 999px;
+        padding: 1px 8px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .bar {
+        display: inline-flex;
+        height: 8px;
+        background: #eef3f9;
+        border-radius: 999px;
+        overflow: hidden;
+        width: 90px;
+      }
+
+      .bar span {
+        background: var(--accent);
+      }
+
+      .msg {
+        margin: 0;
+        color: var(--warn);
+      }
+
+      .ok {
+        color: var(--good);
+      }
+
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .grid {
+          grid-template-columns: repeat(2, minmax(130px, 1fr));
+        }
+        .status {
+          margin-left: 0;
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Closed Issues Visualizer</h1>
+      <p class="sub">
+        JSON を選択すると、スプリントでクローズした Issue/PR の時系列と集計を可視化します。
+      </p>
+
+      <section class="panel">
+        <div class="uploader">
+          <input id="fileInput" type="file" accept=".json,application/json" />
+          <button id="loadSample" class="secondary" type="button">
+            サンプルを読み込む
+          </button>
+          <button id="downloadFiltered" type="button">表示中統計をJSON出力</button>
+          <div id="status" class="status">未読み込み</div>
+        </div>
+        <p id="message" class="msg"></p>
+      </section>
+
+      <section class="grid" id="metrics">
+        <div class="metric">
+          <div class="label">Issue数</div>
+          <div id="mIssueCount" class="val">-</div>
+        </div>
+        <div class="metric">
+          <div class="label">PR数(重複除外)</div>
+          <div id="mPrCount" class="val">-</div>
+        </div>
+        <div class="metric">
+          <div class="label">修正行数(add+del)</div>
+          <div id="mLines" class="val">-</div>
+        </div>
+        <div class="metric">
+          <div class="label">Issueコメント数</div>
+          <div id="mIssueComments" class="val">-</div>
+        </div>
+      </section>
+
+      <section class="layout">
+        <div class="panel">
+          <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
+            <strong>Issue一覧</strong>
+            <span class="tag">closed_at 昇順</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Issue</th>
+                  <th>Close日時</th>
+                  <th>最新PRマージ日時</th>
+                  <th>最新PRクローズ日時</th>
+                  <th>Issueコメント</th>
+                  <th>修正PR(merged)</th>
+                  <th>修正PR(closed未merge)</th>
+                  <th>関連PR数</th>
+                  <th>修正行数</th>
+                </tr>
+              </thead>
+              <tbody id="issuesBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <strong>Issueトラック（最初の修正PR作成 → Issueクローズ）</strong>
+          <div id="trackMeta" class="track-meta"></div>
+          <div id="issueTracks" class="issue-tracks"></div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const state = {
+        data: null,
+        issues: [],
+      };
+
+      const el = {
+        fileInput: document.getElementById("fileInput"),
+        loadSample: document.getElementById("loadSample"),
+        downloadFiltered: document.getElementById("downloadFiltered"),
+        status: document.getElementById("status"),
+        message: document.getElementById("message"),
+        issuesBody: document.getElementById("issuesBody"),
+        issueTracks: document.getElementById("issueTracks"),
+        trackMeta: document.getElementById("trackMeta"),
+        mIssueCount: document.getElementById("mIssueCount"),
+        mPrCount: document.getElementById("mPrCount"),
+        mLines: document.getElementById("mLines"),
+        mIssueComments: document.getElementById("mIssueComments"),
+      };
+
+      function fmtDate(iso) {
+        if (!iso) return "-";
+        const d = new Date(iso);
+        return new Intl.DateTimeFormat("ja-JP", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZoneName: "short",
+        }).format(d);
+      }
+
+      function num(n) {
+        return new Intl.NumberFormat("ja-JP").format(n || 0);
+      }
+
+      function setMessage(text, ok = false) {
+        el.message.textContent = text || "";
+        el.message.className = ok ? "msg ok" : "msg";
+      }
+
+      function validate(input) {
+        if (!input || !Array.isArray(input.issues)) {
+          throw new Error("`issues` 配列を含むJSONが必要です。");
+        }
+      }
+
+      function renderMetrics() {
+        const issues = state.issues;
+        const prMap = new Map();
+        let lines = 0;
+        let issueComments = 0;
+
+        for (const issue of issues) {
+          issueComments += issue.issue_comment_count || 0;
+          for (const pr of issue.fixing_pull_requests || []) {
+            if (!prMap.has(pr.pr_number)) prMap.set(pr.pr_number, pr);
+          }
+        }
+        for (const pr of prMap.values()) {
+          lines += pr.pr_changed_lines || 0;
+        }
+
+        el.mIssueCount.textContent = num(issues.length);
+        el.mPrCount.textContent = num(prMap.size);
+        el.mLines.textContent = num(lines);
+        el.mIssueComments.textContent = num(issueComments);
+      }
+
+      function renderIssues() {
+        const rows = state.issues
+          .slice()
+          .sort((a, b) => {
+            const ax = new Date(a?.timestamps?.issue_closed_at || 0).getTime();
+            const bx = new Date(b?.timestamps?.issue_closed_at || 0).getTime();
+            return ax - bx;
+          })
+          .map((issue) => {
+            const prs = issue.fixing_pull_requests || [];
+            const sumLines = prs.reduce(
+              (acc, pr) => acc + (pr.pr_changed_lines || 0),
+              0
+            );
+            const mergedPrs = prs.filter((pr) => Boolean(pr?.timestamps?.merged_at));
+            const closedOnlyPrs = prs.filter(
+              (pr) =>
+                Boolean(pr?.timestamps?.closed_at) &&
+                !Boolean(pr?.timestamps?.merged_at)
+            );
+            const mergedTimes = mergedPrs
+              .map((pr) => pr?.timestamps?.merged_at)
+              .filter(Boolean)
+              .sort();
+            const closedTimes = closedOnlyPrs
+              .map((pr) => pr?.timestamps?.closed_at)
+              .filter(Boolean)
+              .sort();
+            const mergedCount = mergedPrs.length;
+            const closedCount = closedOnlyPrs.length;
+            const latestMerged = mergedTimes.length
+              ? mergedTimes[mergedTimes.length - 1]
+              : null;
+            const latestClosed = closedTimes.length
+              ? closedTimes[closedTimes.length - 1]
+              : null;
+            const cap = Math.max(200, sumLines);
+            const width = Math.min(100, (sumLines / cap) * 100);
+            return `
+              <tr>
+                <td><a href="${issue.issue_url}" target="_blank" rel="noreferrer">#${issue.issue_number}</a></td>
+                <td>${escapeHtml(issue.issue_title || "")}</td>
+                <td>${fmtDate(issue?.timestamps?.issue_closed_at)}</td>
+                <td>${fmtDate(latestMerged)}</td>
+                <td>${fmtDate(latestClosed)}</td>
+                <td>${num(issue.issue_comment_count)}</td>
+                <td>${num(mergedCount)}</td>
+                <td>${num(closedCount)}</td>
+                <td>${num((issue.related_pull_requests || []).length)}</td>
+                <td>
+                  ${num(sumLines)}
+                  <span class="bar"><span style="width:${width}%;"></span></span>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+        el.issuesBody.innerHTML = rows;
+      }
+
+      function fmtDuration(ms) {
+        if (!Number.isFinite(ms) || ms < 0) return "-";
+        const mins = Math.floor(ms / 60000);
+        const days = Math.floor(mins / 1440);
+        const hours = Math.floor((mins % 1440) / 60);
+        const minutes = mins % 60;
+        const parts = [];
+        if (days) parts.push(`${days}d`);
+        if (hours || days) parts.push(`${hours}h`);
+        parts.push(`${minutes}m`);
+        return parts.join(" ");
+      }
+
+      function buildDisplayedStats() {
+        const issuesSorted = state.issues
+          .slice()
+          .sort((a, b) => {
+            const ax = new Date(a?.timestamps?.issue_closed_at || 0).getTime();
+            const bx = new Date(b?.timestamps?.issue_closed_at || 0).getTime();
+            return ax - bx;
+          });
+
+        const prMap = new Map();
+        let totalChangedLines = 0;
+        let totalIssueComments = 0;
+        for (const issue of issuesSorted) {
+          totalIssueComments += issue.issue_comment_count || 0;
+          for (const pr of issue.fixing_pull_requests || []) {
+            if (!prMap.has(pr.pr_number)) {
+              prMap.set(pr.pr_number, pr);
+              totalChangedLines += pr.pr_changed_lines || 0;
+            }
+          }
+        }
+
+        const issueStats = issuesSorted.map((issue) => {
+          const prs = issue.fixing_pull_requests || [];
+          const mergedPrs = prs.filter((pr) => Boolean(pr?.timestamps?.merged_at));
+          const closedOnlyPrs = prs.filter(
+            (pr) =>
+              Boolean(pr?.timestamps?.closed_at) &&
+              !Boolean(pr?.timestamps?.merged_at)
+          );
+          const mergedTimes = mergedPrs
+            .map((pr) => pr?.timestamps?.merged_at)
+            .filter(Boolean)
+            .sort();
+          const closedTimes = closedOnlyPrs
+            .map((pr) => pr?.timestamps?.closed_at)
+            .filter(Boolean)
+            .sort();
+
+          const firstPrCreatedMs = prs
+            .map((pr) => Date.parse(pr?.timestamps?.created_at || ""))
+            .filter((x) => Number.isFinite(x))
+            .sort((a, b) => a - b)[0];
+          const issueClosedMs = Date.parse(issue?.timestamps?.issue_closed_at || "");
+          const cycleTimeMs =
+            Number.isFinite(firstPrCreatedMs) &&
+            Number.isFinite(issueClosedMs) &&
+            firstPrCreatedMs <= issueClosedMs
+              ? issueClosedMs - firstPrCreatedMs
+              : null;
+
+          return {
+            issue_number: issue.issue_number,
+            issue_title: issue.issue_title,
+            issue_url: issue.issue_url,
+            issue_comment_count: issue.issue_comment_count || 0,
+            fixing_pr_merged_count: mergedPrs.length,
+            fixing_pr_closed_unmerged_count: closedOnlyPrs.length,
+            related_pr_count: (issue.related_pull_requests || []).length,
+            changed_lines_sum: prs.reduce(
+              (acc, pr) => acc + (pr.pr_changed_lines || 0),
+              0
+            ),
+            latest_pr_merged_at: mergedTimes.length
+              ? mergedTimes[mergedTimes.length - 1]
+              : null,
+            latest_pr_closed_unmerged_at: closedTimes.length
+              ? closedTimes[closedTimes.length - 1]
+              : null,
+            first_fixing_pr_created_at: Number.isFinite(firstPrCreatedMs)
+              ? new Date(firstPrCreatedMs).toISOString()
+              : null,
+            issue_closed_at: issue?.timestamps?.issue_closed_at || null,
+            cycle_time_ms_from_first_pr_to_issue_close: cycleTimeMs,
+            cycle_time_human: cycleTimeMs == null ? null : fmtDuration(cycleTimeMs),
+          };
+        });
+
+        return {
+          exported_at: new Date().toISOString(),
+          source_generated_at: state.data?.generated_at || null,
+          repository: state.data?.repository || null,
+          summary: {
+            issue_count: issuesSorted.length,
+            unique_fixing_pr_count: prMap.size,
+            total_changed_lines_add_del: totalChangedLines,
+            total_issue_comment_count: totalIssueComments,
+          },
+          issue_stats: issueStats,
+        };
+      }
+
+      function renderIssueTracks() {
+        const rows = state.issues
+          .map((issue) => {
+            const firstPrCreatedMs = (issue.fixing_pull_requests || [])
+              .map((pr) => Date.parse(pr?.timestamps?.created_at || ""))
+              .filter((x) => Number.isFinite(x))
+              .sort((a, b) => a - b)[0];
+            const issueClosedMs = Date.parse(
+              issue?.timestamps?.issue_closed_at || ""
+            );
+            return {
+              issue,
+              firstPrCreatedMs,
+              issueClosedMs,
+            };
+          })
+          .filter((x) => Number.isFinite(x.issueClosedMs))
+          .sort((a, b) => a.issueClosedMs - b.issueClosedMs);
+
+        const valid = rows.filter(
+          (x) =>
+            Number.isFinite(x.firstPrCreatedMs) &&
+            x.firstPrCreatedMs <= x.issueClosedMs
+        );
+
+        if (!valid.length) {
+          el.trackMeta.textContent = "表示可能なトラックがありません。";
+          el.issueTracks.innerHTML = "";
+          return;
+        }
+
+        const minMs = Math.min(...valid.map((x) => x.firstPrCreatedMs));
+        const maxMs = Math.max(...valid.map((x) => x.issueClosedMs));
+        const spanMs = Math.max(1, maxMs - minMs);
+
+        el.trackMeta.textContent =
+          `範囲: ${fmtDate(new Date(minMs).toISOString())} - ${fmtDate(new Date(maxMs).toISOString())}` +
+          " / オレンジ: 最初の修正PR作成, 緑: Issueクローズ";
+
+        el.issueTracks.innerHTML = rows
+          .map(({ issue, firstPrCreatedMs, issueClosedMs }) => {
+            if (
+              !Number.isFinite(firstPrCreatedMs) ||
+              firstPrCreatedMs > issueClosedMs
+            ) {
+              return `
+                <div class="track-row">
+                  <div class="track-label"><a href="${issue.issue_url}" target="_blank" rel="noreferrer">#${issue.issue_number}</a></div>
+                  <div class="track-lane">
+                    <span class="track-duration">PR未検出</span>
+                  </div>
+                </div>
+              `;
+            }
+
+            const left = ((firstPrCreatedMs - minMs) / spanMs) * 100;
+            const right = ((issueClosedMs - minMs) / spanMs) * 100;
+            const width = Math.max(0.7, right - left);
+            const duration = issueClosedMs - firstPrCreatedMs;
+
+            return `
+              <div class="track-row">
+                <div class="track-label">
+                  <a href="${issue.issue_url}" target="_blank" rel="noreferrer">#${issue.issue_number}</a>
+                </div>
+                <div class="track-lane">
+                  <div class="track-span" style="left:${left}%; width:${width}%;"></div>
+                  <div class="track-point first-pr" style="left:calc(${left}% - 8px);" title="最初の修正PR作成: ${fmtDate(new Date(firstPrCreatedMs).toISOString())}"></div>
+                  <div class="track-point close" style="left:calc(${right}% - 8px);" title="Issueクローズ: ${fmtDate(new Date(issueClosedMs).toISOString())}"></div>
+                  <span class="track-duration">${fmtDuration(duration)}</span>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function loadData(data, sourceLabel) {
+        try {
+          validate(data);
+          state.data = data;
+          state.issues = data.issues;
+          renderMetrics();
+          renderIssues();
+          renderIssueTracks();
+          el.status.textContent = `読み込み: ${sourceLabel} / generated_at: ${data.generated_at || "-"}`;
+          setMessage(`読み込み成功: ${num(state.issues.length)}件`, true);
+        } catch (err) {
+          setMessage(`読み込み失敗: ${err.message}`);
+        }
+      }
+
+      el.fileInput.addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        try {
+          const raw = await file.text();
+          const data = JSON.parse(raw);
+          loadData(data, file.name);
+        } catch (err) {
+          setMessage(`ファイル解析失敗: ${err.message}`);
+        }
+      });
+
+      el.loadSample.addEventListener("click", async () => {
+        try {
+          const res = await fetch("./current_sprint_closed_issues_detail.json", {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error("サンプルJSONが見つかりません。");
+          loadData(await res.json(), "current_sprint_closed_issues_detail.json");
+        } catch (err) {
+          setMessage(err.message);
+        }
+      });
+
+      el.downloadFiltered.addEventListener("click", () => {
+        if (!state.data) {
+          setMessage("先にJSONを読み込んでください。");
+          return;
+        }
+        const stats = buildDisplayedStats();
+        const blob = new Blob([JSON.stringify(stats, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "closed_issues_displayed_stats.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+================================================
+  NLOC    CCN   token  PARAM  length  location  
+------------------------------------------------
+       1      1     12      0       1 hasAdminSession@116-116@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       5      1     29      0       5 clearLegacyAdminStorage@118-122@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       7      1     25      0       7 createDefaultCreateForm@124-130@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       7      1     25      0       7 createDefaultEditForm@132-138@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      11      4     53      0      11 readErrorMessage@140-150@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       9      3     27      0       9 availabilityStatusLabel@193-201@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      9      0       1 isSessionReserved@203-203@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      6      0       1 (anonymous)@209-209@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      5     32      0       6 sessionTitleById@205-210@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 checkInTypeLabel@213-213@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1     17      0       1 formatCheckInTime@216-216@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       3      1     10      0       3 clearEditForm@218-220@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      13      3     71      0      14 buildAdminRequest@222-235@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      3     97      0      21 loadSessions@237-257@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      5    129      0      24 loadReservations@259-282@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      26      3    148      0      29 loadMyPage@284-312@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      27      9    151      0      30 loadAdminSessions@314-343@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      24      7    164      0      28 reserveKeynote@345-372@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       2      1     11      0       2 (anonymous)@404-405@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      37     10    255      0      43 reserveSession@374-416@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      29      7    186      0      33 cancelReservation@418-450@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      33      9    217      0      36 downloadAdminCsv@456-491@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 downloadReservationCsv@494-494@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 downloadSessionCheckInCsv@501-501@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      3     92      0      21 createAdminSession@507-527@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      84     12    744      0     395 useReservationApp@152-546@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       8      1     40      0       8 startEditSession@548-555@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      4    103      0      24 updateAdminSession@558-581@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      2     92      0      19 checkInEvent@600-618@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      3    104      0      22 checkInSession@636-657@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      27      4    151      0      30 loadCheckInHistory@676-705@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      31      2    223      0      36 loginAsGuest@707-742@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      2     33      0       6 loadParticipantBootstrap@744-749@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       8      3     47      0       8 loadOperatorBootstrap@751-758@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      1     24      0       6 clearAdminToken@760-765@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      5      0       1 (anonymous)@768-768@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      14      8     98      0      14 handleAdminUnauthorized@767-780@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      22      3    113      0      24 loginAsAdmin@782-805@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      25      6    126      0      29 logoutAdmin@827-855@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      1     26      0       6 resetAdminLoginPrompt@857-862@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      33      9    155      0      36 (anonymous)@866-901@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      20      1     68      7      20 render@14-33@/Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/AdminFlowResponsive.stories.ts
+       4      1     25      0       4 (anonymous)@4-7@/Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/fixedFrameDecorator.ts
+       3      1      8      0       6 fixedFrameDecorator@3-8@/Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/fixedFrameDecorator.ts
+      13      1     28      5      13 render@11-23@/Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/ParticipantFlowResponsive.stories.ts
+       6      2     17      0       6 beforeEnter@22-27@/Users/autotaker/git/simple-event-reservation-system/frontend/src/router/routes.ts
+      14      1     63      0      16 createMemoryHistory@10-25@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       4      1     18      0       4 (anonymous)@28-31@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       4      1     18      0       4 (anonymous)@33-36@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       5      1     41      0       6 (anonymous)@38-43@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       7      1     69      0       8 (anonymous)@45-52@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       5      1     45      0       6 (anonymous)@54-59@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       7      1     75      0       8 (anonymous)@61-68@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       6      1     55      0       7 (anonymous)@70-76@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+       9      1     73      0      51 (anonymous)@27-77@/Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+52 file analyzed.
+==============================================================
+NLOC    Avg.NLOC  AvgCCN  Avg.token  function_cnt    file
+--------------------------------------------------------------
+    831      15.5     3.5       94.0        41     /Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+     58       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/operator-production/OperatorSessionTable.stories.ts
+     39       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/operator-production/OperatorReservationPanel.stories.ts
+     60       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/operator-production/OperatorCheckInPanel.stories.ts
+     60       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-production/ParticipantSessionTimetable.stories.ts
+     25       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-production/ParticipantTopBar.stories.ts
+     42       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-production/ParticipantSessionCard.stories.ts
+     40       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-production/ParticipantReservationPanel.stories.ts
+     71       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-production/ParticipantQrPanel.stories.ts
+     16       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-35-hifi/Issue35ReservationPanelMock.stories.ts
+     18       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-35-hifi/Issue35SessionCardMock.stories.ts
+     78       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-35-hifi/Issue35ParticipantLayoutHiFi.stories.ts
+     19       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-35-hifi/Issue35TopBarMock.stories.ts
+     96       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-35-hifi/Issue35MyPageReadablePanelMock.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminLoginCardMock.stories.ts
+     39       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminAuthDeniedPanelMock.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminForbiddenLayoutHiFi.stories.ts
+     29       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminAuthTopBarMock.stories.ts
+     53       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminAuthLayoutHiFi.stories.ts
+     31       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminTokenStatusPanelMock.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminSessionRevocationPanelMock.stories.ts
+     14       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-auth-hifi/AdminForbiddenPanelMock.stories.ts
+     36       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantSessionTimetableMock.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantQrPanelMock.stories.ts
+     49       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantSessionCardMock.stories.ts
+     31       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantTopBarMock.stories.ts
+     25       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantReservationPanelMock.stories.ts
+     53       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantTimetableLayoutHiFi.stories.ts
+     37       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/participant-hifi/ParticipantPortalLayoutHiFi.stories.ts
+     37       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/FoundationLayoutHiFi.stories.ts
+     27       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/BaseButtonMock.stories.ts
+     19       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/BaseTableMock.stories.ts
+     27       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/StatusMessageMock.stories.ts
+     31       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/PageShellMock.stories.ts
+     27       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/foundation-hifi/BaseFieldMock.stories.ts
+    107      20.0     1.0       68.0         1     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/AdminFlowResponsive.stories.ts
+      7       3.5     1.0       16.5         2     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/fixedFrameDecorator.ts
+     93      13.0     1.0       28.0         1     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/ParticipantFlowResponsive.stories.ts
+     87       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/issue-31-production/OperatorFlowResponsive.stories.ts
+     19       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminAccessDeniedPanelMock.stories.ts
+     29       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminTopBarMock.stories.ts
+     37       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminPortalLayoutHiFi.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminSessionEditorMock.stories.ts
+     21       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminCsvExportPanelMock.stories.ts
+     26       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/AdminSessionTableMock.stories.ts
+     62       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/FlowSeparationWireframeMock.stories.ts
+     33       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/WireframeCard.stories.ts
+     42       6.0     2.0       17.0         1     /Users/autotaker/git/simple-event-reservation-system/frontend/src/router/routes.ts
+      7       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/router/index.ts
+     62       6.8     1.0       50.8         9     /Users/autotaker/git/simple-event-reservation-system/frontend/src/App.test.ts
+      9       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/main.ts
+      0       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/env.d.ts
+
+===============================================================================================================
+No thresholds exceeded (cyclomatic_complexity > 15 or length > 1000 or nloc > 1000000 or parameter_count > 100)
+==========================================================================================
+Total nloc   Avg.NLOC  AvgCCN  Avg.token   Fun Cnt  Warning cnt   Fun Rt   nloc Rt
+------------------------------------------------------------------------------------------
+      2764      13.5     2.9       81.0       55            0      0.00    0.00

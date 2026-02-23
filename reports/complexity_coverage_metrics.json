@@ -1,0 +1,759 @@
+{
+  "generated_at_utc": "2026-02-23T00:46:43.486310+00:00",
+  "project_root": "/Users/autotaker/git/simple-event-reservation-system",
+  "tools": {
+    "complexity": "lizard 1.21.0",
+    "backend_coverage": "jacoco (gradle test jacocoTestReport)",
+    "frontend_coverage": "vitest + @vitest/coverage-v8"
+  },
+  "backend": {
+    "complexity": {
+      "summary": {
+        "total_nloc": 1669,
+        "avg_nloc": 9.4,
+        "avg_ccn": 2.2,
+        "avg_token": 64.6,
+        "function_count": 118,
+        "warning_count": 0,
+        "fun_rt": 0.0,
+        "nloc_rt": 0.0
+      },
+      "top_functions_by_ccn": [
+        {
+          "nloc": 25,
+          "ccn": 9,
+          "token": 141,
+          "params": 5,
+          "length": 26,
+          "function": "AdminSessionService::AdminSessionService",
+          "start_line": 38,
+          "end_line": 63,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 14,
+          "ccn": 9,
+          "token": 98,
+          "params": 4,
+          "length": 14,
+          "function": "ReservationService::validateSessionFields",
+          "start_line": 253,
+          "end_line": 266,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 77,
+          "ccn": 8,
+          "token": 555,
+          "params": 0,
+          "length": 82,
+          "function": "CsvExportService::exportSessionCheckInsCsv",
+          "start_line": 46,
+          "end_line": 127,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/export/CsvExportService.java"
+        },
+        {
+          "nloc": 25,
+          "ccn": 7,
+          "token": 213,
+          "params": 1,
+          "length": 30,
+          "function": "CheckInQrPayloadParser::parse",
+          "start_line": 19,
+          "end_line": 48,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInQrPayloadParser.java"
+        },
+        {
+          "nloc": 24,
+          "ccn": 7,
+          "token": 195,
+          "params": 1,
+          "length": 28,
+          "function": "AdminSessionService::resolve",
+          "start_line": 82,
+          "end_line": 109,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 24,
+          "ccn": 6,
+          "token": 158,
+          "params": 2,
+          "length": 24,
+          "function": "ReservationService::reserveSession",
+          "start_line": 113,
+          "end_line": 136,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 22,
+          "ccn": 6,
+          "token": 150,
+          "params": 4,
+          "length": 23,
+          "function": "ReservationService::ReservationService",
+          "start_line": 64,
+          "end_line": 86,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 15,
+          "ccn": 6,
+          "token": 117,
+          "params": 1,
+          "length": 16,
+          "function": "AdminSessionService::revoke",
+          "start_line": 111,
+          "end_line": 126,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 15,
+          "ccn": 6,
+          "token": 113,
+          "params": 2,
+          "length": 15,
+          "function": "ReservationService::ensureNoTimeConflictForExistingGuests",
+          "start_line": 273,
+          "end_line": 287,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 15,
+          "ccn": 6,
+          "token": 101,
+          "params": 2,
+          "length": 18,
+          "function": "CheckInWriteAuthorizationService::authorize",
+          "start_line": 20,
+          "end_line": 37,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInWriteAuthorizationService.java"
+        }
+      ],
+      "top_functions_by_nloc": [
+        {
+          "nloc": 77,
+          "ccn": 8,
+          "token": 555,
+          "params": 0,
+          "length": 82,
+          "function": "CsvExportService::exportSessionCheckInsCsv",
+          "start_line": 46,
+          "end_line": 127,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/export/CsvExportService.java"
+        },
+        {
+          "nloc": 36,
+          "ccn": 3,
+          "token": 186,
+          "params": 2,
+          "length": 39,
+          "function": "ReservationService::createDefaultSessionCatalog",
+          "start_line": 435,
+          "end_line": 473,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 33,
+          "ccn": 5,
+          "token": 212,
+          "params": 3,
+          "length": 37,
+          "function": "GuestAuthenticationFilter::doFilterInternal",
+          "start_line": 40,
+          "end_line": 76,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/GuestAuthenticationFilter.java"
+        },
+        {
+          "nloc": 27,
+          "ccn": 4,
+          "token": 171,
+          "params": 0,
+          "length": 27,
+          "function": "CheckInService::listCheckIns",
+          "start_line": 80,
+          "end_line": 106,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInService.java"
+        },
+        {
+          "nloc": 26,
+          "ccn": 3,
+          "token": 156,
+          "params": 5,
+          "length": 29,
+          "function": "ReservationService::updateSession",
+          "start_line": 223,
+          "end_line": 251,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 25,
+          "ccn": 9,
+          "token": 141,
+          "params": 5,
+          "length": 26,
+          "function": "AdminSessionService::AdminSessionService",
+          "start_line": 38,
+          "end_line": 63,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 25,
+          "ccn": 7,
+          "token": 213,
+          "params": 1,
+          "length": 30,
+          "function": "CheckInQrPayloadParser::parse",
+          "start_line": 19,
+          "end_line": 48,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInQrPayloadParser.java"
+        },
+        {
+          "nloc": 24,
+          "ccn": 7,
+          "token": 195,
+          "params": 1,
+          "length": 28,
+          "function": "AdminSessionService::resolve",
+          "start_line": 82,
+          "end_line": 109,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 24,
+          "ccn": 6,
+          "token": 158,
+          "params": 2,
+          "length": 24,
+          "function": "ReservationService::reserveSession",
+          "start_line": 113,
+          "end_line": 136,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 24,
+          "ccn": 5,
+          "token": 193,
+          "params": 2,
+          "length": 25,
+          "function": "CheckInService::checkInSession",
+          "start_line": 54,
+          "end_line": 78,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInService.java"
+        }
+      ],
+      "top_files_by_nloc": [
+        {
+          "nloc": 446,
+          "avg_nloc": 11.0,
+          "avg_ccn": 2.4,
+          "avg_token": 71.1,
+          "function_count": 35,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/ReservationService.java"
+        },
+        {
+          "nloc": 162,
+          "avg_nloc": 18.6,
+          "avg_ccn": 3.3,
+          "avg_token": 130.3,
+          "function_count": 7,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/export/CsvExportService.java"
+        },
+        {
+          "nloc": 138,
+          "avg_nloc": 12.1,
+          "avg_ccn": 3.9,
+          "avg_token": 94.2,
+          "function_count": 9,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/AdminSessionService.java"
+        },
+        {
+          "nloc": 124,
+          "avg_nloc": 12.6,
+          "avg_ccn": 2.3,
+          "avg_token": 91.3,
+          "function_count": 7,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInService.java"
+        },
+        {
+          "nloc": 87,
+          "avg_nloc": 10.0,
+          "avg_ccn": 1.7,
+          "avg_token": 71.0,
+          "function_count": 6,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/config/SecurityConfig.java"
+        },
+        {
+          "nloc": 80,
+          "avg_nloc": 7.0,
+          "avg_ccn": 1.0,
+          "avg_token": 40.2,
+          "function_count": 6,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/api/CheckInController.java"
+        },
+        {
+          "nloc": 73,
+          "avg_nloc": 15.7,
+          "avg_ccn": 3.0,
+          "avg_token": 96.0,
+          "function_count": 3,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/GuestAuthenticationFilter.java"
+        },
+        {
+          "nloc": 71,
+          "avg_nloc": 8.3,
+          "avg_ccn": 2.3,
+          "avg_token": 64.8,
+          "function_count": 6,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/auth/GuestSessionService.java"
+        },
+        {
+          "nloc": 57,
+          "avg_nloc": 13.7,
+          "avg_ccn": 4.3,
+          "avg_token": 115.0,
+          "function_count": 3,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/checkin/CheckInQrPayloadParser.java"
+        },
+        {
+          "nloc": 56,
+          "avg_nloc": 3.0,
+          "avg_ccn": 1.0,
+          "avg_token": 19.1,
+          "function_count": 7,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/backend/src/main/java/com/event/reservation/api/ReservationController.java"
+        }
+      ]
+    },
+    "unit_test_coverage": {
+      "instruction": {
+        "missed": 290,
+        "covered": 3530,
+        "total": 3820,
+        "pct": 92.41
+      },
+      "branch": {
+        "missed": 85,
+        "covered": 216,
+        "total": 301,
+        "pct": 71.76
+      },
+      "line": {
+        "missed": 65,
+        "covered": 711,
+        "total": 776,
+        "pct": 91.62
+      },
+      "complexity": {
+        "missed": 99,
+        "covered": 251,
+        "total": 350,
+        "pct": 71.71
+      },
+      "method": {
+        "missed": 14,
+        "covered": 185,
+        "total": 199,
+        "pct": 92.96
+      },
+      "class": {
+        "missed": 1,
+        "covered": 53,
+        "total": 54,
+        "pct": 98.15
+      }
+    }
+  },
+  "frontend": {
+    "complexity": {
+      "summary": {
+        "total_nloc": 889,
+        "avg_nloc": 15.2,
+        "avg_ccn": 3.5,
+        "avg_token": 92.1,
+        "function_count": 42,
+        "warning_count": 0,
+        "fun_rt": 0.0,
+        "nloc_rt": 0.0
+      },
+      "top_functions_by_ccn": [
+        {
+          "nloc": 84,
+          "ccn": 12,
+          "token": 744,
+          "params": 0,
+          "length": 395,
+          "function": "useReservationApp",
+          "start_line": 152,
+          "end_line": 546,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 37,
+          "ccn": 10,
+          "token": 255,
+          "params": 0,
+          "length": 43,
+          "function": "reserveSession",
+          "start_line": 374,
+          "end_line": 416,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 33,
+          "ccn": 9,
+          "token": 217,
+          "params": 0,
+          "length": 36,
+          "function": "downloadAdminCsv",
+          "start_line": 456,
+          "end_line": 491,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 33,
+          "ccn": 9,
+          "token": 155,
+          "params": 0,
+          "length": 36,
+          "function": "(anonymous)",
+          "start_line": 866,
+          "end_line": 901,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 27,
+          "ccn": 9,
+          "token": 151,
+          "params": 0,
+          "length": 30,
+          "function": "loadAdminSessions",
+          "start_line": 314,
+          "end_line": 343,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 14,
+          "ccn": 8,
+          "token": 98,
+          "params": 0,
+          "length": 14,
+          "function": "handleAdminUnauthorized",
+          "start_line": 767,
+          "end_line": 780,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 29,
+          "ccn": 7,
+          "token": 186,
+          "params": 0,
+          "length": 33,
+          "function": "cancelReservation",
+          "start_line": 418,
+          "end_line": 450,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 24,
+          "ccn": 7,
+          "token": 164,
+          "params": 0,
+          "length": 28,
+          "function": "reserveKeynote",
+          "start_line": 345,
+          "end_line": 372,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 25,
+          "ccn": 6,
+          "token": 126,
+          "params": 0,
+          "length": 29,
+          "function": "logoutAdmin",
+          "start_line": 827,
+          "end_line": 855,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 21,
+          "ccn": 5,
+          "token": 129,
+          "params": 0,
+          "length": 24,
+          "function": "loadReservations",
+          "start_line": 259,
+          "end_line": 282,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        }
+      ],
+      "top_functions_by_nloc": [
+        {
+          "nloc": 84,
+          "ccn": 12,
+          "token": 744,
+          "params": 0,
+          "length": 395,
+          "function": "useReservationApp",
+          "start_line": 152,
+          "end_line": 546,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 37,
+          "ccn": 10,
+          "token": 255,
+          "params": 0,
+          "length": 43,
+          "function": "reserveSession",
+          "start_line": 374,
+          "end_line": 416,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 33,
+          "ccn": 9,
+          "token": 217,
+          "params": 0,
+          "length": 36,
+          "function": "downloadAdminCsv",
+          "start_line": 456,
+          "end_line": 491,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 33,
+          "ccn": 9,
+          "token": 155,
+          "params": 0,
+          "length": 36,
+          "function": "(anonymous)",
+          "start_line": 866,
+          "end_line": 901,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 31,
+          "ccn": 2,
+          "token": 223,
+          "params": 0,
+          "length": 36,
+          "function": "loginAsGuest",
+          "start_line": 707,
+          "end_line": 742,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 29,
+          "ccn": 7,
+          "token": 186,
+          "params": 0,
+          "length": 33,
+          "function": "cancelReservation",
+          "start_line": 418,
+          "end_line": 450,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 27,
+          "ccn": 9,
+          "token": 151,
+          "params": 0,
+          "length": 30,
+          "function": "loadAdminSessions",
+          "start_line": 314,
+          "end_line": 343,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 27,
+          "ccn": 4,
+          "token": 151,
+          "params": 0,
+          "length": 30,
+          "function": "loadCheckInHistory",
+          "start_line": 676,
+          "end_line": 705,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 26,
+          "ccn": 3,
+          "token": 148,
+          "params": 0,
+          "length": 29,
+          "function": "loadMyPage",
+          "start_line": 284,
+          "end_line": 312,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 25,
+          "ccn": 6,
+          "token": 126,
+          "params": 0,
+          "length": 29,
+          "function": "logoutAdmin",
+          "start_line": 827,
+          "end_line": 855,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        }
+      ],
+      "top_files_by_nloc": [
+        {
+          "nloc": 831,
+          "avg_nloc": 15.5,
+          "avg_ccn": 3.5,
+          "avg_token": 94.0,
+          "function_count": 41,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts"
+        },
+        {
+          "nloc": 42,
+          "avg_nloc": 6.0,
+          "avg_ccn": 2.0,
+          "avg_token": 17.0,
+          "function_count": 1,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/router/routes.ts"
+        },
+        {
+          "nloc": 9,
+          "avg_nloc": 0.0,
+          "avg_ccn": 0.0,
+          "avg_token": 0.0,
+          "function_count": 0,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/main.ts"
+        },
+        {
+          "nloc": 7,
+          "avg_nloc": 0.0,
+          "avg_ccn": 0.0,
+          "avg_token": 0.0,
+          "function_count": 0,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/router/index.ts"
+        },
+        {
+          "nloc": 0,
+          "avg_nloc": 0.0,
+          "avg_ccn": 0.0,
+          "avg_token": 0.0,
+          "function_count": 0,
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/env.d.ts"
+        }
+      ]
+    },
+    "unit_test_coverage": {
+      "total": {
+        "lines": {
+          "total": 2004,
+          "covered": 1275,
+          "skipped": 0,
+          "pct": 63.62
+        },
+        "statements": {
+          "total": 2004,
+          "covered": 1275,
+          "skipped": 0,
+          "pct": 63.62
+        },
+        "functions": {
+          "total": 76,
+          "covered": 12,
+          "skipped": 0,
+          "pct": 15.78
+        },
+        "branches": {
+          "total": 71,
+          "covered": 26,
+          "skipped": 0,
+          "pct": 36.61
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "worst_files_by_lines_pct": [
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/components/participant/ParticipantSessionCard.vue",
+          "lines_pct": 0,
+          "functions_pct": 100,
+          "branches_pct": 100,
+          "lines_total": 16
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/main.ts",
+          "lines_pct": 0,
+          "functions_pct": 0,
+          "branches_pct": 0,
+          "lines_total": 9
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/components/admin/AdminAccessGate.vue",
+          "lines_pct": 0,
+          "functions_pct": 100,
+          "branches_pct": 100,
+          "lines_total": 8
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/router/index.ts",
+          "lines_pct": 0,
+          "functions_pct": 0,
+          "branches_pct": 0,
+          "lines_total": 7
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts",
+          "lines_pct": 23.48,
+          "functions_pct": 21.05,
+          "branches_pct": 50,
+          "lines_total": 745
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/components/participant/ParticipantReservationPanel.vue",
+          "lines_pct": 65.71,
+          "functions_pct": 0,
+          "branches_pct": 0,
+          "lines_total": 35
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/views/ParticipantView.vue",
+          "lines_pct": 70.3,
+          "functions_pct": 0,
+          "branches_pct": 41.17,
+          "lines_total": 165
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/views/AdminAuthView.vue",
+          "lines_pct": 75,
+          "functions_pct": 0,
+          "branches_pct": 12.5,
+          "lines_total": 116
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/components/participant/ParticipantQrPanel.vue",
+          "lines_pct": 85.71,
+          "functions_pct": 0,
+          "branches_pct": 0,
+          "lines_total": 35
+        },
+        {
+          "path": "/Users/autotaker/git/simple-event-reservation-system/frontend/src/views/OperatorView.vue",
+          "lines_pct": 92.46,
+          "functions_pct": 0,
+          "branches_pct": 62.5,
+          "lines_total": 252
+        }
+      ]
+    }
+  },
+  "source_artifacts": {
+    "backend_complexity": "/Users/autotaker/git/simple-event-reservation-system/reports/backend_complexity_lizard.txt",
+    "frontend_complexity": "/Users/autotaker/git/simple-event-reservation-system/reports/frontend_complexity_lizard_app_only.txt",
+    "backend_jacoco_xml": "/Users/autotaker/git/simple-event-reservation-system/backend/build/reports/jacoco/test/jacocoTestReport.xml",
+    "frontend_coverage_summary_json": "/Users/autotaker/git/simple-event-reservation-system/frontend/coverage/coverage-summary.json"
+  }
+}

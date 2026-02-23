@@ -41,3 +41,6 @@ backend/src/main/resources/application-local.yml
 
 *storybook.log
 storybook-static
+
+# Meeting multiphase artifacts
+.meeting-runs/

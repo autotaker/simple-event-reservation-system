@@ -1,0 +1,2994 @@
+{
+  "generated_at": "2026-02-22T23:18:15Z",
+  "repository": "autotaker/simple-event-reservation-system",
+  "issue_count": 15,
+  "issues": [
+    {
+      "issue_number": 42,
+      "issue_title": "[Post-MVP][US-12-0] 導線分離仕様をモックで合意する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/42",
+      "issue_body": "## 親Issue\n- Parent #30\n\n## ユーザーストーリー\n参加者/運営として、導線分離の仕様を実装前に合意したい。なぜなら、実装時の判断ブレを減らしたいから。\n\n## スコープ\n### 対象\n- 導線分離仕様のモック化（participant/admin/forbidden）\n- draw.io + PNG での仕様明文化\n- #39/#40 実装で解釈が揺れないように境界を定義\n\n### 非対象\n- 実装コード変更（#39/#40）\n- E2E更新（#41）\n\n## 完了条件\n- [x] 3導線（participant/admin/forbidden）のワイヤーフレームが確認できる\n- [x] #39/#40 に引き渡す前提（対象/非対象）が明記される\n",
+      "issue_comment_count": 0,
+      "issue_comments": [],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          },
+          "closes_issue_numbers": [
+            42
+          ]
+        },
+        {
+          "pr_number": 44,
+          "pr_title": "[Post-MVP][US-12-0] 導線分離仕様のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/44",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 418,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:30:10Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:30:08Z",
+            "merged_at": "2026-02-16T20:38:49Z",
+            "closed_at": "2026-02-16T20:38:49Z"
+          },
+          "closes_issue_numbers": [
+            42
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T03:58:00Z",
+        "issue_updated_at": "2026-02-16T20:39:16Z",
+        "issue_closed_at": "2026-02-16T20:39:16Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 38,
+          "pr_title": "Issue #30: 参加者画面と管理画面の導線分離モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/38",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:42Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:36:15Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T03:59:40Z"
+          }
+        },
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          }
+        },
+        {
+          "pr_number": 44,
+          "pr_title": "[Post-MVP][US-12-0] 導線分離仕様のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/44",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 418,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:30:10Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:30:08Z",
+            "merged_at": "2026-02-16T20:38:49Z",
+            "closed_at": "2026-02-16T20:38:49Z"
+          }
+        },
+        {
+          "pr_number": 46,
+          "pr_title": "feat(uiux): issue #40 管理導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/46",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 419,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 419,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:46:56Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:46:54Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:13:05Z"
+          }
+        },
+        {
+          "pr_number": 48,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/48",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:18:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:18:11Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:35:08Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 39,
+      "issue_title": "[Post-MVP][US-12-1] 参加者導線 (/participant) を分離実装する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/39",
+      "issue_body": "## 親Issue\n- Parent #30\n\n## ユーザーストーリー\n参加者として、参加者専用導線で予約操作を完結したい。なぜなら、管理機能を意識せず迷わず操作したいから。\n\n## スコープ\n### 対象\n- 参加者導線の実装（`/participant`）\n- 参加者向け機能の移設（セッション一覧、予約一覧、マイページ）\n- 参加者画面から管理UIを完全に除外\n\n### 非対象\n- 管理導線実装（#40）\n- `/admin` 直接アクセス制御（#40）\n- E2E更新（#41）\n- UIデザイン改善（#31/#32/#35）\n\n## 完了条件\n- [x] `/participant` で参加者機能が動作する\n- [x] 参加者画面に管理機能が描画されない\n- [x] 既存参加者フロー（予約/取消/マイページ表示）が維持される\n\n## レビュー観点\n- 参加者導線の責務が画面/コンポーネント境界で明確か\n- 既存機能の挙動回帰がないか\n\n",
+      "issue_comment_count": 4,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "実装対応を行い、PRを作成しました。\n\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/47\n- 対応内容: `/participant` 導線で参加者機能を分離し、参加者画面から管理UI（セッション管理/運営チェックイン）を非表示化\n- 検証: `cd frontend && pnpm test && pnpm typecheck && pnpm lint`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/39#issuecomment-3910557197",
+          "timestamps": {
+            "created_at": "2026-02-16T21:17:39Z",
+            "updated_at": "2026-02-16T21:18:15Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-17 07:18:20 JST\n- 対象ブランチ/コミット: `main` (`313db70`), 証跡ブランチ `qa-issue39-report` (`b157c6c`)\n- 総合判定: **Fail**（理由: 受け入れ条件に対する UI E2E 自動テストの不足、および `pnpm e2e` で回帰失敗2件）\n\n### 受け入れ条件\n- [ ] 条件1: `/participant` で参加者機能が動作する: **Pass**（UIでゲストログイン・キーノート予約・予約一覧・QR表示まで確認）\n- [ ] 条件2: 参加者画面に管理機能が描画されない: **Pass**（`/participant` 上で管理者向けUI表示なしを確認）\n- [ ] 条件3: 既存参加者フロー（予約/取消/マイページ表示）が維持される: **Pass**（UI手動確認 + 既存自動テストで主要導線を確認）\n\n### API確認\n- 未認証アクセス: `GET /api/participant/me` に対して `401` を確認\n  - 実行コマンド: `curl -i -sS http://127.0.0.1:8080/api/participant/me`\n- エラー系（409等）: 本Issueの受け入れ条件対象外のため未実施\n\n### UI確認\n- 操作手順:\n  1. `http://127.0.0.1:5173/participant?qa=prelogin` を開く\n  2. 未ログイン状態で参加者画面を確認（ログイン導線表示、管理機能なし）\n  3. ゲストログイン後、キーノート予約を実行\n  4. 成功メッセージ、参加登録完了表示、予約一覧、QR表示を確認\n- 確認結果:\n  - 参加者導線は成立\n  - 参加者画面への管理者UI混入は確認されず\n\n### スクリーンショット\n- 操作前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue39-report/tmp/qa-issue39-before-login.png?raw=1\n- 成功状態: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue39-report/tmp/qa-issue39-after-login-and-reservation.png?raw=1\n\n### テスト観点と実施箇所\n- 条件1（`/participant` で参加者機能が動作）:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`（予約ルール）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（ゲスト認証/予約系API）\n  - UI E2E: **不足**（`frontend/e2e` は主に `/` 導線、`/participant` 導線の明示カバーなし）\n- 条件2（参加者画面に管理機能が描画されない）:\n  - ドメイン単体: 該当なし\n  - API結合: 該当なし\n  - UI E2E: **不足**（`/participant` で管理UI非表示を検証するE2Eが未整備）\n  - 参考（UI単体）: `frontend/src/App.test.ts` で `/participant` 非表示観点は確認可能\n- 条件3（既存参加者フロー維持）:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`\n  - UI E2E: `frontend/e2e/us01-guest-login.spec.ts`, `frontend/e2e/us02-keynote-reservation.spec.ts`, `frontend/e2e/us06-mypage-qr.spec.ts`\n\n### 補足\n- `pnpm e2e` 実行結果: 14件中 12件成功 / 2件失敗\n  - 失敗: `frontend/e2e/us08-admin-session-management.spec.ts`\n  - 失敗: `frontend/e2e/us09-admin-csv-export.spec.ts`\n- 上記2件は管理者系シナリオの回帰失敗で、本Issue直接対象外ではあるものの、現状のE2E全緑は未達です。\n- QAガイドライン「自動テスト不足の状態でPassにしない」に基づき、本IssueのQA判定はFailとします。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/39#issuecomment-3910737929",
+          "timestamps": {
+            "created_at": "2026-02-16T22:18:40Z",
+            "updated_at": "2026-02-16T22:18:40Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "前回Fail判定の主因だったE2E責任範囲を修正しました。再実行結果を共有します。\n\n## QA再実施結果（更新）\n- 実行日時: 2026-02-17 JST\n- 対象ブランチ/コミット: `qa-issue39-report` (`ba825aa`)\n- 判定: **Pass**\n\n### 対応内容\n- `frontend/e2e/support/admin.ts` を追加し、実行環境ごとに利用可能な管理者トークンをAPI疎通で解決\n- `US08/US09` を上記トークン解決に切替\n- `/participant` 受け入れ条件を直接担保するE2Eを追加\n  - `frontend/e2e/us10-participant-flow-separation.spec.ts`\n\n### 再実行結果\n- `cd frontend && pnpm e2e`\n- **15 passed / 0 failed**\n\n### 受け入れ条件（再判定）\n- `/participant` で参加者機能が動作する: Pass（`US10` + MCP手動）\n- 参加者画面に管理機能が描画されない: Pass（`US10`）\n- 既存参加者フロー（予約/取消/マイページ表示）が維持される: Pass（`US10` + 既存 `US01/US02/US06`）\n\nスクリーンショット証跡は前回コメントの `qa-issue39-report` ブランチURLを継続利用します。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/39#issuecomment-3910753130",
+          "timestamps": {
+            "created_at": "2026-02-16T22:24:16Z",
+            "updated_at": "2026-02-16T22:24:16Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-17 08:05 JST\n- 対象ブランチ/コミット: `main` / `a40fac8932ddfdf51c8ff140984f21970ca06720`\n- 判定: Pass\n\n### 受け入れ条件\n- [x] `/participant` で参加者機能が動作する: Pass（Playwright MCPでゲストログイン→キーノート予約→キャンセル→マイページQR表示まで確認）\n- [x] 参加者画面に管理機能が描画されない: Pass（`/participant` 画面で管理見出し/管理導線が非表示、`admin`/`管理` 文言の混入なし）\n- [x] 既存参加者フロー（予約/取消/マイページ表示）が維持される: Pass（予約成功メッセージ、取消成功メッセージ、予約一覧更新、QR表示を確認）\n\n### API確認\n- 未認証アクセス: `GET /api/reservations` と `GET /api/reservations/mypage` がともに `401`\n- エラー系（409等）: E2E内で予約制約系（同時間帯制約・通常セッション上限・定員下回り更新拒否）を自動検証しPass\n\n### UI確認（Playwright MCP）\n- 操作手順: `/participant` 表示 → ゲストログイン → キーノート予約 → 予約一覧/QR確認 → キャンセル\n- 確認結果: 受け入れ条件を満たす挙動を確認\n\n### スクリーンショット\n- 事前状態: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue39-report/tmp/qa-issue39-before-login.png?raw=1\n- ログイン後（予約表示）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue39-report/tmp/qa-issue39-after-login-and-reservations.png?raw=1\n\n### テスト観点と実施箇所\n- 条件1 `/participant` で参加者機能が動作する:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`\n  - UI E2E: `frontend/e2e/us10-participant-flow-separation.spec.ts`\n- 条件2 管理機能が描画されない:\n  - ドメイン単体: （画面描画境界のため該当なし）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（保護API境界）\n  - UI E2E: `frontend/e2e/us10-participant-flow-separation.spec.ts`\n- 条件3 既存参加者フロー維持:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`\n  - UI E2E: `frontend/e2e/us01-guest-login.spec.ts`, `frontend/e2e/us02-keynote-reservation.spec.ts`, `frontend/e2e/us03-session-list.spec.ts`, `frontend/e2e/us04-session-reservation-constraints.spec.ts`, `frontend/e2e/us06-mypage-qr.spec.ts`\n\n### 補足\n- QA責任範囲として E2E の不整合セレクタを修正し、`pnpm e2e`（15件）を全件Pass化。\n\n---\n\n## UXレビュー結果\n\n- 対象Issue: #39\n- 実施日時: 2026-02-17 08:05 JST\n- 対象環境: main\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- 参加者導線の分かりやすさ（`/participant` で操作完結）: Pass\n- 予約/取消/マイページQRのフィードバック一貫性: Pass\n- 参加者画面から管理UIが見えないこと: Pass\n\n### 指摘事項\n\n- なし\n\n### 備考\n\n- 回帰防止のため E2E を現行UIへ更新済み（`main` に反映）。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/39#issuecomment-3910874456",
+          "timestamps": {
+            "created_at": "2026-02-16T23:05:54Z",
+            "updated_at": "2026-02-16T23:05:54Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 45,
+          "pr_title": "[Design][US-12-1] #39 participant導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/45",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 864,
+          "pr_deletions": 1,
+          "pr_changed_files": 17,
+          "pr_changed_lines": 865,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:45:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:45:11Z",
+            "merged_at": "2026-02-16T21:12:39Z",
+            "closed_at": "2026-02-16T21:12:39Z"
+          },
+          "closes_issue_numbers": [
+            39
+          ]
+        },
+        {
+          "pr_number": 47,
+          "pr_title": "[Post-MVP][US-12-1] /participant 参加者導線を分離",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/47",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 2179,
+          "pr_deletions": 873,
+          "pr_changed_files": 21,
+          "pr_changed_lines": 3052,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:17:29Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:17:28Z",
+            "merged_at": "2026-02-16T22:10:14Z",
+            "closed_at": "2026-02-16T22:10:14Z"
+          },
+          "closes_issue_numbers": [
+            39
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T03:51:00Z",
+        "issue_updated_at": "2026-02-16T23:10:47Z",
+        "issue_closed_at": "2026-02-16T23:10:37Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          }
+        },
+        {
+          "pr_number": 44,
+          "pr_title": "[Post-MVP][US-12-0] 導線分離仕様のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/44",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 418,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:30:10Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:30:08Z",
+            "merged_at": "2026-02-16T20:38:49Z",
+            "closed_at": "2026-02-16T20:38:49Z"
+          }
+        },
+        {
+          "pr_number": 45,
+          "pr_title": "[Design][US-12-1] #39 participant導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/45",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 864,
+          "pr_deletions": 1,
+          "pr_changed_files": 17,
+          "pr_changed_lines": 865,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:45:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:45:11Z",
+            "merged_at": "2026-02-16T21:12:39Z",
+            "closed_at": "2026-02-16T21:12:39Z"
+          }
+        },
+        {
+          "pr_number": 47,
+          "pr_title": "[Post-MVP][US-12-1] /participant 参加者導線を分離",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/47",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 2179,
+          "pr_deletions": 873,
+          "pr_changed_files": 21,
+          "pr_changed_lines": 3052,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:17:29Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:17:28Z",
+            "merged_at": "2026-02-16T22:10:14Z",
+            "closed_at": "2026-02-16T22:10:14Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 40,
+      "issue_title": "[Post-MVP][US-12-2] 管理導線 (/admin) と直接アクセス制御を実装する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/40",
+      "issue_body": "## 親Issue\n- Parent #30\n\n## ユーザーストーリー\n運営として、管理導線を参加者導線から分離し、権限外アクセスを防ぎたい。なぜなら、誤操作と不正アクセスのリスクを減らしたいから。\n\n## スコープ\n### 対象\n- 管理導線の実装（`/admin`）\n- 管理向け機能の移設（管理一覧、作成/編集、CSV出力）\n- `/admin` 直接アクセス制御（権限なし時の拒否表示/参加者導線復帰）\n\n### 非対象\n- 参加者導線実装（#39）\n- E2E更新（#41）\n- 認証方式刷新（#33）\n- トークン永続保存廃止（#34）\n\n## 完了条件\n- [x] `/admin` で管理機能が動作する\n- [x] 権限なし状態で `/admin` へ直接アクセスしても管理画面を表示しない\n- [x] 拒否時にユーザーへ理由が分かるフィードバックがある\n\n## レビュー観点\n- 管理導線の責務が画面/コンポーネント境界で明確か\n- 既存管理機能の挙動回帰がないか\n- 直接URLアクセス時の制御が一貫しているか\n",
+      "issue_comment_count": 8,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "Issue #40 の対応PRを作成しました。\\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/51\\n\\n実装内容は  導線の追加、無権限時の拒否表示と  復帰導線、関連テスト更新です。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3910735429",
+          "timestamps": {
+            "created_at": "2026-02-16T22:17:55Z",
+            "updated_at": "2026-02-16T22:17:55Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "補足（文言修正版）:\nIssue #40 の対応PRを作成しました。\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/51\n\n実装内容は /admin 導線の追加、無権限時の拒否表示と /participant への復帰導線、関連テスト更新です。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3910736231",
+          "timestamps": {
+            "created_at": "2026-02-16T22:18:09Z",
+            "updated_at": "2026-02-16T22:18:09Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-17 08:17:56 JST\n- 対象ブランチ/コミット: `main` / `106e8fe592e84df5eddc32001ed56146e4c38e33`\n- 総合判定: **Fail**\n\n### 受け入れ条件\n- [ ] `/admin` で管理機能が動作する: **Pass（手動検証）**  \n  `/admin` で管理者トークン入力後に「セッション管理（運営）」セクション、管理一覧取得、作成/編集フォーム、CSV出力ボタンの表示を確認。\n- [ ] 権限なし状態で `/admin` へ直接アクセスしても管理画面を表示しない: **Fail（自動テスト充足不足）**  \n  手動では、`localStorage` から `adminAccessToken` を削除した状態で `/admin` 直接アクセス時に管理画面が非表示であることを確認。  \n  ただし、当該受け入れ条件を担保する UI E2E が `frontend/e2e/` に未整備のため、QAガイドライン基準ではFail。\n- [ ] 拒否時にユーザーへ理由が分かるフィードバックがある: **Fail（自動テスト充足不足）**  \n  手動では「管理権限がないため /admin の管理画面を表示できません。...」メッセージと「参加者画面へ戻る」導線を確認。  \n  ただし、当該拒否フィードバックを担保する UI E2E が未整備のため、QAガイドライン基準ではFail。\n\n### API確認\n- 未認証 `GET /api/admin/sessions`: `401`\n- 未認証 `GET /api/reservations/sessions`: `401`\n- ゲストトークンで `GET /api/admin/sessions`: `401`\n\n### UI確認\n- 操作手順:\n  1. `/admin` にアクセス\n  2. `adminAccessToken` 未設定状態で拒否表示と復帰リンクを確認\n  3. 管理者トークン入力後に管理機能表示を確認\n  4. 「参加者画面へ戻る」で `/participant` に復帰できることを確認\n- 確認結果:\n  - 手動操作では受け入れ条件の挙動自体は再現できた\n  - ただし QA判定基準上、対象条件の UI E2E 不足によりFail\n\n### スクリーンショット\n- 権限なし `/admin`（拒否メッセージ表示）  \n  https://github.com/autotaker/simple-event-reservation-system/blob/codex/qa-issue40-report/tmp/qa-issue40-before-admin-auth.png?raw=1\n- 管理者トークン入力後 `/admin`（管理機能表示）  \n  https://github.com/autotaker/simple-event-reservation-system/blob/codex/qa-issue40-report/tmp/qa-issue40-after-admin-auth.png?raw=1\n\n### テスト観点と実施箇所\n- `/admin` で管理機能が動作する:\n  - ドメイン単体: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（`adminCanCreateAndUpdateSessionAndParticipantListReflectsIt`）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（同上）\n  - UI E2E: `frontend/e2e/us08-admin-session-management.spec.ts`（管理画面で作成/編集）\n- 権限なし状態で `/admin` 直接アクセス拒否:\n  - ドメイン単体: なし\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（`adminSessionApiReturns403ForGuestToken`）\n  - UI E2E: 未整備（手動QAで確認）\n- 拒否時の理由提示フィードバック:\n  - ドメイン単体: なし\n  - API結合: なし\n  - UI E2E: 未整備（手動QAで確認）\n  - 補足: 画面単体テストとして `frontend/src/App.test.ts` に拒否文言確認あり\n\n### 回帰テスト実行結果\n- `cd backend && ./gradlew test --tests com.event.security.GuestAuthenticationFlowTest`: **成功**\n- `cd frontend && pnpm e2e`: **失敗（15件中1件失敗）**\n  - 失敗: `frontend/e2e/us03-session-list.spec.ts`\n  - 失敗内容: ログイン直後の `article` 件数期待 `>=16` に対して `0`\n\n### 補足\n- 非ブロッキング観測事項: `/favicon.ico` の 404 をブラウザコンソールで確認\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3910935972",
+          "timestamps": {
+            "created_at": "2026-02-16T23:18:20Z",
+            "updated_at": "2026-02-16T23:18:20Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA再実施結果（E2E保守対応後）\n- 実行日時: 2026-02-17 08:27:45 JST\n- 対象ブランチ/コミット: `main` / `106e8fe592e84df5eddc32001ed56146e4c38e33`\n- 総合判定: **Pass**\n\n### 受け入れ条件\n- [x] `/admin` で管理機能が動作する: Pass  \n  `frontend/e2e/us12-admin-route-access-control.spec.ts` で管理者トークン入力後の管理画面利用を確認。\n- [x] 権限なし状態で `/admin` へ直接アクセスしても管理画面を表示しない: Pass  \n  同E2Eで拒否表示時に「セッション管理（運営）」非表示を確認。\n- [x] 拒否時にユーザーへ理由が分かるフィードバックがある: Pass  \n  同E2Eで拒否メッセージ文言と「参加者画面へ戻る」導線を確認。\n\n### API確認\n- 未認証 `GET /api/admin/sessions`: `401`\n- 未認証 `GET /api/reservations/sessions`: `401`\n\n### テスト観点と実施箇所\n- ドメイン単体 / API結合:\n  - `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`\n- UI E2E:\n  - 既存: `frontend/e2e/us08-admin-session-management.spec.ts`\n  - 追加: `frontend/e2e/us12-admin-route-access-control.spec.ts`\n  - 保守修正: `frontend/e2e/us03-session-list.spec.ts`（待機不足による不安定性を修正）\n\n### 回帰テスト実行結果\n- `cd backend && ./gradlew test --tests com.event.security.GuestAuthenticationFlowTest`: 成功\n- `cd frontend && pnpm e2e`: **17 passed**\n\n### スクリーンショット\n- 権限なし `/admin`（拒否メッセージ表示）  \n  https://github.com/autotaker/simple-event-reservation-system/blob/codex/qa-issue40-report/tmp/qa-issue40-before-admin-auth.png?raw=1\n- 管理者トークン入力後 `/admin`（管理機能表示）  \n  https://github.com/autotaker/simple-event-reservation-system/blob/codex/qa-issue40-report/tmp/qa-issue40-after-admin-auth.png?raw=1\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3910975232",
+          "timestamps": {
+            "created_at": "2026-02-16T23:28:10Z",
+            "updated_at": "2026-02-16T23:28:10Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果（統合版）\n\n- 対象Issue: #40\n- 実施日時: 2026-02-17 08:31 JST\n- 対象環境: main (`106e8fe`)\n- 総合判定: **Fail（リリース不可）**\n\n### 確認チェックポイント\n\n- `/admin` 権限なし直接アクセス時に拒否表示される: Pass\n- 拒否状態から参加者導線へ復帰できる: Pass\n- 管理者トークン設定後に管理導線へ到達できる: Pass\n- 管理画面の主要操作（管理一覧取得/CSV出力/作成導線）が視認できる: Pass\n\n### 最重要指摘（リリースブロッカー）\n\n- [P1] `/admin` の課題は運用不足ではなく**実装不足**\n  - 事象: `AdminView.vue` が単一ソースとしてUIと操作を抱え、`admin-hifi` のモック群を本番コンポーネント化して組み上げる構造になっていない\n  - 再現手順:\n    1. `/Users/autotaker/git/simple-event-reservation-system/frontend/src/views/AdminView.vue` を確認\n    2. `/Users/autotaker/git/simple-event-reservation-system/frontend/src/stories/admin-hifi/*Mock*` を確認\n  - 期待結果: TopBar / AccessDenied / SessionTable / Editor / CSV導線が実コンポーネントとして分割され、`/admin` は画面コンテナで合成される\n  - 実結果: 単一ビュー集中実装で、モック由来の責務分割が本番レイヤに反映されていない\n  - 影響範囲: デザイン合意の実装トレーサビリティが不足し、管理画面改修時のUX回帰リスクが高い\n  - 改善提案:\n    1. `admin-hifi/*Mock.vue` を実コンポーネントへ昇格\n    2. `/admin` を「画面コンテナ + 実コンポーネント群」の合成構造へ分割\n    3. Storybookを実コンポーネント基準へ切替え、Mock参照を段階的に整理\n\n- [P3] `/favicon.ico` の 404 が継続\n  - 再現手順: `http://127.0.0.1:5173/admin` を開き、コンソール確認\n  - 期待結果: 静的アセット取得エラーが発生しない\n  - 実結果: `/favicon.ico` が 404\n  - 影響範囲: UX本流を阻害しないが、品質シグナルとしてノイズ\n  - 改善提案: `frontend/public/favicon.ico` を配置するか、head定義を実ファイルに合わせる\n\n### 備考\n\n- 取得証跡（ローカル）:\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue40-admin-denied.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue40-participant-return.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue40-admin-authorized.png`\n- 判定理由: 導線挙動は成立しているが、P1（実装構造未達）が残るためリリース判定はFail。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3911013431",
+          "timestamps": {
+            "created_at": "2026-02-16T23:45:50Z",
+            "updated_at": "2026-02-16T23:45:50Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "Issueコメント（UXレビュー P1/P3）を反映した追加PRを作成しました。\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/52\n\n主な対応:\n- AdminView を画面コンテナ化し、TopBar / AccessGate / AccessDenied / SessionTable / SessionEditor / CsvExport に責務分割\n- frontend/public/favicon.ico を追加し `/favicon.ico` 404 を解消\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3911054711",
+          "timestamps": {
+            "created_at": "2026-02-16T23:57:42Z",
+            "updated_at": "2026-02-16T23:57:42Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UX再確認結果（追加PRマージ後）\n\n- 実施日時: 2026-02-17 09:44 JST\n- 対象環境: `main` (`e319966`)\n- 総合判定: **Pass**\n\n### 確認チェックポイント\n- 権限なしで `/admin` 直接アクセス時、拒否パネル（403）を表示: Pass\n- 拒否パネルから参加者画面へ復帰可能: Pass\n- 管理者トークン入力後、管理画面（一覧/作成/CSV）へ到達可能: Pass\n- 管理画面が分割コンポーネント構成で動作していることを確認: Pass\n\n### 反映確認（構造）\n- `frontend/src/components/admin/AdminTopBar.vue`\n- `frontend/src/components/admin/AdminAccessGate.vue`\n- `frontend/src/components/admin/AdminAccessDeniedPanel.vue`\n- `frontend/src/components/admin/AdminSessionTable.vue`\n- `frontend/src/components/admin/AdminSessionEditor.vue`\n- `frontend/src/components/admin/AdminCsvExportPanel.vue`\n\n### 証跡（ローカル）\n- `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue40-rerun-admin-denied.png`\n- `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue40-rerun-admin-authorized.png`\n\n### 補足\n- UI変更で「参加者画面へ戻る」リンクが2箇所になったため、E2E `us12` のセレクタを修正済み。\n- 修正コミット: `e319966`（mainへpush済み）\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3911224817",
+          "timestamps": {
+            "created_at": "2026-02-17T00:45:03Z",
+            "updated_at": "2026-02-17T00:45:03Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "追記: GitHub Actions のE2Eを `main` で手動実行し、成功を確認しました。\n\n- Workflow: `E2E Manual`\n- Run: https://github.com/autotaker/simple-event-reservation-system/actions/runs/22081978537\n- Branch/Commit: `main` / `e319966`\n- Result: `completed / success`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/40#issuecomment-3911231883",
+          "timestamps": {
+            "created_at": "2026-02-17T00:47:07Z",
+            "updated_at": "2026-02-17T00:47:07Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 46,
+          "pr_title": "feat(uiux): issue #40 管理導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/46",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 419,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 419,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:46:56Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:46:54Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:13:05Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        },
+        {
+          "pr_number": 48,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/48",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:18:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:18:11Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:35:08Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        },
+        {
+          "pr_number": 49,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/49",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:38:36Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:38:35Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:42:30Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        },
+        {
+          "pr_number": 50,
+          "pr_title": "[Post-MVP][US-12-2] #40 管理導線のUI/UXモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/50",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 817,
+          "pr_deletions": 0,
+          "pr_changed_files": 18,
+          "pr_changed_lines": 817,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:49:19Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:49:18Z",
+            "merged_at": "2026-02-16T22:12:21Z",
+            "closed_at": "2026-02-16T22:12:21Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        },
+        {
+          "pr_number": 51,
+          "pr_title": "[Post-MVP][US-12-2] 管理導線 (/admin) と直接アクセス制御を実装する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/51",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 252,
+          "pr_deletions": 24,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 276,
+          "pr_comment_count": 3,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T22:17:50Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T22:17:48Z",
+            "merged_at": "2026-02-16T22:28:17Z",
+            "closed_at": "2026-02-16T22:28:17Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        },
+        {
+          "pr_number": 52,
+          "pr_title": "[Post-MVP][US-12-2] AdminViewを責務分割しUX指摘を反映",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/52",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 511,
+          "pr_deletions": 118,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 629,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T23:57:35Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T23:57:33Z",
+            "merged_at": "2026-02-17T00:39:47Z",
+            "closed_at": "2026-02-17T00:39:47Z"
+          },
+          "closes_issue_numbers": [
+            40
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T03:51:12Z",
+        "issue_updated_at": "2026-02-17T00:47:19Z",
+        "issue_closed_at": "2026-02-17T00:47:19Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          }
+        },
+        {
+          "pr_number": 44,
+          "pr_title": "[Post-MVP][US-12-0] 導線分離仕様のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/44",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 418,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:30:10Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:30:08Z",
+            "merged_at": "2026-02-16T20:38:49Z",
+            "closed_at": "2026-02-16T20:38:49Z"
+          }
+        },
+        {
+          "pr_number": 46,
+          "pr_title": "feat(uiux): issue #40 管理導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/46",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 419,
+          "pr_deletions": 0,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 419,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:46:56Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:46:54Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:13:05Z"
+          }
+        },
+        {
+          "pr_number": 48,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/48",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:18:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:18:11Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:35:08Z"
+          }
+        },
+        {
+          "pr_number": 49,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/49",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:38:36Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:38:35Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:42:30Z"
+          }
+        },
+        {
+          "pr_number": 50,
+          "pr_title": "[Post-MVP][US-12-2] #40 管理導線のUI/UXモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/50",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 817,
+          "pr_deletions": 0,
+          "pr_changed_files": 18,
+          "pr_changed_lines": 817,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:49:19Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:49:18Z",
+            "merged_at": "2026-02-16T22:12:21Z",
+            "closed_at": "2026-02-16T22:12:21Z"
+          }
+        },
+        {
+          "pr_number": 51,
+          "pr_title": "[Post-MVP][US-12-2] 管理導線 (/admin) と直接アクセス制御を実装する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/51",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 252,
+          "pr_deletions": 24,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 276,
+          "pr_comment_count": 3,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T22:17:50Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T22:17:48Z",
+            "merged_at": "2026-02-16T22:28:17Z",
+            "closed_at": "2026-02-16T22:28:17Z"
+          }
+        },
+        {
+          "pr_number": 52,
+          "pr_title": "[Post-MVP][US-12-2] AdminViewを責務分割しUX指摘を反映",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/52",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 511,
+          "pr_deletions": 118,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 629,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T23:57:35Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T23:57:33Z",
+            "merged_at": "2026-02-17T00:39:47Z",
+            "closed_at": "2026-02-17T00:39:47Z"
+          }
+        },
+        {
+          "pr_number": 72,
+          "pr_title": "[Issue #33] 管理者認証モックのデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/72",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 1035,
+          "pr_deletions": 0,
+          "pr_changed_files": 22,
+          "pr_changed_lines": 1035,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T09:42:14Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T09:42:12Z",
+            "merged_at": "2026-02-22T00:59:57Z",
+            "closed_at": "2026-02-22T00:59:57Z"
+          }
+        },
+        {
+          "pr_number": 73,
+          "pr_title": "[Issue #33] 管理者認証の実装",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/73",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 997,
+          "pr_deletions": 125,
+          "pr_changed_files": 33,
+          "pr_changed_lines": 1122,
+          "pr_comment_count": 7,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 6,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T01:00:39Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T01:00:38Z",
+            "merged_at": "2026-02-22T06:19:58Z",
+            "closed_at": "2026-02-22T06:19:58Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 28,
+      "issue_title": "[Post-MVP][US-10] 外部送信なしでQR表示できる",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/28",
+      "issue_body": "## ユーザーストーリー\n参加者として、外部送信なしでQR表示したい。なぜなら、個人情報漏えいリスクを下げたいから。\n\n## 詳細\n### 背景\n- 現状はQR画像生成に外部サービスを利用しており、`guestId` と予約情報を含むpayloadが外部へ送信される。\n\n### 現状の課題\n- 外部通信による情報漏えいリスク\n- 外部サービス障害時にQR表示不可になる可用性リスク\n\n### 対応方針\n- フロント内ライブラリまたはバックエンド内生成に切り替え、QR生成を自システム内で完結させる。\n\n### 対象範囲\n- マイページのQR表示機能\n- QR生成ロジックと関連テスト\n\n### 非対象\n- QR payload仕様（`event-reservation://...`）自体の変更\n\n## 受け入れ条件\n- [x] QR生成がアプリ内で完結する\n- [x] 外部QR APIへの通信が発生しない\n- [x] 既存のチェックイン処理と互換性が維持される\n\n## 依存関係\n- なし\n\n## テスト観点（任意）\n- 正常系: ログイン済みユーザーでQR表示できる\n- 異常系: 生成失敗時にユーザーへ明示的なエラーが表示される\n- 境界値: 予約0件/複数件でpayloadが正しく反映される\n\n",
+      "issue_comment_count": 3,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-18 08:05 JST\n- 対象ブランチ/コミット: `main` / `5586a965cd96f64e2729f2464a660c781c0cf80f`\n\n### 受け入れ条件\n- [x] QR生成がアプリ内で完結する: **Pass**（`frontend/e2e/us06-mypage-qr.spec.ts` で `src` が `data:image/png;base64,` であることを確認。外部QR URLを使わないことを検証）\n- [x] 外部QR APIへの通信が発生しない: **Pass**（Playwright MCP の実トラフィックで `127.0.0.1:8080` のみを確認。`frontend/e2e/us06-mypage-qr.spec.ts` でも `api.qrserver.com` 非依存を検証）\n- [x] 既存のチェックイン処理と互換性が維持される: **Pass**（`frontend/e2e/us07-checkin.spec.ts` と backendのチェックイン関連テスト成功を確認）\n\n### API確認\n- 未認証アクセス: `curl -i http://127.0.0.1:8080/api/reservations` で `401` を確認\n- エラー系（409等）: 今回のUS-10受け入れ条件対象外のため未実施\n\n### UI確認\n- 操作手順:\n  1. `http://127.0.0.1:5173/participant` へアクセス\n  2. 「ゲストでログイン」を実行\n  3. マイページ領域でQR表示を確認\n  4. 「キーノートを予約」を実行し、予約結果表示とQR表示継続を確認\n- 確認結果: 予約後もQRが表示され、受け入れ条件に沿う表示と挙動を確認\n\n### スクリーンショット\n- ログイン前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue28-report/tmp/qa-issue28-before-login.png?raw=1\n- ログイン後（QR表示）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue28-report/tmp/qa-issue28-after-login-qr-visible.png?raw=1\n\n### テスト観点と実施箇所\n- QR生成がアプリ内で完結する:\n  - ドメイン単体: 対象ロジックはフロント実装のため該当なし\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（マイページ応答にQR payloadが含まれることを確認）\n  - UI E2E: `frontend/e2e/us06-mypage-qr.spec.ts`\n- 外部QR APIへの通信が発生しない:\n  - ドメイン単体: 対象ロジックはフロント実装のため該当なし\n  - API結合: 対象外（外部QR API呼び出しはフロント責務）\n  - UI E2E: `frontend/e2e/us06-mypage-qr.spec.ts` + Playwright MCPネットワーク確認\n- 既存のチェックイン処理と互換性が維持される:\n  - ドメイン単体: `backend/src/test/java/com/event/checkin/CheckInServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`\n  - UI E2E: `frontend/e2e/us07-checkin.spec.ts`\n\n### 追加実行ログ\n- `cd frontend && pnpm e2e` : **17 passed**\n- `cd backend && ./gradlew test --tests 'com.event.checkin.CheckInServiceTest' --tests 'com.event.security.GuestAuthenticationFlowTest'` : **BUILD SUCCESSFUL**\n\n### 補足\n- 初回検証時に `qrcode` 依存未導入でVite import解決エラーが発生したため、`frontend` で `pnpm install` 実行後に再検証しました。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/28#issuecomment-3917532128",
+          "timestamps": {
+            "created_at": "2026-02-17T23:05:47Z",
+            "updated_at": "2026-02-17T23:05:47Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "UXレビューの補足として、Storybookの状態追加をお願いします。\n\n## 依頼内容（Storybook追加）\n`/participant` のQR表示パネルについて、Production Storybookに状態を追加してください。\n\n対象:\n- `frontend/src/stories/participant-production/ParticipantQrPanel.stories.ts`\n\n追加してほしい状態:\n1. `Generating`\n- `qrCodePayload` は存在するが `qrCodeImageUrl` は未生成\n- `qrCodeGenerationStatus: 'generating'`\n- 期待表示: 「受付用QRコードを生成中です...」\n\n2. `Error`\n- `qrCodePayload` は存在するが生成失敗\n- `qrCodeGenerationStatus: 'error'`\n- 期待表示: 「受付用QRコードを生成できませんでした。更新してください。」\n\n## 目的\n- 一瞬表示される中間状態も回帰検知できるようにする\n- 失敗時UIの仕様をStorybook上で固定する\n\n## 受け入れ確認\n- Storybook上で `WithQrCode / Placeholder / Disabled / Generating / Error` の5状態を確認できること",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/28#issuecomment-3917626004",
+          "timestamps": {
+            "created_at": "2026-02-17T23:34:59Z",
+            "updated_at": "2026-02-17T23:36:01Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #28\n- 実施日時: 2026-02-18 12:02 JST\n- 対象環境: main\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- 未ログイン初期導線（/participant）: Pass\n- ゲストログイン後のQR表示（マイページ）: Pass\n- キーノート予約後の成功フィードバックとQR継続表示: Pass\n- 外部QR APIへの通信非発生（実通信確認）: Pass\n- 既存チェックイン導線との互換性（QR payload形式）: Pass\n\n### 指摘事項\n\n- 指摘事項: なし（#28観点）\n\n### 備考\n\n- Production Storybook の `ParticipantQrPanel` に `Generating` / `Error` 状態が追加され、表示確認できました。\n- 別Issue #55（不正/期限切れトークン時の復帰UX）は #28 スコープ外のため、本コメントの判定対象には含めていません。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/28#issuecomment-3918276682",
+          "timestamps": {
+            "created_at": "2026-02-18T03:04:13Z",
+            "updated_at": "2026-02-18T03:04:13Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 53,
+          "pr_title": "[Post-MVP][US-10] 外部送信なしでQR表示できる",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/53",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 247,
+          "pr_deletions": 29,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 276,
+          "pr_comment_count": 12,
+          "pr_review_count": 8,
+          "pr_review_thread_count": 4,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T00:53:56Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T00:53:55Z",
+            "merged_at": "2026-02-17T23:02:00Z",
+            "closed_at": "2026-02-17T23:02:00Z"
+          },
+          "closes_issue_numbers": [
+            28
+          ]
+        },
+        {
+          "pr_number": 56,
+          "pr_title": "[Post-MVP][US-10] QRパネルStorybookにGenerating/Error状態を追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/56",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 25,
+          "pr_deletions": 0,
+          "pr_changed_files": 1,
+          "pr_changed_lines": 25,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T23:37:52Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T23:37:51Z",
+            "merged_at": "2026-02-18T00:52:34Z",
+            "closed_at": "2026-02-18T00:52:34Z"
+          },
+          "closes_issue_numbers": [
+            28
+          ]
+        },
+        {
+          "pr_number": 57,
+          "pr_title": "[Post-MVP][US-10] StorybookのWithQrCode画像を視認可能なQRに差し替え",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/57",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 1,
+          "pr_deletions": 1,
+          "pr_changed_files": 1,
+          "pr_changed_lines": 2,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-18T00:50:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-18T00:50:21Z",
+            "merged_at": "2026-02-18T00:51:39Z",
+            "closed_at": "2026-02-18T00:51:39Z"
+          },
+          "closes_issue_numbers": [
+            28
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:04Z",
+        "issue_updated_at": "2026-02-18T03:04:45Z",
+        "issue_closed_at": "2026-02-18T03:04:45Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 53,
+          "pr_title": "[Post-MVP][US-10] 外部送信なしでQR表示できる",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/53",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 247,
+          "pr_deletions": 29,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 276,
+          "pr_comment_count": 12,
+          "pr_review_count": 8,
+          "pr_review_thread_count": 4,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T00:53:56Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T00:53:55Z",
+            "merged_at": "2026-02-17T23:02:00Z",
+            "closed_at": "2026-02-17T23:02:00Z"
+          }
+        },
+        {
+          "pr_number": 56,
+          "pr_title": "[Post-MVP][US-10] QRパネルStorybookにGenerating/Error状態を追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/56",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 25,
+          "pr_deletions": 0,
+          "pr_changed_files": 1,
+          "pr_changed_lines": 25,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T23:37:52Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T23:37:51Z",
+            "merged_at": "2026-02-18T00:52:34Z",
+            "closed_at": "2026-02-18T00:52:34Z"
+          }
+        },
+        {
+          "pr_number": 57,
+          "pr_title": "[Post-MVP][US-10] StorybookのWithQrCode画像を視認可能なQRに差し替え",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/57",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 1,
+          "pr_deletions": 1,
+          "pr_changed_files": 1,
+          "pr_changed_lines": 2,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-18T00:50:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-18T00:50:21Z",
+            "merged_at": "2026-02-18T00:51:39Z",
+            "closed_at": "2026-02-18T00:51:39Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 29,
+      "issue_title": "[Post-MVP][US-11] チェックイン書き込み権限を厳格化する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/29",
+      "issue_body": "## ユーザーストーリー\n運営として、チェックイン書き込み権限を厳格に管理したい。なぜなら、不正なチェックイン記録を防ぎたいから。\n\n## 背景\n- 現状のチェックイン書き込みAPIは `/api/checkins/**` 配下で認証はされているが、書き込み時の実行主体ルール（誰が誰のチェックインを書けるか）が仕様として明確化されていない。\n- そのため、仕様解釈の差分により実装/テスト/運用で不一致が発生しやすい。\n\n## 目的\n- チェックイン書き込みAPIの実行主体ルールを明文化し、実装で強制する。\n- 不正主体の書き込みを確実に拒否し、エラーレスポンスの扱いを統一する。\n\n## 対象範囲\n- `POST /api/checkins/event`\n- `POST /api/checkins/sessions/{sessionId}`\n- 上記2APIに対する認可・認証ルールの明文化と実装\n- 上記2APIに対する正常系/拒否系テスト追加・更新\n\n## 非対象\n- チェックインUIの見た目改善\n- `GET /api/checkins` の仕様変更（本Issueでは回帰確認のみ）\n\n## 実行主体ルール（仕様）\n### 許可される主体\n- `ROLE_ADMIN`\n  - すべてのチェックイン書き込みを許可する。\n- `ROLE_GUEST`\n  - リクエスト送信者（`Authentication.name`）と、QRペイロード内 `guestId` が一致する場合のみ許可する（本人チェックインのみ）。\n\n### 拒否される主体\n- 未認証（トークンなし/不正トークン）\n- `ROLE_GUEST` で本人不一致（`Authentication.name != guestId`）\n- 上記以外の想定外主体\n\n## エラー/ステータス仕様\n- `401 Unauthorized`\n  - 未認証、または認証情報不正\n- `403 Forbidden`\n  - 認証済みだが、実行主体ルールを満たさない（権限不足/本人不一致）\n- `400 Bad Request`\n  - 業務ルール違反（例: QR形式不正、対象セッション不一致、未予約など）\n\n## 受け入れ条件\n- [x] チェックイン書き込みAPI（event/session）の実行主体ルールが仕様として明文化されている\n- [x] 仕様外主体の書き込みは拒否される（`401`/`403` の使い分けを含む）\n- [x] 業務ルール違反は `400` で返る\n- [x] 認可系エラー時のレスポンス形式が統一されている（既存 `ErrorResponse` 形式に準拠）\n- [x] event/session 両経路で同一の主体ルールが適用される\n\n## テスト観点（必須）\n### 正常系\n- `ROLE_ADMIN` で event チェックイン成功\n- `ROLE_ADMIN` で session チェックイン成功\n- `ROLE_GUEST` かつ本人一致で event チェックイン成功\n- `ROLE_GUEST` かつ本人一致で session チェックイン成功\n\n### 異常系\n- 未認証で `401`\n- 不正トークンで `401`\n- `ROLE_GUEST` で本人不一致時に `403`\n- 業務ルール違反（QR形式不正/対象セッション不一致/未予約）で `400`\n\n### 境界/回帰\n- event/session の両経路で拒否条件・ステータスが一致する\n- 既存の重複チェックイン挙動（duplicateフラグ）が回帰しない\n- `GET /api/checkins` は既存仕様のまま動作する\n\n## 実装メモ（開発者向け）\n- 認証は既存フィルタ（Guest/Adminトークン）を前提とする。\n- 主体判定ロジックはController層に分散させず、再利用可能な形で集約する（例: 認可サービス/ポリシークラス化）。\n- 例外ハンドリングは既存の `ErrorResponse` を維持しつつ、`401/403/400` の責務を明確に分離する。\n\n## 依存関係\n- なし\n\n\n## 仕様書（テックリード）\n- GitHub Pages: https://autotaker.github.io/simple-event-reservation-system/techlead/issue-29-checkin-authz-spec/\n- リポジトリ: `docs/techlead/issue-29-checkin-authz-spec.md`\n\n",
+      "issue_comment_count": 6,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "UIUX観点の整理です。\n\n- 本Issue（#29）は `/api/checkins` 書き込み権限の厳格化が主対象で、Issue本文の非対象にも「チェックインUIの見た目改善」が明記されています。\n- そのため、pre-PRの新規デザインモック作成は不要と判断します。\n- UIUX作業は post-merge の回帰確認を最小実施とし、`401/403/400` のエラー表示文言・導線の詰まり有無を確認します。\n\n上記方針で進めます。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3917565379",
+          "timestamps": {
+            "created_at": "2026-02-17T23:15:18Z",
+            "updated_at": "2026-02-17T23:15:18Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "実装を開始し、Issue #29 の要件に対応したPRを作成しました。\n\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/54\n- 対応内容:\n  - `/api/checkins/event` / `/api/checkins/sessions/{sessionId}` に実行主体ルール（ADMIN または GUEST本人）を実装\n  - 認可違反を `403` で統一し、既存の業務ルール違反 `400` と分離\n  - `401/403/400` と ADMIN 正常系を含むテスト追加\n  - 仕様書を docs に追加（GH Pages導線あり）\n\nレビューをお願いします。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3917582924",
+          "timestamps": {
+            "created_at": "2026-02-17T23:20:49Z",
+            "updated_at": "2026-02-17T23:20:49Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-18 08:47:54 JST\n- 対象ブランチ/コミット: `main` / `c3a3260`\n\n### 受け入れ条件\n- [x] チェックイン書き込みAPI（event/session）の実行主体ルールが仕様として明文化されている: Pass（`docs/techlead/issue-29-checkin-authz-spec.md` と GitHub Pages 仕様書を確認）\n- [x] 仕様外主体の書き込みは拒否される（`401`/`403` の使い分けを含む）: Pass（未認証 `401` を `curl` で確認、本人不一致で event/session 両方 `403` を確認）\n- [x] 業務ルール違反は `400` で返る: Pass（QR形式不正・対象セッション不一致で `400` を確認）\n- [x] 認可系エラー時のレスポンス形式が統一されている（既存 `ErrorResponse` 形式に準拠）: Pass（`403`/`400` 応答とも `{\"message\":\"...\"}` 形式を確認）\n- [x] event/session 両経路で同一の主体ルールが適用される: Pass（本人不一致は event/session とも `403`、本人一致は UI で event/session とも成功）\n\n### API確認\n- 未認証アクセス: `GET /api/checkins` -> `401`、`POST /api/checkins/event`（トークンなし）-> `401`\n- 不正主体アクセス: 別ゲストのQR payloadで `POST /api/checkins/event` と `POST /api/checkins/sessions/session-1` -> どちらも `403`（`{\"message\":\"チェックイン書き込み権限がありません。\"}`）\n- 業務ルール違反: `POST /api/checkins/event`（不正QR）-> `400`、`POST /api/checkins/sessions/session-1`（payload内セッション不一致）-> `400`\n\n### UI確認\n- 操作手順: `127.0.0.1:5173` でゲストログイン -> `/operator` へ遷移 -> Session 1予約 -> マイページQR取得 -> イベント受付チェックイン -> セッション受付チェックイン\n- 確認結果: event/session の両チェックイン成功メッセージ表示、チェックイン履歴表示を確認\n\n### スクリーンショット\n- ログイン前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue29-report/tmp/qa-issue29-before-login.png?raw=1\n- ログイン後（チェックイン成功）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue29-report/tmp/qa-issue29-after-login-and-checkin.png?raw=1\n\n### テスト観点と実施箇所\n- 実行主体ルール/401・403・400:\n  - ドメイン単体: `backend/src/test/java/com/event/checkin/CheckInServiceTest.java`（実行済み）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（Issue #29観点のチェックイン認可/認証ケース実行済み）\n  - UI E2E: `frontend/e2e/us07-checkin.spec.ts`（実行済み）\n- 回帰確認:\n  - UI E2E全件: `pnpm e2e` -> `17 passed`\n\n### 補足\n- 非ブロッキング観測事項: なし\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3917672287",
+          "timestamps": {
+            "created_at": "2026-02-17T23:48:16Z",
+            "updated_at": "2026-02-17T23:48:16Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #29\n- 実施日時: 2026-02-18 09:53 JST\n- 対象環境: main（`c3a3260`）\n- 総合判定: Fail\n\n### 確認チェックポイント\n\n- チェックイン導線（ログイン→QR取得→event/sessionチェックイン完了）: Pass\n- 401/403/400 のエラー文言の理解しやすさ: Pass\n- event/session 両経路での体験一貫性: Pass\n- 実装構造（コンテナ + 実コンポーネント分割、Storybook運用）: Fail\n\n### 指摘事項\n\n- [P1] 運営導線が単一Viewに集約され、UI責務分割とStorybook運用要件を満たしていない\n  - 再現手順: `frontend/src/views/OperatorView.vue` を確認し、管理・参加者・マイページ・チェックイン機能が1 View（約300行）に集中していることを確認。あわせて `frontend/src/stories` 配下で operator/checkin の実コンポーネント Story が存在しないことを確認。\n  - 期待結果: View はコンテナ責務に留まり、チェックイン関連UI（入力、操作、履歴表示、フィードバック）が実コンポーネントへ分割され、Storybookで回帰確認可能であること。\n  - 実結果: `OperatorView.vue` に UI詳細責務が集中し、`participant-production` 相当の operator/checkin 実ストーリーが未整備。\n  - 影響範囲: 将来改修時のUX回帰検知が困難。運営導線の変更で他機能へ副作用が波及しやすい。\n  - 改善提案: `OperatorView` をコンテナ化し、`OperatorCheckInPanel` / `OperatorSessionTable` / `OperatorReservationPanel` 等へ分割。各実コンポーネントの Story（default/loading/success/error）を `frontend/src/stories/operator-production/` に追加して検証基準を統一する。\n\n- [P2] チェックイン失敗時のエラーメッセージ表示位置が操作領域と離れており、原因把握までの視線移動が大きい\n  - 再現手順: `/operator` でログイン後、QR payload に他人 guestId を入力して「イベント受付をチェックイン」を実行。\n  - 期待結果: エラーメッセージがチェックイン操作ブロック直下に表示され、直前操作との対応が即時に理解できること。\n  - 実結果: 失敗メッセージがページ上部の共通メッセージ領域に表示され、チェックインセクションから離れている。\n  - 影響範囲: 現場運営時に連続スキャンでエラー原因の把握が遅れる。\n  - 改善提案: チェックインAPI由来のエラーは `checkInResultMessage` と同じ表示領域（チェックインセクション内）へ集約し、成功/失敗で視覚スタイルを明確に分離する。\n\n### 備考\n\n- 本件は運用課題ではなく実装不足です。リリース再開条件は、(1) operator/checkin UIの実コンポーネント分割、(2) Storybookを実コンポーネント基準へ切替、(3) 分割後の再UXテストで実装構造チェックPass、の3点です。\n- 参考スクリーンショット（ローカル）:\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue29-initial.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue29-error-feedback.png`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3917867318",
+          "timestamps": {
+            "created_at": "2026-02-18T00:54:44Z",
+            "updated_at": "2026-02-18T00:54:44Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "IssueコメントでのUX指摘（P1/P2）対応として、追加PRを作成しました。\n\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/58\n\n対応内容:\n- `OperatorView` の実コンポーネント分割（`OperatorCheckInPanel` / `OperatorSessionTable` / `OperatorReservationPanel`）\n- チェックインAPI失敗時メッセージをチェックイン操作領域内へ集約（成功/失敗スタイル分離）\n- `frontend/src/stories/operator-production/` に実コンポーネントStory（default/loading/success/error）とMDXカタログを追加\n\nレビューお願いします。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3917888521",
+          "timestamps": {
+            "created_at": "2026-02-18T01:02:39Z",
+            "updated_at": "2026-02-18T01:02:39Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UX再テスト結果\n\n- 対象Issue: #29\n- 実施日時: 2026-02-21 06:14:53 JST\n- 対象環境: main（`b7bfbde`）\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- P1対応（実装構造）: Pass\n  - `frontend/src/components/operator/OperatorCheckInPanel.vue`\n  - `frontend/src/components/operator/OperatorSessionTable.vue`\n  - `frontend/src/components/operator/OperatorReservationPanel.vue`\n  - `frontend/src/stories/operator-production/` 配下に production Story と MDX カタログ追加を確認\n- P2対応（エラー表示位置）: Pass\n  - 本人不一致 `403` を再現し、メッセージ「チェックイン書き込み権限がありません。」がチェックインパネル内（操作領域直下）に表示されることを確認\n- 導線回帰（ログイン→予約→QR→event/sessionチェックイン）: Pass\n  - successメッセージが同じチェックインパネル内に表示されることを確認\n\n### 補足\n\n- E2E再実行: `pnpm e2e --grep \"US-07\"` -> `2 passed`\n- スクリーンショット（ローカル）\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue29-retest-success.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue29-retest-error.png`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/29#issuecomment-3937191974",
+          "timestamps": {
+            "created_at": "2026-02-20T21:15:03Z",
+            "updated_at": "2026-02-20T21:15:03Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 54,
+          "pr_title": "[Post-MVP][US-11] チェックイン書き込み権限を厳格化する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/54",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 354,
+          "pr_deletions": 64,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T23:20:41Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T23:20:40Z",
+            "merged_at": "2026-02-17T23:42:20Z",
+            "closed_at": "2026-02-17T23:42:20Z"
+          },
+          "closes_issue_numbers": [
+            29
+          ]
+        },
+        {
+          "pr_number": 58,
+          "pr_title": "[Post-MVP][US-11] operator UI分割とチェックインUX改善",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/58",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 628,
+          "pr_deletions": 118,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 746,
+          "pr_comment_count": 3,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-18T01:02:28Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-18T01:02:26Z",
+            "merged_at": "2026-02-20T21:11:27Z",
+            "closed_at": "2026-02-20T21:11:27Z"
+          },
+          "closes_issue_numbers": [
+            29
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:05Z",
+        "issue_updated_at": "2026-02-20T21:15:47Z",
+        "issue_closed_at": "2026-02-20T21:15:46Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 54,
+          "pr_title": "[Post-MVP][US-11] チェックイン書き込み権限を厳格化する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/54",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 354,
+          "pr_deletions": 64,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 418,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-17T23:20:41Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-17T23:20:40Z",
+            "merged_at": "2026-02-17T23:42:20Z",
+            "closed_at": "2026-02-17T23:42:20Z"
+          }
+        },
+        {
+          "pr_number": 58,
+          "pr_title": "[Post-MVP][US-11] operator UI分割とチェックインUX改善",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/58",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 628,
+          "pr_deletions": 118,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 746,
+          "pr_comment_count": 3,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-18T01:02:28Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-18T01:02:26Z",
+            "merged_at": "2026-02-20T21:11:27Z",
+            "closed_at": "2026-02-20T21:11:27Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 41,
+      "issue_title": "[Post-MVP][US-12-3] 新導線に合わせてE2Eを更新する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/41",
+      "issue_body": "## 親Issue\n- Parent #30\n\n## ユーザーストーリー\n開発チームとして、導線分離後の挙動をE2Eで継続的に担保したい。なぜなら、リグレッションを防ぎたいから。\n\n## 詳細\n### 背景\n- #30 の受け入れ条件に「既存E2Eが新導線に合わせて更新」が含まれる。\n\n### 対応方針\n- 導線分離後のURL/操作に合わせて既存E2Eシナリオを更新する。\n- 必要に応じてシナリオを participant/admin で整理する。\n\n### 対象範囲\n- フロントE2E（Playwright）シナリオ更新\n- 参加者導線と管理導線の到達確認\n- 権限なし `/admin` 直接アクセス時の拒否確認\n\n### 非対象\n- デザイン改善そのもの（#31/#32/#35）\n- 認証方式刷新（#33/#34）\n\n## 受け入れ条件\n- [x] 既存E2Eが新導線に追従している\n- [x] 参加者/管理導線の基本シナリオが通る\n- [x] 権限なし `/admin` 直接アクセスの拒否シナリオが担保される\n\n## テスト観点（任意）\n- 正常系: participant/admin の主要導線が成功\n- 異常系: 権限なしアクセスで拒否される\n",
+      "issue_comment_count": 1,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "Issue #41 の受け入れ条件に対して、main 最新でE2Eを再検証しました。\n\n実施内容:\n- frontend/e2e/us10-participant-flow-separation.spec.ts を実行（participant導線）\n- frontend/e2e/us12-admin-route-access-control.spec.ts を実行（admin導線/403拒否）\n- pnpm playwright test でE2E全件を再実行\n\n結果:\n- 17/17 passed\n- /participant 参加者導線シナリオ: PASS\n- /admin 直接アクセス拒否（権限なし）: PASS\n- /admin 管理者トークン利用の管理導線: PASS\n\n現時点では追加修正は不要で、Issue #41 の受け入れ条件は充足済みです。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/41#issuecomment-3937205193",
+          "timestamps": {
+            "created_at": "2026-02-20T21:18:46Z",
+            "updated_at": "2026-02-20T21:18:46Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T03:51:22Z",
+        "issue_updated_at": "2026-02-20T21:19:32Z",
+        "issue_closed_at": "2026-02-20T21:19:32Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 30,
+      "issue_title": "[Post-MVP][US-12] 参加者画面と管理画面の導線を分離する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/30",
+      "issue_body": "## ユーザーストーリー\n参加者/運営として、画面導線を分離して誤操作を防ぎたい。なぜなら、現場運用性を向上したいから。\n\n## 詳細\n### 背景\n- 現状は参加者向け機能と運営機能が同一画面に混在している。\n\n### 現状の課題\n- 導線の認知負荷が高く、当日運用で誤操作を誘発する\n- 画面拡張時の保守性低下\n\n### 対応方針\n- #30 は親Issue（エピック）として、以下のスコープ単位で進める。\n\n### 子Issue（スコープ分割）\n- [x] #42 導線分離仕様をモックで合意する（仕様確定）\n- [x] #39 参加者導線 (`/participant`) を分離実装する\n- [x] #40 管理導線 (`/admin`) と直接アクセス制御を実装する\n- [x] #41 新導線に合わせてE2Eを更新する\n\n### 対象範囲（#30）\n- フロントのルーティング構成の分離（participant/admin）\n- 参加者UI/管理UIの画面分割\n- 直接URLアクセス時の最低限の制御\n- 新導線に合わせたE2E追従\n\n### 非対象（別Issue）\n- UIのCSS基盤整備（#31）\n- セッション一覧のタイムテーブル表示（#32）\n- 管理者認証方式自体の変更（#33）\n- クライアントでの機密トークン永続保存廃止（#34）\n- 予約情報表示モデル改善（#35）\n\n## 受け入れ条件\n- [x] 参加者画面と管理画面が明確に分離される\n- [x] 参加者導線から管理UIが見えない\n- [x] 権限なしで管理画面へ直接アクセスできない\n- [x] 既存E2Eが新導線に合わせて更新される\n- [x] 子Issue（#42 #39 #40 #41）が完了している\n\n## テスト観点（任意）\n- 正常系: 参加者/管理者それぞれ正しい導線に到達できる\n- 異常系: 権限なしで管理画面へアクセスできない\n- 境界値: 直接URLアクセス時の制御\n",
+      "issue_comment_count": 0,
+      "issue_comments": [],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 38,
+          "pr_title": "Issue #30: 参加者画面と管理画面の導線分離モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/38",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:36:16Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:36:15Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T03:59:40Z"
+          },
+          "closes_issue_numbers": [
+            30
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:07Z",
+        "issue_updated_at": "2026-02-20T21:20:44Z",
+        "issue_closed_at": "2026-02-20T21:20:44Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 38,
+          "pr_title": "Issue #30: 参加者画面と管理画面の導線分離モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/38",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:36:16Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:36:15Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T03:59:40Z"
+          }
+        },
+        {
+          "pr_number": 43,
+          "pr_title": "Issue #42: 参加者/管理導線分離のデザイナーモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/43",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 388,
+          "pr_deletions": 0,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T03:59:34Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T03:59:32Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T20:18:38Z"
+          }
+        },
+        {
+          "pr_number": 45,
+          "pr_title": "[Design][US-12-1] #39 participant導線モックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/45",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 864,
+          "pr_deletions": 1,
+          "pr_changed_files": 17,
+          "pr_changed_lines": 865,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T20:45:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T20:45:11Z",
+            "merged_at": "2026-02-16T21:12:39Z",
+            "closed_at": "2026-02-16T21:12:39Z"
+          }
+        },
+        {
+          "pr_number": 47,
+          "pr_title": "[Post-MVP][US-12-1] /participant 参加者導線を分離",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/47",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 2179,
+          "pr_deletions": 873,
+          "pr_changed_files": 21,
+          "pr_changed_lines": 3052,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:17:29Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:17:28Z",
+            "merged_at": "2026-02-16T22:10:14Z",
+            "closed_at": "2026-02-16T22:10:14Z"
+          }
+        },
+        {
+          "pr_number": 49,
+          "pr_title": "[UIUX][US-12-2] #40 管理導線とアクセス制御のモック設計",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/49",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 380,
+          "pr_deletions": 0,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 380,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:38:36Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:38:35Z",
+            "merged_at": null,
+            "closed_at": "2026-02-16T21:42:30Z"
+          }
+        },
+        {
+          "pr_number": 50,
+          "pr_title": "[Post-MVP][US-12-2] #40 管理導線のUI/UXモックを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/50",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 817,
+          "pr_deletions": 0,
+          "pr_changed_files": 18,
+          "pr_changed_lines": 817,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T21:49:19Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T21:49:18Z",
+            "merged_at": "2026-02-16T22:12:21Z",
+            "closed_at": "2026-02-16T22:12:21Z"
+          }
+        },
+        {
+          "pr_number": 51,
+          "pr_title": "[Post-MVP][US-12-2] 管理導線 (/admin) と直接アクセス制御を実装する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/51",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 252,
+          "pr_deletions": 24,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 276,
+          "pr_comment_count": 3,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T22:17:50Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T22:17:48Z",
+            "merged_at": "2026-02-16T22:28:17Z",
+            "closed_at": "2026-02-16T22:28:17Z"
+          }
+        },
+        {
+          "pr_number": 52,
+          "pr_title": "[Post-MVP][US-12-2] AdminViewを責務分割しUX指摘を反映",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/52",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 511,
+          "pr_deletions": 118,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 629,
+          "pr_comment_count": 1,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-16T23:57:35Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-16T23:57:33Z",
+            "merged_at": "2026-02-17T00:39:47Z",
+            "closed_at": "2026-02-17T00:39:47Z"
+          }
+        },
+        {
+          "pr_number": 67,
+          "pr_title": "[UIUX][Issue #32] セッションタイムテーブルのデザイナーモック作成",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/67",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 743,
+          "pr_deletions": 0,
+          "pr_changed_files": 10,
+          "pr_changed_lines": 743,
+          "pr_comment_count": 6,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T23:46:30Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T23:46:29Z",
+            "merged_at": "2026-02-21T00:15:15Z",
+            "closed_at": "2026-02-21T00:15:15Z"
+          }
+        },
+        {
+          "pr_number": 69,
+          "pr_title": "[Issue #32] 参加者セッション一覧をタイムテーブル表示へ変更",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/69",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 399,
+          "pr_deletions": 56,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 455,
+          "pr_comment_count": 4,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T00:23:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T00:23:01Z",
+            "merged_at": "2026-02-21T01:25:48Z",
+            "closed_at": "2026-02-21T01:25:48Z"
+          }
+        },
+        {
+          "pr_number": 75,
+          "pr_title": "[Issue #35] 予約情報可読化のデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/75",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 964,
+          "pr_deletions": 0,
+          "pr_changed_files": 16,
+          "pr_changed_lines": 964,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:34:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:34:21Z",
+            "merged_at": "2026-02-22T06:59:47Z",
+            "closed_at": "2026-02-22T06:59:47Z"
+          }
+        },
+        {
+          "pr_number": 76,
+          "pr_title": "[Issue #35] マイページ予約表示を人間可読モデルへ移行",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/76",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 100,
+          "pr_deletions": 15,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 115,
+          "pr_comment_count": 3,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:05:47Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:05:45Z",
+            "merged_at": "2026-02-22T07:37:24Z",
+            "closed_at": "2026-02-22T07:37:24Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 36,
+      "issue_title": "[Post-MVP][US-18] CSVインジェクション対策を実装する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/36",
+      "issue_body": "## ユーザーストーリー\n運営として、CSVを安全に取り扱いたい。なぜなら、CSV経由の攻撃リスクを下げたいから。\n\n## 詳細\n### 背景\n- CSV出力値にスプレッドシート関数として解釈される値が含まれる可能性がある。\n\n### 現状の課題\n- CSVを表計算ソフトで開いた際に式実行されるリスク\n\n### 対応方針\n- 先頭が危険文字（`=`, `+`, `-`, `@` 等）のセルを無害化して出力する。\n\n### 対象範囲\n- 予約CSV\n- チェックインCSV\n\n### 非対象\n- CSVフォーマット自体の全面変更\n\n## 受け入れ条件\n- [x] 危険文字先頭セルの無害化処理を適用する\n- [x] 既存CSV利用者の互換性を壊さない\n\n## 依存関係\n- なし\n\n## テスト観点（任意）\n- 正常系: 通常値は従来通り出力\n- 異常系: 危険文字先頭値が安全化される\n- 境界値: ダブルクォート、改行、カンマ混在データ\n\n",
+      "issue_comment_count": 1,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-21 07:01:38 JST\n- 対象ブランチ/コミット: `main` / `b0c7f55`\n\n### 受け入れ条件\n- [x] 危険文字先頭セルの無害化処理を適用する: Pass（`=CSV-INJECTION-TITLE` 先頭タイトルで作成した `session-16` を予約後、`reservations.csv` / `session-checkins.csv` の該当値が `'=CSV-INJECTION-TITLE` として出力されることを確認）\n- [x] 既存CSV利用者の互換性を壊さない: Pass（ヘッダー構造とUTF-8出力を維持。既存E2EおよびAPI結合テストを実行して成功）\n\n### API確認\n- 未認証アクセス: `GET /api/admin/exports/reservations` / `GET /api/admin/exports/session-checkins` ともに `401`\n- エクスポート結果: 管理者トークン付きアクセスで `200`、`text/csv;charset=UTF-8`、CSVダウンロード成功\n\n### UI確認\n- 操作手順:\n  1. `/participant` でゲストログイン\n  2. `/admin` で管理者トークン入力\n  3. 危険文字先頭タイトル `=CSV-INJECTION-TITLE` のセッションを作成\n  4. 予約作成後、予約CSV/チェックインCSVを出力\n- 確認結果: 管理画面でCSV出力成功トーストを確認し、出力CSV本文で無害化を確認\n\n### スクリーンショット\n- 事前状態（未ログイン）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue36-report/tmp/qa-issue36-before-login.png?raw=1\n- 出力成功状態（管理画面）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue36-report/tmp/qa-issue36-after-login-and-csv-export.png?raw=1\n\n### テスト観点と実施箇所\n- 危険文字先頭セルの無害化処理を適用する:\n  - ドメイン単体: `backend/src/test/java/com/event/export/CsvExportServiceTest.java`（`exportReservationsCsvSanitizesDangerousFormulaPrefixes` / `exportSessionCheckInsCsvSanitizesDangerousFormulaPrefixes`）\n  - API結合: 手動QAで `/api/admin/exports/*` 実レスポンス本文を確認（加えて `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java` のCSVエクスポート系を実行）\n  - UI E2E: 手動QA + `frontend/e2e/us09-admin-csv-export.spec.ts`\n- 既存CSV利用者の互換性を壊さない:\n  - ドメイン単体: `backend/src/test/java/com/event/export/CsvExportServiceTest.java`（UTF-8/エスケープ維持ケース）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationFlowTest.java`（CSVヘッダー/Content-Type/ダウンロード検証）\n  - UI E2E: `frontend/e2e/us09-admin-csv-export.spec.ts`（予約CSV/チェックインCSV出力導線）\n\n### 補足\n- 非ブロッキング観測事項: なし\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/36#issuecomment-3937365854",
+          "timestamps": {
+            "created_at": "2026-02-20T22:01:55Z",
+            "updated_at": "2026-02-20T22:01:55Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 60,
+          "pr_title": "[Post-MVP][US-18] CSVインジェクション対策を実装する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/60",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 79,
+          "pr_deletions": 1,
+          "pr_changed_files": 2,
+          "pr_changed_lines": 80,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T21:48:00Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T21:47:59Z",
+            "merged_at": "2026-02-20T21:56:17Z",
+            "closed_at": "2026-02-20T21:56:17Z"
+          },
+          "closes_issue_numbers": [
+            36
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:17Z",
+        "issue_updated_at": "2026-02-20T22:04:48Z",
+        "issue_closed_at": "2026-02-20T22:04:48Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 60,
+          "pr_title": "[Post-MVP][US-18] CSVインジェクション対策を実装する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/60",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 79,
+          "pr_deletions": 1,
+          "pr_changed_files": 2,
+          "pr_changed_lines": 80,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T21:48:00Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T21:47:59Z",
+            "merged_at": "2026-02-20T21:56:17Z",
+            "closed_at": "2026-02-20T21:56:17Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 37,
+      "issue_title": "[Post-MVP][US-19] GuestAuthenticationFlowTestを機能別に分割する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/37",
+      "issue_body": "## ユーザーストーリー\n開発者として、巨大統合テストを分割し保守しやすくしたい。なぜなら、障害解析時間を短縮したいから。\n\n## 詳細\n### 背景\n- `GuestAuthenticationFlowTest` が500行超で責務が混在している。\n\n### 現状の課題\n- 失敗時の原因特定が遅い\n- 変更時に不要なテスト破壊が起きやすい\n\n### 対応方針\n- 認証/予約/管理/チェックインなどの責務単位でテストクラスを分割する。\n\n### 対象範囲\n- バックエンド統合テスト構成\n- テストユーティリティ整理\n\n### 非対象\n- 本番コードの大規模仕様変更\n\n## 受け入れ条件\n- [x] `GuestAuthenticationFlowTest` を機能別に分割する\n- [x] 失敗時の責務境界が明確である\n- [x] CI実行時間が大きく悪化しない\n\n## 依存関係\n- なし\n\n## テスト観点（任意）\n- 正常系: 分割後も既存仕様を担保\n- 異常系: 各責務の失敗が独立して検出される\n- 境界値: 共通fixture変更の影響範囲\n\n",
+      "issue_comment_count": 0,
+      "issue_comments": [],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 62,
+          "pr_title": "[Issue #37] GuestAuthenticationFlowTestを機能別に分割",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/62",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 652,
+          "pr_deletions": 701,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 1353,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:14:57Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:14:56Z",
+            "merged_at": "2026-02-20T22:21:48Z",
+            "closed_at": "2026-02-20T22:21:48Z"
+          },
+          "closes_issue_numbers": [
+            37
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:19Z",
+        "issue_updated_at": "2026-02-20T22:24:57Z",
+        "issue_closed_at": "2026-02-20T22:24:57Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 62,
+          "pr_title": "[Issue #37] GuestAuthenticationFlowTestを機能別に分割",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/62",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 652,
+          "pr_deletions": 701,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 1353,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:14:57Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:14:56Z",
+            "merged_at": "2026-02-20T22:21:48Z",
+            "closed_at": "2026-02-20T22:21:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 31,
+      "issue_title": "[Post-MVP][US-13] UIのCSS基盤を整備する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/31",
+      "issue_body": "## ユーザーストーリー\n利用者として、最低限の視認性と操作性を持つUIで利用したい。なぜなら、体験品質の土台を整えたいから。\n\n## 詳細\n### 背景\n- 現状はCSS基盤が不足し、情報階層・状態表現・レスポンシブ対応が弱い。\n\n### 現状の課題\n- 可読性/操作性が低く、誤操作や離脱を招きやすい\n- UI変更時に整合性が取れない\n\n### 対応方針\n- 共通スタイル基盤（タイポ、余白、ボタン、フォーム、テーブル、状態表示）を整備する。\n\n### 対象範囲\n- フロントの共通スタイル\n- 状態表示（loading/error/success/disabled）の視覚ルール\n\n### 非対象\n- ブランド全面刷新レベルのデザイン改修\n\n## 受け入れ条件\n- [x] CSS基盤（余白、階層、状態表現）が適用される\n- [x] ローディング/エラー/成功状態が識別可能\n- [x] モバイル表示で主要操作が崩れない\n\n## 依存関係\n- なし\n\n## テスト観点（任意）\n- 正常系: 主要操作で状態表示が確認できる\n- 異常系: API失敗時のエラー表示が視認可能\n- 境界値: 小画面幅でレイアウト破綻しない\n\n",
+      "issue_comment_count": 4,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## バックログ詳細化（UIUX/開発の役割分担合意）\n\nIssue #31 の議論結果を反映し、実行バックログを以下で確定します。\n\n### 1. 方針（合意）\n- **CSS基盤の初版作成は UIUX デザイナー担当**\n- **本番適用後の保守・運用は開発担当**\n- Storybook を「見た目仕様の正」として扱い、実装はその契約に準拠する\n\n---\n\n### 2. UIUXデザイナー担当（仕様オーナー）\n- [x] 受け入れ条件を UX チェックポイント化（CP1-CP3）\n- [x] LoFi（mobile/tablet）作成\n  - `docs/uiux/issue-31-css-foundation.drawio`\n  - `docs/images/uiux/issue-31-css-foundation-p1.png`\n  - `docs/images/uiux/issue-31-css-foundation-p2.png`\n- [x] HiFi（Storybook）で状態仕様を固定\n  - `default / loading / success / error / disabled / mobile`\n- [x] 基盤CSS仕様を handoff に明文化\n  - クラス命名規約\n  - 状態表現ルール\n  - 使用トークン\n  - 禁止事項（直値カラー、独自disabled表現 など）\n- [x] handoff作成\n  - `docs/uiux/issue-31-handoff.md`\n\n---\n\n### 3. 開発担当（本番適用オーナー）\n- [x] 共通CSS基盤を実装し `main.ts` から読み込み\n  - `frontend/src/styles/base.css`\n  - `frontend/src/styles/layout.css`\n  - `frontend/src/styles/components.css`\n  - `frontend/src/styles/state.css`\n- [x] 共通UI部品へ置換\n  - `StatusMessage / BaseButton / BaseField / BaseTable / PageShell`\n- [x] 3導線へ適用\n  - `/participant`\n  - `/admin`\n  - `/operator`\n- [x] `operator` 画面の責務分割（単一View集中の解消）\n- [x] Storybook を実コンポーネント基準に更新\n- [x] モバイル確認（390 / 834 / 1280）と回帰確認\n\n---\n\n### 4. 共同チェック（齟齬防止）\n- [x] 実装着手前に 15分の仕様同期（handoff + Storybook）\n- [x] PRで仕様準拠チェックを必須化\n  - 契約クラスを使用している\n  - 状態バリエーションが網羅されている\n  - 禁止事項に抵触していない\n\n---\n\n### 5. このIssueの完了条件（再定義）\n- [x] CSS基盤（余白・階層・状態表現）が3導線に適用済み\n- [x] loading/error/success/disabled が一貫した見た目で識別可能\n- [x] 主要操作がモバイル幅で崩れない\n- [x] Storybook と handoff で仕様と実装の対応が追跡可能\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/31#issuecomment-3937280573",
+          "timestamps": {
+            "created_at": "2026-02-20T21:39:00Z",
+            "updated_at": "2026-02-20T23:17:10Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "実装対応PRを作成しました。\\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/61\\n- 内容: 共通CSS基盤（base/layout/components/state）導入と participant/admin/operator への適用\\n- 検証: frontend の lint/typecheck/test 実施済み",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/31#issuecomment-3937389760",
+          "timestamps": {
+            "created_at": "2026-02-20T22:08:05Z",
+            "updated_at": "2026-02-20T22:08:05Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "未完了項目対応の追加PRを作成しました。\\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/63\\n- 対応: 実コンポーネント基準Storybook（3導線 / 390・834・1280）追加、モバイル回帰確認メモ追加",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/31#issuecomment-3937428018",
+          "timestamps": {
+            "created_at": "2026-02-20T22:20:22Z",
+            "updated_at": "2026-02-20T22:20:22Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-21 08:04 JST\n- 対象ブランチ/コミット: `main` / `60e50fa17ce7fcc7dba321dccedbff45806ff5c3`\n- 総合判定: Pass\n\n### 受け入れ条件\n- [x] CSS基盤（余白、階層、状態表現）が適用される: Pass（`frontend/src/styles/base.css` `layout.css` `components.css` `state.css` と実画面の `ui-*` クラス適用を確認）\n- [x] ローディング/エラー/成功状態が識別可能: Pass（成功・エラー・disabled の実画面表示を確認。loading は実装クラス + Storybook production catalogで確認）\n- [x] モバイル表示で主要操作が崩れない: Pass（390x844 で participant/admin/operator の主要操作導線を確認）\n\n### API確認\n- 未認証アクセス: `GET /api/reservations` が `401` を返すことを確認（`curl -i http://127.0.0.1:8080/api/reservations`）\n- エラー系（409等）: 本IssueはCSS基盤整備が主対象のため、409系は今回の受け入れ判定対象外\n\n### UI確認\n- 操作手順:\n  1. `/participant` でログイン前状態を確認\n  2. ゲストログイン後に予約操作を実行し、success/disabled表示を確認\n  3. 無効トークンで再読込し、error表示を確認\n  4. `/admin` で権限なし・権限あり状態を確認\n  5. 390x844 で `/participant` `/admin` `/operator` の主要操作を確認\n- 確認結果: 受け入れ条件に対するUX挙動は成立\n\n### スクリーンショット\n- 参加者画面（ログイン前）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-participant-before-login.png?raw=1\n- 参加者画面（予約成功 + disabled）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-participant-reserve-success-disabled.png?raw=1\n- 参加者画面（error状態）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-participant-error-state.png?raw=1\n- 管理画面（390x844 / 権限なし）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-admin-mobile-forbidden.png?raw=1\n- 管理画面（390x844 / 権限あり）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-admin-mobile-authorized.png?raw=1\n- 運営画面（390x844）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue31-report/tmp/qa-issue31-operator-mobile.png?raw=1\n\n### テスト観点と実施箇所\n- 条件1（CSS基盤適用）\n  - ドメイン単体: 対象外（UIスタイル要件のため）\n  - API結合: 対象外（UIスタイル要件のため）\n  - UI E2E: 手動UX確認（Playwright MCP） + `frontend/src/stories/issue-31-production/Issue31ProductionCatalog.mdx`\n- 条件2（状態識別）\n  - ドメイン単体: 対象外\n  - API結合: 対象外\n  - UI E2E: 手動UX確認（success/error/disabled） + `cd frontend && pnpm e2e`（17 passed）\n- 条件3（モバイル崩れなし）\n  - ドメイン単体: 対象外\n  - API結合: 対象外\n  - UI E2E: 手動UX確認（390x844） + `frontend/src/stories/issue-31-production/*Responsive.stories.ts`\n\n### 補足\n- 非ブロッキング観測事項: `/operator` は情報量が多く縦スクロール量が大きい。操作不能ではないが、次フェーズで情報グルーピング改善余地あり。\n\n---\n\n## UXレビュー結果\n\n- 対象Issue: #31\n- 実施日時: 2026-02-21 08:04 JST\n- 対象環境: main\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- CP1（CSS基盤適用）: Pass\n- CP2（状態識別）: Pass\n- CP3（モバイル主要操作）: Pass\n\n### 指摘事項\n\n- なし\n\n### 備考\n\n- QA証跡画像は `qa-issue31-report` ブランチを参照。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/31#issuecomment-3937563580",
+          "timestamps": {
+            "created_at": "2026-02-20T23:04:58Z",
+            "updated_at": "2026-02-20T23:04:58Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 59,
+          "pr_title": "docs(uiux): issue #31 css foundation pre-PR mock deliverables",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/59",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 775,
+          "pr_deletions": 0,
+          "pr_changed_files": 18,
+          "pr_changed_lines": 775,
+          "pr_comment_count": 3,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T21:45:35Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T21:45:33Z",
+            "merged_at": "2026-02-20T21:59:39Z",
+            "closed_at": "2026-02-20T21:59:39Z"
+          },
+          "closes_issue_numbers": [
+            31
+          ]
+        },
+        {
+          "pr_number": 61,
+          "pr_title": "feat(frontend): implement css foundation for issue #31",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/61",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 639,
+          "pr_deletions": 394,
+          "pr_changed_files": 20,
+          "pr_changed_lines": 1033,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:07:57Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:07:56Z",
+            "merged_at": "2026-02-20T22:13:31Z",
+            "closed_at": "2026-02-20T22:13:31Z"
+          },
+          "closes_issue_numbers": [
+            31
+          ]
+        },
+        {
+          "pr_number": 63,
+          "pr_title": "docs(storybook): complete issue #31 production responsive checks",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/63",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 387,
+          "pr_deletions": 1,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 4,
+          "pr_review_count": 4,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:20:16Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:20:15Z",
+            "merged_at": "2026-02-20T22:53:01Z",
+            "closed_at": "2026-02-20T22:53:01Z"
+          },
+          "closes_issue_numbers": [
+            31
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:08Z",
+        "issue_updated_at": "2026-02-20T23:21:41Z",
+        "issue_closed_at": "2026-02-20T23:21:41Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 59,
+          "pr_title": "docs(uiux): issue #31 css foundation pre-PR mock deliverables",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/59",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 775,
+          "pr_deletions": 0,
+          "pr_changed_files": 18,
+          "pr_changed_lines": 775,
+          "pr_comment_count": 3,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T21:45:35Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T21:45:33Z",
+            "merged_at": "2026-02-20T21:59:39Z",
+            "closed_at": "2026-02-20T21:59:39Z"
+          }
+        },
+        {
+          "pr_number": 61,
+          "pr_title": "feat(frontend): implement css foundation for issue #31",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/61",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 639,
+          "pr_deletions": 394,
+          "pr_changed_files": 20,
+          "pr_changed_lines": 1033,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:07:57Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:07:56Z",
+            "merged_at": "2026-02-20T22:13:31Z",
+            "closed_at": "2026-02-20T22:13:31Z"
+          }
+        },
+        {
+          "pr_number": 63,
+          "pr_title": "docs(storybook): complete issue #31 production responsive checks",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/63",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 387,
+          "pr_deletions": 1,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 388,
+          "pr_comment_count": 4,
+          "pr_review_count": 4,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:20:16Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:20:15Z",
+            "merged_at": "2026-02-20T22:53:01Z",
+            "closed_at": "2026-02-20T22:53:01Z"
+          }
+        },
+        {
+          "pr_number": 66,
+          "pr_title": "docs: add UI/CSS spec compliance checklist to PR template",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/66",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 6,
+          "pr_deletions": 0,
+          "pr_changed_files": 2,
+          "pr_changed_lines": 6,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T23:14:12Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T23:14:11Z",
+            "merged_at": "2026-02-20T23:16:19Z",
+            "closed_at": "2026-02-20T23:16:19Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 32,
+      "issue_title": "[Post-MVP][US-14] セッション一覧をタイムテーブル表示にする",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/32",
+      "issue_body": "## ユーザーストーリー\n参加者として、セッションをタイムテーブルで比較したい。なぜなら、予約判断を迅速化したいから。\n\n## 詳細\n### 背景\n- 現状のリスト表示では同時間帯比較がしづらい。\n\n### 現状の課題\n- 時間帯ごとの比較に認知コストがかかる\n- 予約操作までの導線が長い\n\n### 対応方針\n- 時間×トラックのタイムテーブル表示へ変更し、各セルから予約可能にする。\n\n### 対象範囲\n- セッション一覧UI\n- 予約ボタンの配置と状態表示\n\n### 非対象\n- セッション検索/フィルタ高度化（別Issue化）\n\n## 受け入れ条件\n- [x] 時間×トラックで表示される\n- [x] 各枠で予約操作できる\n- [x] 満席/予約済み状態がセル内で識別できる\n\n## 依存関係\n- #30\n\n## テスト観点（任意）\n- 正常系: 任意セルから予約成功\n- 異常系: 満席/制約違反で適切エラー\n- 境界値: トラック増減時にも表示が破綻しない\n\n",
+      "issue_comment_count": 6,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## 実装詳細化（整理版）\n\nチェックリストの運用は以下で統一します。\n- 作業管理: 本コメント内の「デザインタスク」「開発タスク」チェックリスト\n- 完了判定: Issue本文の「受け入れ条件」（唯一の判定基準）\n\n### デザインタスク\n- [x] ユーザーフローを確定（比較→判断→予約→状態反映）\n- [x] LoFi作成: `docs/uiux/issue-32-session-timetable.drawio`（p1: Mobile / p2: Tablet）\n- [x] LoFi画像エクスポート（p1/p2、必要時は結合画像）\n- [x] HiFiモック（Storybook）作成（normal/loading/success/error）\n- [x] `docs/uiux/issue-32-handoff.md` 作成\n- [x] handoffにCP対応表（CP1-CP3）を記載\n- [x] handoffに状態定義（OPEN/FEW_LEFT/FULL/予約済み）を記載\n- [x] handoffに操作仕様（活性条件・反映順序・エラー時挙動）を記載\n- [x] handoffにレスポンシブ制約（横スクロール、トラック増減時）を記載\n- [x] handoffに未確定事項・決定ログを記載\n\n### 開発タスク\n- [ ] `frontend/src/views/ParticipantView.vue` を時間×トラック表示へ変更\n- [ ] タイムテーブルUIを実装（例: `frontend/src/components/participant/ParticipantSessionTimetable.vue`）\n- [ ] 既存予約処理を接続（`reserveSession` / `isSessionReserved` / `availabilityStatusLabel`）\n- [ ] セル内で状態識別を実装（満席/予約済み）\n- [ ] Mobile/Tabletでのレイアウト崩れ防止（横スクロール含む）\n- [ ] Storybook更新（participant系の主要状態）\n- [ ] E2E更新（`us03-session-list.spec.ts` / `us04-session-reservation-constraints.spec.ts`）\n- [ ] `frontend` で lint/test 実行\n\n### 責任境界\n- デザイナー責任: 導線・状態表現・レスポンシブルールの仕様確定とhandoff明文化\n- 開発責任: handoff仕様どおりの実装、既存予約ロジック整合、テスト更新と検証\n- 共同責任: 予約可否条件・状態優先順位・文言の最終合意、差分レビュー\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3937639666",
+          "timestamps": {
+            "created_at": "2026-02-20T23:32:48Z",
+            "updated_at": "2026-02-21T00:16:19Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "実装対応を完了し、PRを作成しました。\\n- PR: #69 ([Issue #32] 参加者セッション一覧をタイムテーブル表示へ変更)\\n\\n主な対応:\\n- 参加者画面を時間×トラックのタイムテーブルUIへ変更\\n- 各セルから予約操作可能（OPEN/FEW_LEFT活性、FULL/予約済み/空枠は非活性）\\n- 関連E2EとStorybookを更新",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3937752348",
+          "timestamps": {
+            "created_at": "2026-02-21T00:23:10Z",
+            "updated_at": "2026-02-21T00:23:10Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果（更新）\n- 実行日時: 2026-02-21 10:37:57 JST\n- 対象ブランチ/コミット: `main` / `bf4ee3a`\n- 総合判定: **Pass**\n\n### 受け入れ条件\n- [x] 時間×トラックで表示される: **Pass**（UI手動確認 + E2E `frontend/e2e/us03-session-list.spec.ts` Pass）\n- [x] 各枠で予約操作できる: **Pass**（UI手動確認 + E2E `frontend/e2e/us04-session-reservation-constraints.spec.ts` Pass）\n- [x] 満席/予約済み状態がセル内で識別できる: **Pass**（UI手動確認 + E2E Pass）\n\n### API確認\n- 未認証アクセス: `GET /api/reservations` が `401`\n- ヘルスチェック: `GET /api/health` が `200`（`ok`）\n\n### UI確認\n- `/participant` でゲストログイン後、タイムテーブル表示・セル予約操作・状態表示（予約済み/満席）を確認\n\n### スクリーンショット\n- 事前状態（ログイン前）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue32-report/tmp/qa-issue32-before-login.png?raw=1\n- 成功状態（ログイン後・タイムテーブル表示）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue32-report/tmp/qa-issue32-after-login-timetable.png?raw=1\n\n### テスト観点と実施箇所\n- 条件1（時間×トラック表示）\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java`\n  - UI E2E: `frontend/e2e/us03-session-list.spec.ts`（Pass）\n- 条件2（各枠の予約操作）\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestReservationFlowTest.java`\n  - UI E2E: `frontend/e2e/us04-session-reservation-constraints.spec.ts`（Pass）\n- 条件3（満席/予約済み識別）\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java`\n  - UI E2E: `frontend/e2e/us03-session-list.spec.ts`, `frontend/e2e/us04-session-reservation-constraints.spec.ts`（Pass）\n\n### 補足\n- E2E保守対応（`getByText('Session 1')` の曖昧一致解消、旧UI前提の連結文言期待を現UI向けに修正）を実施\n- `pnpm e2e` 実行結果: **17 passed / 0 failed**\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3937872685",
+          "timestamps": {
+            "created_at": "2026-02-21T01:31:21Z",
+            "updated_at": "2026-02-21T01:38:23Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果（基準更新後 再評価）\n\n- 対象Issue: #32\n- 実施日時: 2026-02-21 15:16 JST\n- 対象環境: main\n- 総合判定: Pass（P1なし / P2・P3あり）\n\n### 確認チェックポイント\n\n- 時間×トラックで比較できる: Pass\n- 各枠で予約操作できる: Pass\n- 満席/予約済み状態が識別できる: Pass\n- 実装構造チェック（7.1）: Pass\n  - `ParticipantView` はコンテナとして機能し、タイムテーブル責務は子コンポーネントへ分離\n  - 実コンポーネント基準のStorybook（`ParticipantSessionTimetable.stories.ts`）を確認\n- モバイルUX判定（7.3）: Fail（P2）\n\n### 指摘事項\n\n- [P2] モバイル主タスクで追加操作負荷が高く、比較判断の効率が低下する\n  - 再現手順: `390x844` で `/participant` を開く -> ゲストログイン -> 10:30枠で Track A/B/C を比較して予約先を判断\n  - 期待結果: 主タスク（閲覧 -> 判断 -> 操作完了）が過度な追加操作なしで進められる\n  - 実結果: タイムテーブル横方向の追加操作が必要（計測値: `clientWidth=347`, `scrollWidth=720`）で、比較時の視線/操作往復が発生\n  - 影響範囲: モバイル利用時の予約判断速度低下、比較漏れリスク増\n  - 改善提案:\n    1. 情報構造: Time列/ヘッダの固定（現在位置維持）\n    2. 操作導線: モバイル代替ビュー（時間別カード）または表示切替の追加\n    3. 文言/フィードバック: 初回ガイダンスで追加操作を明示\n\n- [P3] 同時間帯予約の「置換」が成功文言から読み取りにくい\n  - 再現手順: Session 1 予約後、同時間帯の Session 2 を予約\n  - 期待結果: 予約置換（Session 1 -> Session 2）が文言で明示される\n  - 実結果: 「Session 2 を予約しました。」のみ表示\n  - 影響範囲: 一部ユーザーが追加予約と誤認する可能性\n  - 改善提案: 置換時の専用成功文言を追加\n\n### 備考\n\n- P1（リリースブロッカー）該当事項はなし。\n- 優先順位は `情報構造` -> `操作導線` -> `文言/フィードバック`。\n- 証跡: `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-issue32-reval-mobile-390x844.png`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3937925073",
+          "timestamps": {
+            "created_at": "2026-02-21T02:03:39Z",
+            "updated_at": "2026-02-21T06:16:24Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "Issueコメントをトリアージしました。\n\n結果:\n- 対応容易（追加PRで対応）: P3 同時間帯予約の置換が成功文言から読み取りにくい\n  - 対応PR: #71\n  - 内容: 置換発生時の成功文言を「X に変更しました（Y を解除）」へ変更\n\n- リグレッションリスクあり（別Issueで管理）: P2 モバイルでの横スクロール起因の比較操作負荷\n  - 起票Issue: #70\n  - 理由: レイアウト/情報設計の変更が必要で、表示崩れ・操作導線への波及が大きいため段階的に対応する\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3938278227",
+          "timestamps": {
+            "created_at": "2026-02-21T06:30:14Z",
+            "updated_at": "2026-02-21T06:30:14Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #32\n- 実施日時: 2026-02-21 18:44 JST\n- 対象環境: main (`e11c94b`)\n- 総合判定: Pass（P1なし / P2あり）\n\n### 確認チェックポイント\n\n- 時間×トラックで比較できる: Pass\n- 各枠で予約操作できる: Pass\n- 満席/予約済み状態が識別できる: Pass\n- 実装構造チェック（7.1）: Pass\n- モバイルUX判定（7.3）: Fail（P2）\n\n### 指摘事項\n\n- [P2] モバイル（390x844）で横スクロール依存が強く、比較判断時の操作負荷が高い\n  - 再現手順: `390x844` で `/participant` を表示 -> ゲストログイン -> 10:30枠の Track A/B/C を比較\n  - 期待結果: 主タスク（閲覧 -> 判断 -> 予約）が過度な追加操作なしで進められる\n  - 実結果: タイムテーブルが横スクロール必須（計測: `clientWidth=347`, `scrollWidth=720`）で視線/操作往復が発生\n  - 影響範囲: モバイル利用時の比較効率低下、判断漏れリスク増\n  - 改善提案: Time列/ヘッダ固定、またはモバイル代替ビュー（時間別カード）導入\n\n### 備考\n\n- 前回指摘の P3（置換成功文言）は解消を確認。\n  - 再現: Session 1 予約後に Session 2 を予約\n  - 実表示: `Session 2 に変更しました（Session 1 を解除）`\n- P1（リリースブロッカー）該当事項はなし。\n- 証跡:\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-retest-issue32-v2-mobile-before-login.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-retest-issue32-v2-mobile-after-replace.png`\n  - `/Users/autotaker/git/simple-event-reservation-system/tmp/ux-retest-issue32-v2-tablet.png`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/32#issuecomment-3938524680",
+          "timestamps": {
+            "created_at": "2026-02-21T09:44:59Z",
+            "updated_at": "2026-02-21T09:44:59Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 67,
+          "pr_title": "[UIUX][Issue #32] セッションタイムテーブルのデザイナーモック作成",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/67",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 743,
+          "pr_deletions": 0,
+          "pr_changed_files": 10,
+          "pr_changed_lines": 743,
+          "pr_comment_count": 6,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T23:46:30Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T23:46:29Z",
+            "merged_at": "2026-02-21T00:15:15Z",
+            "closed_at": "2026-02-21T00:15:15Z"
+          },
+          "closes_issue_numbers": [
+            32
+          ]
+        },
+        {
+          "pr_number": 69,
+          "pr_title": "[Issue #32] 参加者セッション一覧をタイムテーブル表示へ変更",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/69",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 399,
+          "pr_deletions": 56,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 455,
+          "pr_comment_count": 4,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T00:23:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T00:23:01Z",
+            "merged_at": "2026-02-21T01:25:48Z",
+            "closed_at": "2026-02-21T01:25:48Z"
+          },
+          "closes_issue_numbers": [
+            32
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:10Z",
+        "issue_updated_at": "2026-02-21T21:58:07Z",
+        "issue_closed_at": "2026-02-21T21:58:07Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 67,
+          "pr_title": "[UIUX][Issue #32] セッションタイムテーブルのデザイナーモック作成",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/67",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 743,
+          "pr_deletions": 0,
+          "pr_changed_files": 10,
+          "pr_changed_lines": 743,
+          "pr_comment_count": 6,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T23:46:30Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T23:46:29Z",
+            "merged_at": "2026-02-21T00:15:15Z",
+            "closed_at": "2026-02-21T00:15:15Z"
+          }
+        },
+        {
+          "pr_number": 69,
+          "pr_title": "[Issue #32] 参加者セッション一覧をタイムテーブル表示へ変更",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/69",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 399,
+          "pr_deletions": 56,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 455,
+          "pr_comment_count": 4,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T00:23:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T00:23:01Z",
+            "merged_at": "2026-02-21T01:25:48Z",
+            "closed_at": "2026-02-21T01:25:48Z"
+          }
+        },
+        {
+          "pr_number": 71,
+          "pr_title": "[Issue #32] 予約置換時の成功メッセージを明示化",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/71",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 19,
+          "pr_deletions": 0,
+          "pr_changed_files": 1,
+          "pr_changed_lines": 19,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T06:29:49Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T06:29:48Z",
+            "merged_at": "2026-02-21T09:37:43Z",
+            "closed_at": "2026-02-21T09:37:43Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 68,
+      "issue_title": "[Post-MVP][Tech] セッション一覧APIにトラック表示順（displayOrder）を追加する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/68",
+      "issue_body": "## ユーザーストーリー\n参加者として、タイムテーブルのトラック順が一貫していてほしい。なぜなら、比較対象の位置が毎回変わると予約判断が遅くなるから。\n\n## 詳細\n### 背景\n- Issue #32 のデザインhandoffでは「トラック順」を仕様化しているが、現行APIの `SessionSummaryResponse` に順序制御フィールドがない。\n- 現状はフロント側の暫定並び替え（トラック名昇順）しか選べず、運営意図どおりの列順を保証できない。\n\n### 現状の課題\n- イベントごとに想定したトラック表示順（例: Main Hall を先頭固定）をAPIで表現できない\n- フロントの独自解釈に依存し、将来の運用変更時に整合崩れが起こりやすい\n\n### 対応方針\n- `SessionSummaryResponse`（および関連DTO/Entity）にトラック表示順を表す `displayOrder` を追加する\n\n### 対象範囲\n- Backend API: セッション一覧レスポンス拡張（`displayOrder`）\n- Backendテスト: 並び順の単体/統合テスト\n\n### 非対象\n- Frontend: `displayOrder` 対応の並び替え実装\n- タイムテーブルUIの見た目刷新\n- セッション検索/フィルタ仕様の変更\n\n## 受け入れ条件\n- [x] `SessionSummaryResponse` に `displayOrder` を含めて返却できる\n- [x] 並び順ロジックに対するバックエンドテストが追加される\n\n## 依存関係\n- #32\n\n## テスト観点（任意）\n- 正常系: `displayOrder` 0,1,2 を返却できる\n- 異常系: `displayOrder` 欠落/重複時のレスポンス整合が保たれる\n- 境界値: トラック数増減時も順序規則が維持される\n\n",
+      "issue_comment_count": 2,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "実装PRを作成しました。\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/74\n- スコープ: Backend API (`displayOrder` 追加) + Backendテスト\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/68#issuecomment-3940252982",
+          "timestamps": {
+            "created_at": "2026-02-22T06:03:21Z",
+            "updated_at": "2026-02-22T06:03:41Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-22 15:13:55 JST\n- 対象ブランチ/コミット: `main` / `538a0713f726080a79875dcecb59d075b622f335`\n- 参照PR: https://github.com/autotaker/simple-event-reservation-system/pull/74\n\n### 受け入れ条件\n- [x] `SessionSummaryResponse` に `displayOrder` を含めて返却できる  \n  根拠: `POST /api/auth/guest` で取得したトークンを付与して `GET /api/reservations/sessions` を実行し、先頭4件で `displayOrder=0,1,2,3` を確認。\n- [x] 並び順ロジックに対するバックエンドテストが追加される  \n  根拠: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java` に `displayOrder` 検証が存在し、下記テスト実行で成功。\n\n### API確認\n- 未認証アクセス: `GET /api/reservations/sessions` は `401` を返却（確認済み）\n- `displayOrder` 返却: `keynote=0`, `session-1=1`, `session-2=2`, `session-3=3` を確認\n\n### UI確認（Playwright MCP）\n- ログイン前状態を確認\n- 「ゲストでログイン」後、セッション一覧表示を確認\n- 「キーノートを予約」実行後、成功トーストと予約一覧反映を確認\n\n### スクリーンショット\n- ログイン前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue68-report/tmp/qa-issue68-before-login.png?raw=1\n- ログイン後+予約成功: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue68-report/tmp/qa-issue68-after-login-and-reservation.png?raw=1\n\n### テスト観点と実施箇所\n- 条件1（`displayOrder`返却）:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java`\n  - UI E2E: `frontend/e2e/us03-session-list.spec.ts`（一覧表示導線の回帰）\n- 条件2（並び順ロジックのテスト追加）:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAdminFlowTest.java`\n  - UI E2E: 手動QAでAPI値とUI導線を確認（本IssueはBackend拡張のためUI仕様変更なし）\n\n### 自動テスト実行結果\n- Backend: `./gradlew test --tests 'com.event.reservation.ReservationServiceTest' --tests 'com.event.security.GuestAuthenticationApiFlowTest' --tests 'com.event.security.GuestAdminFlowTest' --tests 'com.event.export.CsvExportServiceTest'` ✅\n- Frontend E2E: `cd frontend && pnpm e2e`（17 passed） ✅\n\n### 判定\n- Pass\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/68#issuecomment-3940264516",
+          "timestamps": {
+            "created_at": "2026-02-22T06:14:19Z",
+            "updated_at": "2026-02-22T06:14:19Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 74,
+          "pr_title": "[Issue #68] セッション一覧APIにdisplayOrderを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/74",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 80,
+          "pr_deletions": 7,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 87,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:03:13Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:03:12Z",
+            "merged_at": "2026-02-22T06:10:24Z",
+            "closed_at": "2026-02-22T06:10:24Z"
+          },
+          "closes_issue_numbers": [
+            68
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-21T00:10:38Z",
+        "issue_updated_at": "2026-02-22T06:15:41Z",
+        "issue_closed_at": "2026-02-22T06:15:41Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 67,
+          "pr_title": "[UIUX][Issue #32] セッションタイムテーブルのデザイナーモック作成",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/67",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 743,
+          "pr_deletions": 0,
+          "pr_changed_files": 10,
+          "pr_changed_lines": 743,
+          "pr_comment_count": 6,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T00:11:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T23:46:29Z",
+            "merged_at": "2026-02-21T00:15:15Z",
+            "closed_at": "2026-02-21T00:15:15Z"
+          }
+        },
+        {
+          "pr_number": 69,
+          "pr_title": "[Issue #32] 参加者セッション一覧をタイムテーブル表示へ変更",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/69",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 399,
+          "pr_deletions": 56,
+          "pr_changed_files": 7,
+          "pr_changed_lines": 455,
+          "pr_comment_count": 4,
+          "pr_review_count": 1,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T00:23:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T00:23:01Z",
+            "merged_at": "2026-02-21T01:25:48Z",
+            "closed_at": "2026-02-21T01:25:48Z"
+          }
+        },
+        {
+          "pr_number": 74,
+          "pr_title": "[Issue #68] セッション一覧APIにdisplayOrderを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/74",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 80,
+          "pr_deletions": 7,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 87,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:03:13Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:03:12Z",
+            "merged_at": "2026-02-22T06:10:24Z",
+            "closed_at": "2026-02-22T06:10:24Z"
+          }
+        },
+        {
+          "pr_number": 75,
+          "pr_title": "[Issue #35] 予約情報可読化のデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/75",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 964,
+          "pr_deletions": 0,
+          "pr_changed_files": 16,
+          "pr_changed_lines": 964,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:34:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:34:21Z",
+            "merged_at": "2026-02-22T06:59:47Z",
+            "closed_at": "2026-02-22T06:59:47Z"
+          }
+        },
+        {
+          "pr_number": 76,
+          "pr_title": "[Issue #35] マイページ予約表示を人間可読モデルへ移行",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/76",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 100,
+          "pr_deletions": 15,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 115,
+          "pr_comment_count": 3,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:05:47Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:05:45Z",
+            "merged_at": "2026-02-22T07:37:24Z",
+            "closed_at": "2026-02-22T07:37:24Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 33,
+      "issue_title": "[Post-MVP][US-15] 管理者認証を短命・失効可能な方式にする",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/33",
+      "issue_body": "## ユーザーストーリー\n運営として、管理者認証を短命・失効可能な方式で運用したい。なぜなら、権限漏えい時の影響を最小化したいから。\n\n## 詳細\n### 背景\n- 現状は固定トークン1本で運用している。\n\n### 現状の課題\n- 漏えい時の影響が大きく、失効運用が困難\n- 操作主体の追跡性が不足\n\n### 対応方針\n- 管理者ログイン方式を導入し、短命トークン + 失効可能な仕組みに移行する。\n\n### 対象範囲\n- 管理者認証フロー\n- 管理API認可の見直し\n\n### 非対象\n- 一般参加者認証の全面刷新（Google OAuth導入は別Issue）\n\n## 受け入れ条件\n- [x] 固定トークン単一依存を解消する\n- [x] 期限・失効の仕組みを提供する\n- [x] 運用手順（発行/失効）がドキュメント化される\n\n## 依存関係\n- なし\n\n## テスト観点（任意）\n- 正常系: 正規管理者で管理API利用可能\n- 異常系: 期限切れ/失効済みトークンで拒否\n- 境界値: トークン更新タイミングでの多重リクエスト\n\n",
+      "issue_comment_count": 8,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## 実装詳細化（整理版）\n\n前提/目的:\n- 目的は「固定トークン単一依存」から脱却し、短命かつ失効可能な管理者認証運用へ移行すること。\n- 本Issueのスコープは管理者認証フローと管理API認可の見直しに限定し、一般参加者認証刷新は対象外。\n\nチェックリスト運用:\n- 作業管理: 本コメントのデザイン/開発チェックリスト\n- 完了判定: Issue本文の受け入れ条件（唯一の判定基準）\n\n---\n\n### PO/TL 確定仕様（着手ゲート確定）\n- 認証方式:\n  - 管理者認証は **opaque token + サーバー側セッション管理** を採用する。\n  - 固定 `app.auth.admin-token` の直接照合は廃止する。\n- トークンTTL:\n  - **30分固定（絶対期限）**。\n  - スライディング延長（アクセスごとの延命）は行わない。\n- 失効ポリシー:\n  - 失効単位は **当該トークンのみ**（個別失効）。\n  - `POST /api/auth/admin/logout` で現在トークンを失効可能にする。\n- 認証API契約:\n  - 追加: `POST /api/auth/admin`\n  - request: `{\"operatorId\":\"...\", \"password\":\"...\"}`\n  - response: `{\"accessToken\":\"...\", \"tokenType\":\"Bearer\", \"operatorId\":\"...\", \"expiresAt\":\"...\"}`\n- エラー契約（統一）:\n  - 401: 未認証/期限切れ/失効/不正トークン\n  - 403: 認証済みだが権限不足\n  - エラーレスポンス形式は `{\"code\":\"...\", \"message\":\"...\"}` に統一する。\n- フロント保持方針:\n  - 管理者トークンは **sessionStorage** に保存する。\n  - 401受信時は即時破棄し、再認証状態へ遷移させる。\n- UI状態モデル:\n  - `未認証` / `認証中` / `認証済み` / `期限切れ` / `失効` / `権限不足`\n  - 管理UI本体は「入力済み」ではなく **認証済み確定後** にのみ表示する。\n\n### PO/TL 判断理由\n- opaque token採用:\n  - 今回の主目的は「漏えい時の影響最小化」と「失効運用」であり、サーバー側で即時失効判定できる方式が最短で要件に合致するため。\n- 固定トークン廃止:\n  - 固定値は漏えい時の影響範囲が大きく、発行/失効運用ができないため。\n- TTL 30分固定:\n  - 運用者の操作継続性と漏えい耐性のバランスが取れる時間幅であり、絶対期限により挙動が明確で検証しやすいため。\n- スライディング延長なし:\n  - セッション寿命が読みにくくなり運用・テストが複雑化するため。まずは単純で予測可能な挙動を優先。\n- 個別失効（トークン単位）:\n  - 影響範囲を最小化でき、誤失効による運用停止リスクを抑えられるため。\n- `/api/auth/admin` + `/api/auth/admin/logout`:\n  - 発行/失効の責務を明確に分離し、手順書・監査観点でも説明しやすいため。\n- 401/403の明確化:\n  - 再認証導線（401）と権限不足案内（403）をUIで分離でき、ユーザーの次行動を一意にできるため。\n- エラー形式 `code/message` 統一:\n  - 画面文言と開発者向け原因識別を両立し、E2E/統合テストの安定性を高めるため。\n- sessionStorage採用:\n  - 共有端末を想定した際にlocalStorageより残留リスクを下げられるため。\n- 管理UIの表示条件を「認証済み確定後」に限定:\n  - 認可前に機微な管理UIが見えるUX/セキュリティ上の不整合を防ぐため。\n- 6状態モデル固定:\n  - 実装・デザイン・テストで同一状態遷移を共有し、手戻りを防ぐため。\n\n### 着手ゲート判定\n- [x] 管理者トークンTTLを確定（30分固定）\n- [x] 失効単位を確定（対象トークンのみ失効）\n- [x] 認証API契約を確定（`/api/auth/admin` request/response）\n- [x] フロント保持方針を確定（sessionStorage + 401で破棄）\n- [x] UI状態モデルを確定（6状態）\n\n---\n\n### デザインタスク\n- [ ] 管理者ログイン画面の入力要素と文言を確定する（運用に必要な最小入力）\n- [ ] 期限切れ（401）時の再認証導線を定義する（状態遷移・CTA・リトライ）\n- [ ] 失効済み（401）時のエラー導線を定義する（理由表示・再ログイン誘導・状態クリア）\n- [ ] 権限不足（403）時の導線を定義する（管理UI非表示・戻り導線）\n- [ ] 既存 admin-hifi モックとの差分を整理し、必要状態（期限切れ/失効）をStorybookに追加する\n- [ ] LoFi/HiFi + handoff（CP対応表・意思決定ログ）を作成する\n\n### 開発タスク\n- [ ] 管理者認証APIを追加する（`POST /api/auth/admin`）\n- [ ] 固定 `app.auth.admin-token` 判定を廃止し、管理者セッショントークン検証へ置換する\n- [ ] 管理者トークン発行/検証/失効サービスを実装する（TTL・失効判定・主体ID保持）\n- [ ] 失効APIを実装する（`POST /api/auth/admin/logout`）\n- [ ] `/api/admin/**` の認可は維持し、401/403の返却条件を仕様どおりに統一する\n- [ ] フロントで「入力済み」ではなく「認証済み確定」をもって管理UIを表示するよう修正する\n- [ ] フロントの管理者トークン保存先を `sessionStorage` に変更し、401検知時に即時破棄する\n- [ ] 運用ドキュメントへ発行/失効手順・障害時オペレーションを追加する\n- [ ] テストを更新する（固定トークン依存テスト/E2E補助の置換、期限切れ/失効/権限不足ケース追加）\n\n### 責任境界\n- デザイナー責任: 認証導線・失敗時フィードバック・状態遷移の仕様確定\n- 開発責任: 認証/認可実装、失効機構、401/403契約、テスト保証、運用手順反映\n- 共同責任: 失敗系を含む受け入れ観点の合意、仕様変更時の影響判断、Issue本文受け入れ条件の達成確認\n\n---\n\n実装着手ファイル候補:\n- Backend: `backend/src/main/java/com/event/auth/GuestAuthenticationFilter.java`\n- Backend: `backend/src/main/java/com/event/config/SecurityConfig.java`\n- Backend: `backend/src/main/java/com/event/auth/api/AuthController.java`\n- Backend: `backend/src/main/java/com/event/auth/` 配下（新規管理者セッション関連）\n- Frontend: `frontend/src/views/AdminView.vue`\n- Frontend: `frontend/src/components/admin/AdminAccessGate.vue`\n- Frontend: `frontend/src/composables/useReservationApp.ts`\n- Frontend E2E: `frontend/e2e/support/admin.ts`, `frontend/e2e/us12-admin-route-access-control.spec.ts`\n- Backend Test: `backend/src/test/java/com/event/security/GuestFlowIntegrationTestBase.java` および security/auth テスト群\n\n\n---\n\n### シーケンス図（昇格・失効）\n\n#### 1) 昇格（管理者ログイン -> 管理操作）\n\n```mermaid\nsequenceDiagram\n    autonumber\n    actor Operator as 運用者\n    participant UI as Frontend (/admin)\n    participant AuthAPI as Auth API (/api/auth/admin)\n    participant AdminSession as AdminSessionService\n    participant Security as SecurityFilter\n    participant AdminAPI as Admin API (/api/admin/**)\n\n    Operator->>UI: operatorId / password 入力\n    UI->>AuthAPI: POST /api/auth/admin\n    AuthAPI->>AdminSession: 認証・トークン発行(TTL=30分)\n    AdminSession-->>AuthAPI: accessToken, expiresAt\n    AuthAPI-->>UI: 200 {accessToken, tokenType, operatorId, expiresAt}\n    UI->>UI: sessionStorageへ保存 / 状態=認証済み\n\n    Operator->>UI: 管理操作（一覧取得など）\n    UI->>AdminAPI: Authorization: Bearer accessToken\n    AdminAPI->>Security: トークン検証要求\n    Security->>AdminSession: 有効性確認（未失効・期限内）\n    AdminSession-->>Security: OK (ROLE_ADMIN)\n    Security-->>AdminAPI: 認証済み\n    AdminAPI-->>UI: 200 管理データ\n```\n\n#### 2) 失効（ログアウト / 失効済みトークン利用）\n\n```mermaid\nsequenceDiagram\n    autonumber\n    actor Operator as 運用者\n    participant UI as Frontend (/admin)\n    participant AuthAPI as Auth API (/api/auth/admin/logout)\n    participant AdminSession as AdminSessionService\n    participant Security as SecurityFilter\n    participant AdminAPI as Admin API (/api/admin/**)\n\n    Operator->>UI: ログアウト実行\n    UI->>AuthAPI: POST /api/auth/admin/logout (Bearer token)\n    AuthAPI->>AdminSession: 対象トークンを失効登録\n    AdminSession-->>AuthAPI: 失効完了\n    AuthAPI-->>UI: 200\n    UI->>UI: sessionStorageのtoken破棄 / 状態=未認証\n\n    Note over UI,AdminAPI: 失効済みトークンで再アクセスした場合\n    UI->>AdminAPI: Authorization: Bearer 失効済みtoken\n    AdminAPI->>Security: トークン検証要求\n    Security->>AdminSession: 有効性確認\n    AdminSession-->>Security: NG (revoked)\n    Security-->>AdminAPI: 認証失敗\n    AdminAPI-->>UI: 401 {code, message}\n    UI->>UI: token即時破棄 / 再認証導線表示\n```\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3937460135",
+          "timestamps": {
+            "created_at": "2026-02-20T22:31:04Z",
+            "updated_at": "2026-02-21T09:36:00Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## PO承認（2026-02-22）\n本Issueの受け入れ基準判定の前提として、2026-02-22会議の決定事項を承認します。\n\n- スコープ内: 固定トークン依存解消、短命トークン（30分固定）、個別失効、発行/失効運用の明文化\n- スコープ外（別Issue化）: refresh運用、全失効、OTP同時導入\n\n以後の #33 判定は上記前提で行います。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3939762060",
+          "timestamps": {
+            "created_at": "2026-02-22T00:14:46Z",
+            "updated_at": "2026-02-22T00:14:46Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## TL決定サマリ（2026-02-22）\n会議（開発者・デザイナー・TL・PO）で以下を決定しました。\n\n### 採用案\n1. 認証方式/API契約\n- `operatorId + password` でログイン\n- トークンTTLは30分固定（絶対期限）\n- 更新機能（refresh運用）は今回実装しない\n- 失効は「当該トークンのみ」\n\n2. UI/導線\n- `/admin/auth`（認証）と `/admin`（管理UI）を分離\n- 401時: token即時破棄 -> `/admin/auth` へ再遷移\n- 403時: `/admin` 内で権限不足表示\n\n3. 運用\n- 本決定をIssue/PRに即時記録し、実装PRの参照元にする\n\n### 不採用案と理由\n- 更新機能・全失効・OTP同時導入: 価値はあるが #33 のAC達成に対して依存/工数が過大\n- `/admin` 単一画面状態切替: 状態混在による誤認リスクが高い\n- 口頭合意のみ: 判断経緯が追跡不能になり再議論コスト増\n\n上記を #33 実装の着手前前提として扱います。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3939762062",
+          "timestamps": {
+            "created_at": "2026-02-22T00:14:46Z",
+            "updated_at": "2026-02-22T00:14:46Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## 実装着手前チェック（開発）\n実装PR着手前に、以下3点を固定前提にします。\n\n1. API契約固定\n- `POST /api/auth/admin`\n- request: `{ \"operatorId\": \"...\", \"password\": \"...\" }`\n- response: `{ \"accessToken\", \"tokenType\", \"operatorId\", \"expiresAt\" }`\n- `POST /api/auth/admin/logout` は当該トークン失効\n\n2. 401/403遷移固定\n- 401（未認証/期限切れ/失効/不正トークン）: tokenを即時破棄し `/admin/auth` へ遷移\n- 403（権限不足）: `/admin` で権限不足表示、管理UIは非表示\n\n3. 保存先固定\n- 管理者token保存は `sessionStorage`\n- `localStorage` への管理者token保存は禁止\n\nこのコメントを実装PR本文から参照します。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3939762063",
+          "timestamps": {
+            "created_at": "2026-02-22T00:14:46Z",
+            "updated_at": "2026-02-22T00:14:46Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## 進捗報告\n- 対象Issue: #33\n- 作業日時: 2026-02-22 10:16 JST\n- ステータス: レビュー待ち\n\n### 実施内容\n- 管理者認証を固定トークン方式から `operatorId + password` ログイン方式へ移行\n- `POST /api/auth/admin`（発行）/ `POST /api/auth/admin/logout`（当該トークン失効）を実装\n- 管理者トークン保存先を `sessionStorage` へ変更し、401受信時に即時破棄する導線へ変更\n- `/admin/auth` と `/admin` の責務分離を実装\n- 運用ドキュメント（README / 操作マニュアル等）を更新\n- 実装PRを作成・更新: https://github.com/autotaker/simple-event-reservation-system/pull/73\n\n### テスト結果\n- `cd backend && ./gradlew test`: 成功\n- `cd frontend && pnpm test`: 成功\n- `cd frontend && pnpm typecheck`: 成功\n- `cd frontend && pnpm lint`: 成功（既存story由来のwarningのみ、errorなし）\n\n### 残課題・リスク\n- なし（レビュー指摘対応を除く）\n\n### 次アクション\n- PR #73 のレビュー対応\n- 指摘反映後に最終確認してマージ",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3939840430",
+          "timestamps": {
+            "created_at": "2026-02-22T01:16:41Z",
+            "updated_at": "2026-02-22T01:16:41Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-22 16:05:36 JST\n- 対象ブランチ/コミット: `main` / `7fff13f`（Issue #33 実装PR #73 merge commit: `1583498b3d9a202bef36dd8a03097d8cef3cce00`）\n\n### 受け入れ条件\n- [x] 固定トークン単一依存を解消する: **Pass**（`Authorization: Bearer change-me-local-admin-token` で `/api/admin/sessions` にアクセスし `401` を確認。`POST /api/auth/admin` で発行した短命トークンのみ `200` で管理API利用可能）\n- [x] 期限・失効の仕組みを提供する: **Pass**（`POST /api/auth/admin` の応答で `expiresAt` を確認。`POST /api/auth/admin/logout` 実行後、同一トークン再利用で `/api/admin/sessions` が `401`）\n- [x] 運用手順（発行/失効）がドキュメント化される: **Pass**（`README.md` の `/admin/auth` ログイン手順、`docs/review/06-operation-manual.md` のログイン/失効手順を確認）\n\n### API確認\n- 未認証アクセス: `GET /api/admin/sessions` -> `401`\n- 旧固定トークンアクセス: `GET /api/admin/sessions` (`Bearer change-me-local-admin-token`) -> `401`\n- ログイン発行: `POST /api/auth/admin` -> `200`（`operatorId=change-me-local-admin`, `expiresAt=2026-02-22T07:33:42.771347Z`）\n- 失効: `POST /api/auth/admin/logout` -> `200`\n- 失効後再利用: `GET /api/admin/sessions`（失効済みトークン）-> `401`\n\n### UI確認\n- 操作手順:\n  1. `/admin` に未認証で直接アクセス\n  2. `/admin/auth` へリダイレクトされることを確認\n  3. `operatorId/password` でログイン\n  4. `/admin` 表示・セッション管理一覧表示を確認\n- 確認結果: 上記導線は期待どおり動作（未認証遮断、認証後に管理機能表示）\n\n### スクリーンショット\n- 事前（未認証 / `/admin/auth`）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/qa-issue33-before-login.png?raw=1\n- 事後（認証後 / `/admin`）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/qa-issue33-after-login-admin.png?raw=1\n\n### テスト観点と実施箇所\n- 固定トークン依存解消:\n  - ドメイン単体: `backend/src/test/java/com/event/auth/AdminSessionServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAdminFlowTest.java`, `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java`\n  - UI E2E: `frontend/e2e/us12-admin-route-access-control.spec.ts`\n- 期限・失効の仕組み:\n  - ドメイン単体: `backend/src/test/java/com/event/auth/AdminSessionServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAdminFlowTest.java`\n  - UI E2E: `frontend/e2e/us12-admin-route-access-control.spec.ts`, `frontend/e2e/us08-admin-session-management.spec.ts`\n- 運用手順ドキュメント:\n  - ドキュメント確認: `README.md`, `docs/review/06-operation-manual.md`\n  - 補助確認: `frontend/e2e/support/admin.ts`（local設定読込）\n\n### 実行コマンド結果（抜粋）\n- `cd backend && ./gradlew test --tests 'com.event.auth.AdminSessionServiceTest' --tests 'com.event.security.GuestAdminFlowTest' --tests 'com.event.security.GuestAuthenticationApiFlowTest'` -> **BUILD SUCCESSFUL**\n- `cd frontend && pnpm e2e` -> **17 passed**\n\n### 補足\n- 非ブロッキング観測事項: なし\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3940325326",
+          "timestamps": {
+            "created_at": "2026-02-22T07:06:03Z",
+            "updated_at": "2026-02-22T07:06:03Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #33\n- 実施日時: 2026-02-22 16:12 JST\n- 対象環境: main（post-merge UX test）\n- 総合判定: Fail\n\n### 確認チェックポイント\n\n- `/admin` 未認証直接アクセス時に `/admin/auth` へ遷移し、認証後に管理画面へ到達できる: Pass\n- 認証エラー時の再ログイン導線が安全かつ分かりやすい: Fail\n- `390x844` モバイルで主タスク（認証 -> 管理対象把握）が低負荷で完了できる: Fail\n- 実装構造（View分割・責務委譲・実コンポーネントStory運用）: Pass\n\n### 指摘事項\n\n- [P2] 再ログイン導線で機密入力が保持される\n  - 再現手順: `/admin/auth` で誤ったパスワード入力 -> `ログインして管理画面へ進む` -> `再ログインする` を押下\n  - 期待結果: 再ログイン時はパスワード入力値とエラー表示がクリアされ、再入力前提の状態になる\n  - 実結果: パスワード入力値が保持されたままで、エラー表示も残る\n  - 影響範囲: 共有端末や覗き見リスクのある現場で安全性・再操作性を下げる\n  - 改善提案: `resetToLogin` 実行時に `adminPasswordInput` / `errorMessage` / `infoMessage` を明示的に初期化する\n\n- [P2] 認証状態パネルの主要情報が空表示になる\n  - 再現手順: `/admin/auth` で正規ログイン -> `/admin` 表示後に `認証画面へ戻る`\n  - 期待結果: 認証状態に `operatorId` と `有効期限` が表示される\n  - 実結果: `operatorId:` と `有効期限（固定30分）:` が空文字のまま表示される\n  - 影響範囲: 現在の認証主体と有効期限を確認できず、運用判断ミスの温床になる\n  - 改善提案: `operatorId` / `expiresAt` の保持戦略を追加（sessionStorage保存または状態復元API）し、画面再訪時も表示を保証する\n\n- [P2] 390x844でヘッダー導線が欠け、管理一覧の可読性が低い\n  - 再現手順: ビューポート `390x844` で `/admin/auth` または `/admin` を表示\n  - 期待結果: ヘッダー導線（戻る/識別）が欠けず、主情報が1スクリーン内で判読しやすい\n  - 実結果: ヘッダーボタン文言が途中で切れ、`/admin` の表は列密度が高く判読負荷が高い\n  - 影響範囲: モバイル端末での主タスク（対象把握 -> 操作判断）の完了効率が低下する\n  - 改善提案: モバイル時はヘッダーCTAを縦積み/省略表示に切替え、管理一覧はカード表示または横スクロール補助を追加する\n\n### 備考\n\n- 証跡（qa-issue33-report ブランチ）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-desktop-auth.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-desktop-invalid-login.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-desktop-admin.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-mobile-auth-390x844.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-mobile-admin-390x844.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-mobile-auth-status-empty.png?raw=1\n- 再テスト条件: 上記P2修正後に `390x844` と desktop で同一導線を再確認する\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3940346644",
+          "timestamps": {
+            "created_at": "2026-02-22T07:12:29Z",
+            "updated_at": "2026-02-22T07:12:29Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #33\n- 実施日時: 2026-02-22 16:41 JST\n- 対象環境: main（post-merge UX再テスト / commit `7202847` / PR #77反映済み）\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- `/admin` 未認証直接アクセス時に `/admin/auth` へ遷移し、認証後に管理画面へ到達できる: Pass\n- 認証エラー時の再ログイン導線が安全かつ分かりやすい: Pass\n- `390x844` モバイルで主タスク（認証 -> 管理対象把握）が低負荷で完了できる: Pass\n- 実装構造（View分割・責務委譲・実コンポーネントStory運用）: Pass\n\n### 指摘事項\n\n- なし\n\n### 備考\n\n- 前回指摘の再確認結果\n  - `再ログインする` 実行時にパスワード入力値とエラー表示が初期化されることを確認\n  - `/admin` から `/admin/auth` 戻り時に `operatorId` / `有効期限` が表示されることを確認\n  - `390x844` でヘッダーCTA欠けが解消され、管理一覧がカード表示で可読性改善を確認\n- 証跡（qa-issue33-report ブランチ）\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-desktop-auth.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-desktop-invalid.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-desktop-after-reset.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-desktop-auth-status.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-mobile-auth-390x844.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue33-report/tmp/ux-issue33-rerun-mobile-admin-390x844.png?raw=1\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/33#issuecomment-3940426722",
+          "timestamps": {
+            "created_at": "2026-02-22T07:41:50Z",
+            "updated_at": "2026-02-22T07:41:50Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 72,
+          "pr_title": "[Issue #33] 管理者認証モックのデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/72",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 1035,
+          "pr_deletions": 0,
+          "pr_changed_files": 22,
+          "pr_changed_lines": 1035,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T09:42:14Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T09:42:12Z",
+            "merged_at": "2026-02-22T00:59:57Z",
+            "closed_at": "2026-02-22T00:59:57Z"
+          },
+          "closes_issue_numbers": [
+            33
+          ]
+        },
+        {
+          "pr_number": 73,
+          "pr_title": "[Issue #33] 管理者認証の実装",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/73",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 997,
+          "pr_deletions": 125,
+          "pr_changed_files": 33,
+          "pr_changed_lines": 1122,
+          "pr_comment_count": 7,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 6,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T01:00:39Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T01:00:38Z",
+            "merged_at": "2026-02-22T06:19:58Z",
+            "closed_at": "2026-02-22T06:19:58Z"
+          },
+          "closes_issue_numbers": [
+            33
+          ]
+        },
+        {
+          "pr_number": 77,
+          "pr_title": "[Issue #33] QA/UX指摘のフォローアップ修正",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/77",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 224,
+          "pr_deletions": 7,
+          "pr_changed_files": 5,
+          "pr_changed_lines": 231,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:18:42Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:18:41Z",
+            "merged_at": "2026-02-22T07:38:20Z",
+            "closed_at": "2026-02-22T07:38:20Z"
+          },
+          "closes_issue_numbers": [
+            33
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:11Z",
+        "issue_updated_at": "2026-02-22T22:20:39Z",
+        "issue_closed_at": "2026-02-22T22:20:39Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 64,
+          "pr_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/64",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 61,
+          "pr_deletions": 7,
+          "pr_changed_files": 4,
+          "pr_changed_lines": 68,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:36:49Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:36:48Z",
+            "merged_at": null,
+            "closed_at": "2026-02-22T22:22:56Z"
+          }
+        },
+        {
+          "pr_number": 72,
+          "pr_title": "[Issue #33] 管理者認証モックのデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/72",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 1035,
+          "pr_deletions": 0,
+          "pr_changed_files": 22,
+          "pr_changed_lines": 1035,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-21T09:42:14Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-21T09:42:12Z",
+            "merged_at": "2026-02-22T00:59:57Z",
+            "closed_at": "2026-02-22T00:59:57Z"
+          }
+        },
+        {
+          "pr_number": 73,
+          "pr_title": "[Issue #33] 管理者認証の実装",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/73",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 997,
+          "pr_deletions": 125,
+          "pr_changed_files": 33,
+          "pr_changed_lines": 1122,
+          "pr_comment_count": 7,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 6,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T01:00:39Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T01:00:38Z",
+            "merged_at": "2026-02-22T06:19:58Z",
+            "closed_at": "2026-02-22T06:19:58Z"
+          }
+        },
+        {
+          "pr_number": 77,
+          "pr_title": "[Issue #33] QA/UX指摘のフォローアップ修正",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/77",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 224,
+          "pr_deletions": 7,
+          "pr_changed_files": 5,
+          "pr_changed_lines": 231,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:18:42Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:18:41Z",
+            "merged_at": "2026-02-22T07:38:20Z",
+            "closed_at": "2026-02-22T07:38:20Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 35,
+      "issue_title": "[Post-MVP][US-17] 予約情報を時刻・トラック・タイトル中心で表示する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/35",
+      "issue_body": "## ユーザーストーリー\n参加者として、予約情報を時刻・トラック・タイトル中心で見たい。なぜなら、当日の行動判断をしやすくしたいから。\n\n## 詳細\n### 背景\n- 現状は`sessionId`中心表示で、参加者には意味が伝わりにくい。\n\n### 現状の課題\n- 予約内容の把握に追加の変換コストがかかる\n\n### 対応方針\n- 予約一覧/マイページで表示モデルを改善し、時刻・トラック・タイトルを主表示にする。\n\n### 対象範囲\n- 予約セクション\n- マイページの予約表示\n\n### 非対象\n- セッション詳細ページ新設\n\n## 受け入れ条件\n- [x] `sessionId` 依存の表示を改善する\n- [x] マイページ/予約一覧の可読性を向上する\n- [x] 予約キャンセル導線は維持される\n\n## 依存関係\n- #30\n- #68\n\n## テスト観点（任意）\n- 正常系: 予約済みセッションが人間可読で表示される\n- 異常系: 表示データ不足時に破綻しない\n- 境界値: 予約件数0/最大時のレイアウト\n\n\n",
+      "issue_comment_count": 7,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## Next Action（開発者）\nIssue #35 の実装対象と検証対象を以下で進めます。\n\n### 実装対象\n- frontend/src/views/ParticipantView.vue\n  - myPageReservations を表示モデル（タイトル + 時刻/トラック）へ変換して ParticipantQrPanel へ渡す\n- frontend/src/components/participant/ParticipantQrPanel.vue\n  - sessionId 生表示を廃止し、表示モデル描画へ変更\n  - データ不足時はフォールバック文言（例: 不明なセッション）を表示\n\n### 検証対象\n- frontend/e2e/us06-mypage-qr.spec.ts\n  - keynote 等のID表示前提を、人間可読表示前提に更新\n- frontend/src/stories/participant-production/ParticipantQrPanel.stories.ts\n  - ストーリー入力値を表示モデル準拠に更新\n\n議事録: docs/meetings/2026-02-22-issue-35-dev-designer-task-alignment.md\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3940275972",
+          "timestamps": {
+            "created_at": "2026-02-22T06:25:32Z",
+            "updated_at": "2026-02-22T06:25:32Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## Next Action（デザイナー）\nIssue #35 の表示方針を以下で確定します。\n\n- 表示優先順位: **タイトル > 時刻・トラック > ID非表示**\n- マイページはQR導線が主目的のため、予約情報は補助情報として1件あたり2行以内を目安にする\n- フォールバック文言: ユーザーに次行動が分かるトーンを採用する\n  - 例: 不明なセッション\n  - 補足: 必要時は「更新」を促す\n- モバイルUX確認観点: **390x844** でQR表示と予約リストの同時把握が可能で、主導線（表示確認→受付）を阻害しないこと\n\n議事録: docs/meetings/2026-02-22-issue-35-dev-designer-task-alignment.md\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3940275974",
+          "timestamps": {
+            "created_at": "2026-02-22T06:25:32Z",
+            "updated_at": "2026-02-22T06:25:32Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "開発者実装を完了し、PRを作成しました。\n\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/76\n- 実装概要:\n  - マイページ予約表示を `sessionId` 生表示から `title + time/track` 表示へ移行\n  - 欠損時フォールバック（`不明なセッション` + 更新誘導文言）を追加\n  - `loadMyPage` 失敗時に直前の予約表示を維持するよう調整\n  - E2E/Storybook を表示モデル準拠へ更新\n- 検証:\n  - `cd frontend && pnpm lint`\n  - `cd frontend && pnpm typecheck`\n  - `cd frontend && pnpm playwright test e2e/us06-mypage-qr.spec.ts`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3940325164",
+          "timestamps": {
+            "created_at": "2026-02-22T07:05:56Z",
+            "updated_at": "2026-02-22T07:05:56Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-23 07:30 JST\n- 対象ブランチ/コミット: `main` / `7202847`\n\n### 受け入れ条件\n- [x] `sessionId` 依存の表示を改善する: Pass（`/participant` でゲストログイン後、予約一覧・マイページとも `Session 1` と `10:30 | Track A` を表示し、`session-1` の生表示が予約項目に出ないことを確認）\n- [x] マイページ/予約一覧の可読性を向上する: Pass（タイトル・時刻・トラックが一覧で視認できるUIであることを確認）\n- [x] 予約キャンセル導線は維持される: Pass（予約一覧の `キャンセル` を実行し、予約一覧・マイページ双方から対象予約が消えることを確認）\n\n### API確認\n- 未認証アクセス: `curl -i http://127.0.0.1:8080/api/reservations` で `401 UNAUTHORIZED` を確認\n- エラー系（409等）: 今回の受け入れ条件対象外のため未実施\n\n### UI確認\n- 操作手順:\n  1. `http://127.0.0.1:5173/participant` を開く\n  2. `ゲストでログイン` を実行\n  3. `Session 1` を予約し、予約一覧/マイページ表示を確認\n  4. `キャンセル` を実行し、導線維持と状態反映を確認\n- 確認結果: 受け入れ条件3項目すべて Pass\n\n### スクリーンショット\n- ログイン前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/qa-issue35-before-login.png?raw=1\n- ログイン後（予約表示）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/qa-issue35-after-login-and-reservation.png?raw=1\n\n### テスト観点と実施箇所\n- `sessionId` 依存表示改善:\n  - ドメイン単体: N/A（表示レイヤ改善）\n  - API結合: N/A（API仕様変更なし）\n  - UI E2E: `frontend/e2e/us06-mypage-qr.spec.ts`（タイトル/時刻トラック表示確認）+ 本QA手動確認\n- マイページ/予約一覧の可読性向上:\n  - ドメイン単体: N/A（表示レイヤ改善）\n  - API結合: N/A（API仕様変更なし）\n  - UI E2E: `frontend/e2e/us06-mypage-qr.spec.ts` + `frontend/e2e/us10-participant-flow-separation.spec.ts` + 本QA手動確認\n- 予約キャンセル導線維持:\n  - ドメイン単体: `backend/src/test/java/com/event/reservation/ReservationServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java`\n  - UI E2E: `frontend/e2e/us10-participant-flow-separation.spec.ts` + 本QA手動確認\n\n### 補足\n- `cd frontend && pnpm e2e` 実行結果: 20 passed\n- 非ブロッキング観測事項: なし\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3941828604",
+          "timestamps": {
+            "created_at": "2026-02-22T22:30:14Z",
+            "updated_at": "2026-02-22T22:30:14Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #35\n- 実施日時: 2026-02-23 07:34 JST\n- 対象環境: main (`7202847`)\n- 総合判定: Pass（P2改善提案あり）\n\n### 確認チェックポイント\n\n- CP1: `sessionId` 依存表示の改善（予約一覧/マイページ）: Pass\n- CP2: 可読性（タイトル主表示 + 時刻/トラック副表示）: Pass\n- CP3: 予約キャンセル導線の維持: Pass\n- 実装構造（コンテナ + 実コンポーネント分割）: Pass\n  - 確認対象: `frontend/src/views/ParticipantView.vue`, `frontend/src/components/participant/ParticipantReservationPanel.vue`, `frontend/src/components/participant/ParticipantQrPanel.vue`\n- モバイルUX（390x844）主タスク成立: Pass\n\n### 指摘事項\n\n- [P2] キャンセル完了フィードバックが `sessionId` 生値で表示され、文脈理解を阻害する\n  - 再現手順: `/participant` -> `ゲストでログイン` -> `Session 1` を予約 -> 予約一覧の `キャンセル`\n  - 期待結果: 可読表示に合わせて `Session 1 をキャンセルしました。` のようにタイトル中心で表示される\n  - 実結果: `session-1 をキャンセルしました。` と表示される\n  - 影響範囲: 参加者導線（特にモバイル）で操作結果の理解に変換コストが残る\n  - 改善提案: `cancelReservation` の成功メッセージを `sessionId` ではなく、`sessions` から引いたタイトル（fallback時のみID）に変更する\n\n### 備考\n\n- pre-PR mock は既存の HiFi カタログを参照して意図整合を確認\n  - `frontend/src/stories/issue-35-hifi/Issue35HiFiCatalog.mdx`\n  - `frontend/src/stories/issue-35-hifi/Issue35ParticipantLayoutHiFi.stories.ts`\n- UX証跡（qa-issue35-report ブランチ）:\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-desktop-before-login.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-desktop-after-reserve.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-desktop-cancel-feedback.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-mobile-before-login-390x844.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-mobile-after-reserve-390x844.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-mobile-cancel-feedback-390x844.png?raw=1\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3941834994",
+          "timestamps": {
+            "created_at": "2026-02-22T22:34:58Z",
+            "updated_at": "2026-02-22T22:34:58Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "P2指摘（キャンセル完了メッセージの `sessionId` 生表示）を Issue #35 内で修正しました。\n\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/79\n- 対応内容:\n  - `cancelReservation` の成功/失敗メッセージをタイトル優先表示へ変更（取得不可時はIDフォールバック）\n  - E2E（US-10）へ `Session 1 をキャンセルしました。` の表示検証を追加\n- 検証:\n  - `cd frontend && pnpm eslint src/composables/useReservationApp.ts e2e/us10-participant-flow-separation.spec.ts`\n  - `cd frontend && pnpm playwright test e2e/us10-participant-flow-separation.spec.ts`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3941853321",
+          "timestamps": {
+            "created_at": "2026-02-22T22:48:03Z",
+            "updated_at": "2026-02-22T22:48:03Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UX再レビュー結果（追加PRマージ後）\n\n- 対象Issue: #35\n- 実施日時: 2026-02-23 07:57 JST\n- 対象環境: main (`0b1b94f`)\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- CP1: `sessionId` 依存表示の改善（予約一覧/マイページ）: Pass\n- CP2: 可読性（タイトル主表示 + 時刻/トラック副表示）: Pass\n- CP3: 予約キャンセル導線の維持: Pass\n- 前回指摘P2（キャンセル完了メッセージ）: 解消確認\n  - 実結果: `Session 1 をキャンセルしました。`\n\n### 指摘事項\n\n- なし\n\n### 備考\n\n- 再検証導線: `/participant` -> ゲストログイン -> `Session 1` 予約 -> `キャンセル`\n- ビューポート:\n  - Desktop: 1280x844\n  - Mobile: 390x844\n- 証跡:\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-retest-desktop-cancel-feedback.png?raw=1\n  - https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue35-report/tmp/ux-issue35-retest-mobile-cancel-feedback-390x844.png?raw=1\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/35#issuecomment-3941868063",
+          "timestamps": {
+            "created_at": "2026-02-22T22:57:51Z",
+            "updated_at": "2026-02-22T22:57:51Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 75,
+          "pr_title": "[Issue #35] 予約情報可読化のデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/75",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 964,
+          "pr_deletions": 0,
+          "pr_changed_files": 16,
+          "pr_changed_lines": 964,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:34:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:34:21Z",
+            "merged_at": "2026-02-22T06:59:47Z",
+            "closed_at": "2026-02-22T06:59:47Z"
+          },
+          "closes_issue_numbers": [
+            35
+          ]
+        },
+        {
+          "pr_number": 76,
+          "pr_title": "[Issue #35] マイページ予約表示を人間可読モデルへ移行",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/76",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 100,
+          "pr_deletions": 15,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 115,
+          "pr_comment_count": 3,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:05:47Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:05:45Z",
+            "merged_at": "2026-02-22T07:37:24Z",
+            "closed_at": "2026-02-22T07:37:24Z"
+          },
+          "closes_issue_numbers": [
+            35
+          ]
+        },
+        {
+          "pr_number": 79,
+          "pr_title": "[Issue #35] キャンセル完了メッセージをタイトル中心表示に修正",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/79",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 21,
+          "pr_deletions": 4,
+          "pr_changed_files": 2,
+          "pr_changed_lines": 25,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T22:47:23Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T22:47:22Z",
+            "merged_at": "2026-02-22T22:53:38Z",
+            "closed_at": "2026-02-22T22:53:38Z"
+          },
+          "closes_issue_numbers": [
+            35
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:15Z",
+        "issue_updated_at": "2026-02-22T22:58:21Z",
+        "issue_closed_at": "2026-02-22T22:58:21Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 74,
+          "pr_title": "[Issue #68] セッション一覧APIにdisplayOrderを追加",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/74",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 80,
+          "pr_deletions": 7,
+          "pr_changed_files": 6,
+          "pr_changed_lines": 87,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:03:13Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:03:12Z",
+            "merged_at": "2026-02-22T06:10:24Z",
+            "closed_at": "2026-02-22T06:10:24Z"
+          }
+        },
+        {
+          "pr_number": 75,
+          "pr_title": "[Issue #35] 予約情報可読化のデザイナーPR",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/75",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 964,
+          "pr_deletions": 0,
+          "pr_changed_files": 16,
+          "pr_changed_lines": 964,
+          "pr_comment_count": 4,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T06:34:22Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T06:34:21Z",
+            "merged_at": "2026-02-22T06:59:47Z",
+            "closed_at": "2026-02-22T06:59:47Z"
+          }
+        },
+        {
+          "pr_number": 76,
+          "pr_title": "[Issue #35] マイページ予約表示を人間可読モデルへ移行",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/76",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 100,
+          "pr_deletions": 15,
+          "pr_changed_files": 8,
+          "pr_changed_lines": 115,
+          "pr_comment_count": 3,
+          "pr_review_count": 3,
+          "pr_review_thread_count": 2,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T07:05:47Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T07:05:45Z",
+            "merged_at": "2026-02-22T07:37:24Z",
+            "closed_at": "2026-02-22T07:37:24Z"
+          }
+        },
+        {
+          "pr_number": 79,
+          "pr_title": "[Issue #35] キャンセル完了メッセージをタイトル中心表示に修正",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/79",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 21,
+          "pr_deletions": 4,
+          "pr_changed_files": 2,
+          "pr_changed_lines": 25,
+          "pr_comment_count": 2,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T22:47:23Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T22:47:22Z",
+            "merged_at": "2026-02-22T22:53:38Z",
+            "closed_at": "2026-02-22T22:53:38Z"
+          }
+        }
+      ]
+    },
+    {
+      "issue_number": 34,
+      "issue_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+      "issue_url": "https://github.com/autotaker/simple-event-reservation-system/issues/34",
+      "issue_body": "## ユーザーストーリー\n利用者として、クライアントに機密トークンを永続保存されたくない。なぜなら、端末リスクを下げたいから。\n\n## 詳細\n### 背景\n- 現状は`localStorage`にトークンが保存される。\n\n### 現状の課題\n- 共有端末・XSS時にトークン窃取の影響が大きい\n\n### 対応方針\n- 少なくとも管理者トークンの永続保管を廃止し、セッション管理方式を安全側に寄せる。\n\n### 対象範囲\n- フロントのトークン保存方式\n- ログアウト/セッション終了時処理\n\n### 非対象\n- 認証プロトコル全体の刷新\n\n## 受け入れ条件\n- [x] 管理者トークン永続保存を廃止する\n- [x] セッション終了時に確実に破棄される\n- [x] 破棄後に保護APIへアクセスできない\n\n## 依存関係\n- #33\n\n## テスト観点（任意）\n- 正常系: セッション中の操作は継続可能\n- 異常系: セッション終了後は再認証が必要\n- 境界値: ブラウザ再起動時の状態\n\n",
+      "issue_comment_count": 4,
+      "issue_comments": [
+        {
+          "author": "autotaker",
+          "body": "## UI/UXデザイン要否判定\n- 判定: **DESIGN:ready**\n- 理由:\n  - 主変更点はクライアント側のトークン永続保存廃止とセッション破棄制御であり、現時点の受け入れ条件上は新規画面レイアウト設計を必須としない。\n  - 既存画面の導線を維持したまま実装可能なため、まずは実装・検証を優先できる。\n- 補足:\n  - 実装時に文言/フィードバック追加が必要になった場合は、その時点でデザイン検討を追加する。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/34#issuecomment-3937460125",
+          "timestamps": {
+            "created_at": "2026-02-20T22:31:04Z",
+            "updated_at": "2026-02-20T22:31:04Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "Issue #34 の対応を実装し、PR を作成しました。\\n\\n- PR: https://github.com/autotaker/simple-event-reservation-system/pull/78\\n- 対応内容: 管理者トークンの Web Storage 永続化を廃止し、メモリ保持に変更\\n- 追加検証: 管理者トークンが localStorage/sessionStorage に残らないこと、リロード後に再認証が必要なことを E2E に追加\\n\\n補足: frontend の typecheck/lint/test は実行済み、Playwright E2E は backend の DataSource 設定不足で起動失敗し、環境要因で未完了です。",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/34#issuecomment-3941824488",
+          "timestamps": {
+            "created_at": "2026-02-22T22:27:09Z",
+            "updated_at": "2026-02-22T22:27:09Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## QA結果\n- 実行日時: 2026-02-23 08:02:10 JST\n- 対象ブランチ/コミット: `main` / `0b1b94f6eeb71990b2a146776659f0b800401cf6`\n- スクリーンショット格納ブランチ: `qa-issue34-report` (`44091a2`)\n\n### 受け入れ条件\n- [x] 管理者トークン永続保存を廃止する: **Pass**（`/admin/auth` ログイン後に `localStorage.adminAccessToken` と `sessionStorage.adminAccessToken` がともに `null`、かつ `frontend/e2e/us12-admin-route-access-control.spec.ts:34` が green）\n- [x] セッション終了時に確実に破棄される: **Pass**（ログイン後にページ再読み込みで `/admin/auth` へ遷移し再認証要求、`frontend/e2e/us12-admin-route-access-control.spec.ts:34` が green）\n- [x] 破棄後に保護APIへアクセスできない: **Pass**（未認証で `GET /api/admin/sessions` を実行し `401 UNAUTHORIZED` を確認、`backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java:55` / `backend/src/test/java/com/event/security/GuestAdminFlowTest.java:179` / `frontend/e2e/us12-admin-route-access-control.spec.ts:6` が green）\n\n### API確認\n- 未認証アクセス: `curl -i http://127.0.0.1:8080/api/admin/sessions` → `HTTP/1.1 401` / `{\"code\":\"UNAUTHORIZED\",\"message\":\"認証情報を確認できません。\"}`\n- エラー系（401/失効系）: `GuestAdminFlowTest#revokedAdminTokenReturns401WithRevokedCode` を `--rerun-tasks` で再実行し成功\n\n### UI確認\n- 操作手順:\n  1. `http://127.0.0.1:5173/admin/auth` を開く\n  2. `application-local.yml` の運用者ID/パスワードでログイン\n  3. `/admin` 表示後に Web Storage の管理者トークン有無を確認\n  4. ページリロードして `/admin/auth` に戻ることを確認\n- 確認結果: 管理者トークンは永続ストレージに保存されず、リロード（セッション終了相当）後は再認証が必要\n\n### スクリーンショット\n- ログイン前: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/qa-issue34-before-login.png?raw=1\n- ログイン後（管理画面表示）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/qa-issue34-after-login.png?raw=1\n\n### テスト観点と実施箇所\n- 管理者トークン永続保存を廃止する:\n  - ドメイン単体: `backend/src/test/java/com/event/auth/AdminSessionServiceTest.java`（管理者セッションのresolve/revoke/expiry）\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java:23`\n  - UI E2E: `frontend/e2e/us12-admin-route-access-control.spec.ts:34`\n- セッション終了時に確実に破棄される:\n  - ドメイン単体: `backend/src/test/java/com/event/auth/AdminSessionServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAdminFlowTest.java:179`\n  - UI E2E: `frontend/e2e/us12-admin-route-access-control.spec.ts:34`\n- 破棄後に保護APIへアクセスできない:\n  - ドメイン単体: `backend/src/test/java/com/event/auth/AdminSessionServiceTest.java`\n  - API結合: `backend/src/test/java/com/event/security/GuestAuthenticationApiFlowTest.java:55`\n  - UI E2E: `frontend/e2e/us12-admin-route-access-control.spec.ts:6`\n\n### 補足\n- 非ブロッキング観測事項: `pnpm e2e` 実行中に Node の `NO_COLOR` 警告が出力されるが、テスト結果には影響なし（21件全件成功）。\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/34#issuecomment-3941874919",
+          "timestamps": {
+            "created_at": "2026-02-22T23:02:51Z",
+            "updated_at": "2026-02-22T23:02:51Z"
+          }
+        },
+        {
+          "author": "autotaker",
+          "body": "## UXレビュー結果\n\n- 対象Issue: #34\n- 実施日時: 2026-02-23 08:09 JST\n- 対象環境: main (`0b1b94f6eeb71990b2a146776659f0b800401cf6`)\n- 総合判定: Pass\n\n### 確認チェックポイント\n\n- 管理者認証導線（入力→ログイン→管理画面遷移）が直感的に完了できる: Pass\n- 認証エラー時に原因と次操作（再ログイン）が理解できる: Pass\n- セッション終了相当（リロード）後に再認証導線へ復帰できる: Pass\n- モバイル（390x844）で主タスク（認知→入力→結果確認）が破綻しない: Pass\n- 実装構造（View集約回避・責務分割）とStorybook実コンポーネント運用: Pass\n\n### 指摘事項\n\n- なし\n\n### 備考\n\n- UX証跡（qa-issue34-report ブランチ）\n  - ログイン前（Desktop）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/ux-issue34-admin-auth-desktop-before.png?raw=1\n  - 認証エラー（Desktop）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/ux-issue34-admin-auth-desktop-error.png?raw=1\n  - ログイン後管理画面（Desktop）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/ux-issue34-admin-desktop-after-login.png?raw=1\n  - 管理画面（Mobile 390x844）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/ux-issue34-admin-mobile-390x844.png?raw=1\n  - 認証画面（Mobile 390x844）: https://github.com/autotaker/simple-event-reservation-system/blob/qa-issue34-report/tmp/ux-issue34-admin-auth-mobile-390x844.png?raw=1\n- 実装構造確認対象\n  - `frontend/src/views/AdminAuthView.vue`\n  - `frontend/src/views/AdminView.vue`\n  - `frontend/src/components/admin/*`\n  - `frontend/src/stories/issue-31-production/AdminFlowResponsive.stories.ts`\n",
+          "url": "https://github.com/autotaker/simple-event-reservation-system/issues/34#issuecomment-3941884729",
+          "timestamps": {
+            "created_at": "2026-02-22T23:09:29Z",
+            "updated_at": "2026-02-22T23:09:29Z"
+          }
+        }
+      ],
+      "fixing_pull_requests": [
+        {
+          "pr_number": 64,
+          "pr_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/64",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 61,
+          "pr_deletions": 7,
+          "pr_changed_files": 4,
+          "pr_changed_lines": 68,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:36:49Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:36:48Z",
+            "merged_at": null,
+            "closed_at": "2026-02-22T22:22:56Z"
+          },
+          "closes_issue_numbers": [
+            34
+          ]
+        },
+        {
+          "pr_number": 78,
+          "pr_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/78",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 58,
+          "pr_deletions": 49,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 107,
+          "pr_comment_count": 3,
+          "pr_review_count": 2,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T22:27:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T22:27:01Z",
+            "merged_at": "2026-02-22T22:54:00Z",
+            "closed_at": "2026-02-22T22:54:00Z"
+          },
+          "closes_issue_numbers": [
+            34
+          ]
+        }
+      ],
+      "timestamps": {
+        "issue_created_at": "2026-02-16T01:31:13Z",
+        "issue_updated_at": "2026-02-22T23:10:41Z",
+        "issue_closed_at": "2026-02-22T23:10:41Z"
+      },
+      "related_pull_requests": [
+        {
+          "pr_number": 64,
+          "pr_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/64",
+          "pr_state": "CLOSED",
+          "pr_is_draft": false,
+          "pr_additions": 61,
+          "pr_deletions": 7,
+          "pr_changed_files": 4,
+          "pr_changed_lines": 68,
+          "pr_comment_count": 0,
+          "pr_review_count": 0,
+          "pr_review_thread_count": 0,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-20T22:36:49Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-20T22:36:48Z",
+            "merged_at": null,
+            "closed_at": "2026-02-22T22:22:56Z"
+          }
+        },
+        {
+          "pr_number": 78,
+          "pr_title": "[Post-MVP][US-16] クライアントでの機密トークン永続保存を廃止する",
+          "pr_url": "https://github.com/autotaker/simple-event-reservation-system/pull/78",
+          "pr_state": "MERGED",
+          "pr_is_draft": false,
+          "pr_additions": 58,
+          "pr_deletions": 49,
+          "pr_changed_files": 9,
+          "pr_changed_lines": 107,
+          "pr_comment_count": 3,
+          "pr_review_count": 2,
+          "pr_review_thread_count": 1,
+          "link_event_count": 1,
+          "link_timestamps": [
+            "2026-02-22T22:27:02Z"
+          ],
+          "timestamps": {
+            "created_at": "2026-02-22T22:27:01Z",
+            "merged_at": "2026-02-22T22:54:00Z",
+            "closed_at": "2026-02-22T22:54:00Z"
+          }
+        }
+      ]
+    }
+  ]
+}

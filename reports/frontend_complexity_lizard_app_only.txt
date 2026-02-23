@@ -1,0 +1,61 @@
+================================================
+  NLOC    CCN   token  PARAM  length  location  
+------------------------------------------------
+       1      1     12      0       1 hasAdminSession@116-116@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       5      1     29      0       5 clearLegacyAdminStorage@118-122@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       7      1     25      0       7 createDefaultCreateForm@124-130@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       7      1     25      0       7 createDefaultEditForm@132-138@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      11      4     53      0      11 readErrorMessage@140-150@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       9      3     27      0       9 availabilityStatusLabel@193-201@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      9      0       1 isSessionReserved@203-203@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      6      0       1 (anonymous)@209-209@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      5     32      0       6 sessionTitleById@205-210@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 checkInTypeLabel@213-213@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1     17      0       1 formatCheckInTime@216-216@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       3      1     10      0       3 clearEditForm@218-220@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      13      3     71      0      14 buildAdminRequest@222-235@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      3     97      0      21 loadSessions@237-257@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      5    129      0      24 loadReservations@259-282@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      26      3    148      0      29 loadMyPage@284-312@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      27      9    151      0      30 loadAdminSessions@314-343@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      24      7    164      0      28 reserveKeynote@345-372@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       2      1     11      0       2 (anonymous)@404-405@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      37     10    255      0      43 reserveSession@374-416@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      29      7    186      0      33 cancelReservation@418-450@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      33      9    217      0      36 downloadAdminCsv@456-491@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 downloadReservationCsv@494-494@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      1      0       1 downloadSessionCheckInCsv@501-501@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      3     92      0      21 createAdminSession@507-527@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      84     12    744      0     395 useReservationApp@152-546@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       8      1     40      0       8 startEditSession@548-555@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      4    103      0      24 updateAdminSession@558-581@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      18      2     92      0      19 checkInEvent@600-618@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      21      3    104      0      22 checkInSession@636-657@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      27      4    151      0      30 loadCheckInHistory@676-705@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      31      2    223      0      36 loginAsGuest@707-742@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      2     33      0       6 loadParticipantBootstrap@744-749@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       8      3     47      0       8 loadOperatorBootstrap@751-758@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      1     24      0       6 clearAdminToken@760-765@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       1      1      5      0       1 (anonymous)@768-768@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      14      8     98      0      14 handleAdminUnauthorized@767-780@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      22      3    113      0      24 loginAsAdmin@782-805@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      25      6    126      0      29 logoutAdmin@827-855@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      1     26      0       6 resetAdminLoginPrompt@857-862@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+      33      9    155      0      36 (anonymous)@866-901@/Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+       6      2     17      0       6 beforeEnter@22-27@/Users/autotaker/git/simple-event-reservation-system/frontend/src/router/routes.ts
+5 file analyzed.
+==============================================================
+NLOC    Avg.NLOC  AvgCCN  Avg.token  function_cnt    file
+--------------------------------------------------------------
+    831      15.5     3.5       94.0        41     /Users/autotaker/git/simple-event-reservation-system/frontend/src/composables/useReservationApp.ts
+     42       6.0     2.0       17.0         1     /Users/autotaker/git/simple-event-reservation-system/frontend/src/router/routes.ts
+      7       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/router/index.ts
+      9       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/main.ts
+      0       0.0     0.0        0.0         0     /Users/autotaker/git/simple-event-reservation-system/frontend/src/env.d.ts
+
+===============================================================================================================
+No thresholds exceeded (cyclomatic_complexity > 15 or length > 1000 or nloc > 1000000 or parameter_count > 100)
+==========================================================================================
+Total nloc   Avg.NLOC  AvgCCN  Avg.token   Fun Cnt  Warning cnt   Fun Rt   nloc Rt
+------------------------------------------------------------------------------------------
+       889      15.2     3.5       92.1       42            0      0.00    0.00

@@ -1,10 +1,13 @@
-# クラス図（主要クラス）
+# クラス図（主要クラス / 2026-02-23時点）
 
 ```mermaid
 classDiagram
     class SecurityConfig
     class GuestAuthenticationFilter
+    class AdminAuthenticationFilter
+
     class GuestSessionService
+    class AdminSessionService
     class ReservationService
     class CheckInService
     class CsvExportService
@@ -15,38 +18,35 @@ classDiagram
     class CheckInController
     class AdminExportController
 
-    class GuestSession
-    class ReservationResponse
-    class SessionSummaryResponse
-    class MyPageResponse
-    class AdminSessionResponse
-    class CheckInResponse
+    class ParticipantView
+    class AdminAuthView
+    class AdminView
+    class OperatorView
+    class useReservationApp
 
     SecurityConfig --> GuestAuthenticationFilter
-    GuestAuthenticationFilter --> GuestSessionService
+    SecurityConfig --> AdminAuthenticationFilter
 
     AuthController --> GuestSessionService
-    AuthController --> GuestSession
+    AuthController --> AdminSessionService
 
     ReservationController --> ReservationService
-    ReservationController --> ReservationResponse
-    ReservationController --> SessionSummaryResponse
-    ReservationController --> MyPageResponse
-
     SessionAdminController --> ReservationService
-    SessionAdminController --> AdminSessionResponse
-
     CheckInController --> CheckInService
     CheckInService --> ReservationService
-    CheckInController --> CheckInResponse
 
     AdminExportController --> CsvExportService
     CsvExportService --> ReservationService
     CsvExportService --> CheckInService
+
+    ParticipantView --> useReservationApp
+    AdminAuthView --> useReservationApp
+    AdminView --> useReservationApp
+    OperatorView --> useReservationApp
 ```
 
 ## 補足
 
-- `ReservationService` がセッションカタログ・予約状態・制約判定の中心
-- `CheckInService` は予約状態を参照しつつチェックイン履歴を管理
-- `CsvExportService` は予約情報とチェックイン情報を突合して出力
+- `useReservationApp` がフロントの状態管理・API呼び出しを集約
+- ルータガードで `/admin` への直接遷移時に管理セッション有無を判定
+- `ReservationService` が `displayOrder` を含むセッション提示順制御を担う
